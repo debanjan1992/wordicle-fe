@@ -74,7 +74,7 @@ const Wordle = () => {
                 return true;
             }
         }
-    }, [wordIdx, isWinner]);
+    }, [wordIdx, isWinner, retryNumber]);
 
     const setColorCodes = async (codes: string[]) => {
         const setCode = (colorCode: string, time: number) => {
