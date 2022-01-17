@@ -3,7 +3,6 @@ import Header from "./Header";
 import Keyboard from "./Keyboard";
 import { useCallback, useEffect, useState } from "react";
 import { WordService } from "./WordService";
-import Config from "./config";
 import GameOverDialog from "./Dialogs/GameOver";
 import WinnerDialog from "./Dialogs/WinnerDialog";
 import HelpDialog from "./Dialogs/HelpDialog";
@@ -15,29 +14,30 @@ import SettingsDialog from "./Dialogs/SettingsDialog";
 import ConfigContext from "./ConfigContext";
 import SessionService, { SESSION_KEYS } from "./SessionService";
 
-const getInitialWords = () => {
+const getInitialWords = (chances: number) => {
     const wordsMetadata = WordService.getWordsMetadataFromSessionStorage();
     if (wordsMetadata.words && wordsMetadata.words.length > 0) {
         return wordsMetadata.words;
     } else {
-        return Array.from({ length: Config.chances }, () => "");
+        return Array.from({ length: chances }, () => "");
     }
 };
 
-const getInitialMapping = () => {
+const getInitialMapping = (chances: number) => {
     const wordsMetadata = WordService.getWordsMetadataFromSessionStorage();
     if (wordsMetadata.mapping && wordsMetadata.mapping.length > 0) {
         return wordsMetadata.mapping;
     } else {
-        return Array.from({ length: Config.chances }, () => [] as string[]);
+        return Array.from({ length: chances }, () => [] as string[]);
     }
 };
 
 const Wordle = () => {
     const wordsMetadata = WordService.getWordsMetadataFromSessionStorage();
     const [wordIdx, setWordIdx] = useState(wordsMetadata.index);
-    const [words, setWords] = useState(() => getInitialWords());
-    const [colorMap, setColorMap] = useState(() => getInitialMapping());
+    const [retryNumber, setRetryNumber] = useState(SessionService.getFromSession(SESSION_KEYS.HardMode) !== null ? SessionService.getFromSession(SESSION_KEYS.HardMode) ? 4 : 6 : 6);
+    const [words, setWords] = useState(() => getInitialWords(retryNumber));
+    const [colorMap, setColorMap] = useState(() => getInitialMapping(retryNumber));
     const [disabledLetters, setDisabledLetters] = useState(wordsMetadata.disabled as string[]);
     const [toastVisibility, setToastVisibility] = useState(false);
     const [gameOverDialogVisibility, setGameOverDialogVisibility] = useState(false);
@@ -46,7 +46,6 @@ const Wordle = () => {
     const [settingsDialogVisibility, setSettingsDialogVisibility] = useState(false);
     const [isLoading, setIsLoading] = useState(() => false);
     const [darkMode, setDarkMode] = useState(() => SessionService.getFromSession(SESSION_KEYS.DarkMode) || window.matchMedia("(prefers-color-scheme: dark)").matches);
-    const [retryNumber, setRetryNumber] = useState(SessionService.getFromSession(SESSION_KEYS.HardMode) !== null ? SessionService.getFromSession(SESSION_KEYS.HardMode) ? 4 : 6 : 6);
     const wordLength = WordService.getWordLength();
 
     const onKeyboardKeyPress = (event: any) => {
@@ -69,7 +68,7 @@ const Wordle = () => {
             SessionService.saveToSession(SESSION_KEYS.EndTime, new Date().getTime());
             setTimeout(() => setWinnerDialogVisibility(true), 1200);
         } else {
-            if (wordIdx < Config.chances) {
+            if (wordIdx < retryNumber) {
                 return false;
             } else {
                 return true;
@@ -133,8 +132,8 @@ const Wordle = () => {
 
     const onRetry = () => {
         WordService.retry();
-        setWords(getInitialWords());
-        setColorMap(getInitialMapping());
+        setWords(getInitialWords(retryNumber));
+        setColorMap(getInitialMapping(retryNumber));
         setWordIdx(0);
         setDisabledLetters([]);
         setGameOverDialogVisibility(false);
@@ -144,8 +143,8 @@ const Wordle = () => {
         setIsLoading(true);
         WordService.startNewGame(clearAll).then(() => {
             setIsLoading(false);
-            setWords(getInitialWords());
-            setColorMap(getInitialMapping());
+            setWords(getInitialWords(retryNumber));
+            setColorMap(getInitialMapping(retryNumber));
             setWordIdx(0);
             setDisabledLetters([]);
         });
