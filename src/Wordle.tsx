@@ -217,6 +217,7 @@ const Wordle = () => {
                         onStartNewGame(true);
                     } else {
                         setRetryNumber(6);
+                        onStartNewGame(true);
                     }
                 }}
             ></SettingsDialog>
