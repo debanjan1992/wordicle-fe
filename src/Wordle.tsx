@@ -177,57 +177,55 @@ const Wordle = () => {
 
     return (
         <ConfigContext.Provider value={{ darkMode: darkMode, chances: retryNumber }}>
+            <Backdrop open={isLoading} sx={{
+                backgroundColor: darkMode ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.3)",
+                color: darkMode ? "white" : "black",
+            }}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
             <GameWrapper isDarkMode={darkMode}>
-                <Backdrop open={isLoading} sx={{
-                    backgroundColor: darkMode ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.3)",
-                    color: darkMode ? "white" : "black",
-                }}>
-                    <CircularProgress color="inherit" />
-                </Backdrop>
                 <Header onHelpIconClicked={() => setHelpDialogVisibility(true)}
                     onSettingsIconClicked={() => setSettingsDialogVisibility(true)} />
                 <WordleWrapper>
-                    <div style={{ margin: "0 auto" }}>
-                        <GameGrid wordLength={wordLength} words={words} map={colorMap} />
-                        <Keyboard onKeyPressed={onKeyboardKeyClick} activeWord={words[wordIdx]} disabledLetters={disabledLetters} wordLength={wordLength} />
-                        <GameOverDialog visible={gameOverDialogVisibility} onDismiss={(r) => {
-                            if (r && r === "backdropClick") {
-                                return;
-                            }
-                            setGameOverDialogVisibility(false);
-                        }} onRetry={onRetry} onStartNewGame={onStartNewGame}></GameOverDialog>
-                        <WinnerDialog winningWord={words[wordIdx - 1]} visible={winnerDialogVisibility} onDismiss={(r) => {
-                            if (r && r === "backdropClick") {
-                                return;
-                            }
-                            setWinnerDialogVisibility(false);
-                        }} onStartNewGame={onStartNewGame}></WinnerDialog>
-                        <HelpDialog visible={helpDialogVisibility} onDismiss={() => setHelpDialogVisibility(false)}></HelpDialog>
-                        <SettingsDialog visible={settingsDialogVisibility}
-                            onDismiss={() => setSettingsDialogVisibility(false)}
-                            onToggleDarkMode={darkMode => {
-                                SessionService.saveToSession(SESSION_KEYS.DarkMode, darkMode);
-                                setDarkMode(darkMode);
-                            }}
-                            onToggleHardMode={hardMode => {
-                                SessionService.saveToSession(SESSION_KEYS.HardMode, hardMode);
-                                if (hardMode) {
-                                    setRetryNumber(4);
-                                    onStartNewGame(true);
-                                } else {
-                                    setRetryNumber(6);
-                                }
-                            }}
-                        ></SettingsDialog>
-                        <Snackbar
-                            open={toastVisibility}
-                            autoHideDuration={3000}
-                            message="Word not found in word list!"
-                            onClose={() => setToastVisibility(false)}
-                        />
-                    </div>
+                    <GameGrid wordLength={wordLength} words={words} map={colorMap} />
+                    <Keyboard onKeyPressed={onKeyboardKeyClick} activeWord={words[wordIdx]} disabledLetters={disabledLetters} wordLength={wordLength} />
                 </WordleWrapper>
             </GameWrapper>
+            <GameOverDialog visible={gameOverDialogVisibility} onDismiss={(r) => {
+                if (r && r === "backdropClick") {
+                    return;
+                }
+                setGameOverDialogVisibility(false);
+            }} onRetry={onRetry} onStartNewGame={onStartNewGame}></GameOverDialog>
+            <WinnerDialog winningWord={words[wordIdx - 1]} visible={winnerDialogVisibility} onDismiss={(r) => {
+                if (r && r === "backdropClick") {
+                    return;
+                }
+                setWinnerDialogVisibility(false);
+            }} onStartNewGame={onStartNewGame}></WinnerDialog>
+            <HelpDialog visible={helpDialogVisibility} onDismiss={() => setHelpDialogVisibility(false)}></HelpDialog>
+            <SettingsDialog visible={settingsDialogVisibility}
+                onDismiss={() => setSettingsDialogVisibility(false)}
+                onToggleDarkMode={darkMode => {
+                    SessionService.saveToSession(SESSION_KEYS.DarkMode, darkMode);
+                    setDarkMode(darkMode);
+                }}
+                onToggleHardMode={hardMode => {
+                    SessionService.saveToSession(SESSION_KEYS.HardMode, hardMode);
+                    if (hardMode) {
+                        setRetryNumber(4);
+                        onStartNewGame(true);
+                    } else {
+                        setRetryNumber(6);
+                    }
+                }}
+            ></SettingsDialog>
+            <Snackbar
+                open={toastVisibility}
+                autoHideDuration={3000}
+                message="Word not found in word list!"
+                onClose={() => setToastVisibility(false)}
+            />
         </ConfigContext.Provider>
     );
 };

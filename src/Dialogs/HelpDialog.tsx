@@ -13,8 +13,6 @@ interface HelpDialogProps {
 }
 
 const DialogContentWrapper = styled.div<{ isDarkMode: boolean }>`
-    width: 50vw;
-    margin: 0 auto;
     p {
         font-size: 14px;
     }
@@ -38,7 +36,7 @@ const HelpDialog = (props: HelpDialogProps) => {
     const isDarkMode = React.useContext(ConfigContext).darkMode;
 
     return (
-        <Dialog onClose={(e, r) => props.onDismiss(r)} fullScreen={true} open={props.visible} disableEscapeKeyDown={true}>
+        <Dialog onClose={(e, r) => props.onDismiss(r)} fullScreen={false} open={props.visible} disableEscapeKeyDown={true}>
             <DialogContent style={{
                 backgroundColor: isDarkMode ? "#151515" : "inherit",
                 color: isDarkMode ? "#d7dadc" : "black",

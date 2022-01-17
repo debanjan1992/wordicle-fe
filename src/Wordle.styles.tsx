@@ -3,15 +3,15 @@ import styled from "styled-components";
 export const WordleWrapper = styled.div`
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin-top: 20px;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100%;
 `;
 
 export const KeyboardWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 20px;
     padding: 5px;
     >.row {
         display: flex;
@@ -21,16 +21,13 @@ export const KeyboardWrapper = styled.div`
     }
 `;
 
-export const KeyWrapper = styled.div<{ disabled?: boolean; isDarkMode: boolean }>`
-    min-width: 40px;
-    padding: 0 7px;
-    height: 50px;
+export const KeyWrapper = styled.div<{ disabled?: boolean; isDarkMode: boolean; }>`
     box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 8px;
-    background-color: ${props => props.isDarkMode ? "transparent" : "#d3d6da" };
+    background-color: ${props => props.isDarkMode ? "transparent" : "#d3d6da"};
     font-size: 14px;
     font-weight: 600;
     margin: 0 4px;
@@ -41,9 +38,42 @@ export const KeyWrapper = styled.div<{ disabled?: boolean; isDarkMode: boolean }
     user-select: none;
     color: ${props => props.isDarkMode ? "#d7dadc" : "black"};
     border: 1px solid transparent;
-    border-color: ${props => props.isDarkMode ? "rgba(255,255,255,0.2)" : "transparent" };
+    border-color: ${props => props.isDarkMode ? "rgba(255,255,255,0.2)" : "transparent"};
     &:hover {
-        background-color: ${props => !props.disabled ? props.isDarkMode ? "rgba(255,255,255,0.1)" : "#e9e9e9" : "transparent" };
+        background-color: ${props => !props.disabled ? props.isDarkMode ? "rgba(255,255,255,0.1)" : "#e9e9e9" : "transparent"};
+    }
+    &:active {
+        background-color: ${props => !props.disabled ? props.isDarkMode ? "#408544fb" : "#92df7e" : "transparent"};
+    }
+    min-width: 25px;
+    padding: 0 8px;
+    min-height: 60px;
+
+    /* For Desktop View */
+    @media screen and (min-width: 1024px) {
+        min-width: 50px;
+        padding: 0 20px;
+        min-height: 60px;
+    }
+    
+    /* For Tablet View */
+    @media screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+        min-width: 60px;
+        padding: 0 8px;
+        min-height: 70px;
+    }
+    
+    /* For Mobile Portrait View */
+    @media screen and (max-device-width: 480px) and (orientation: portrait) {
+        min-width: 28px;
+        min-height: 70px;
+    }
+    
+    /* For Mobile Landscape View */
+    @media screen and (max-device-width: 1024px) and (orientation: landscape) {
+        min-width: 50px;
+        padding: 0 8px;
+        min-height: 60px;
     }
 `;
 
@@ -56,6 +86,8 @@ export const GameGridWrapper = styled.div`
 export const WordWrapper = styled.div`
     display: flex;
     align-items: center;
+    width: 100%;
+    justify-content: center;
 `;
 
 export const HeaderWrapper = styled.header<{ isDarkMode: boolean; }>`
@@ -63,10 +95,7 @@ export const HeaderWrapper = styled.header<{ isDarkMode: boolean; }>`
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid ${props => props.isDarkMode ? "#565758" : "#b9b9b9"};
-    width: 40vw;
     position: relative;
-    left: 50%;
-    transform: translateX(-50%);
     .app-title {
         font-size: 24px;
         font-weight: 900;
@@ -85,35 +114,53 @@ export const HeaderWrapper = styled.header<{ isDarkMode: boolean; }>`
         fill: ${props => props.isDarkMode ? "#565758" : "#787c7e"}
     }
 
-    @media only screen and (min-width: 600px) {
+    /* For Desktop View */
+    @media screen and (min-width: 1024px) {
+        margin: 0 auto;
+        width: 50vw;
         .app-title {
-            font-size: 24px;
+            font-size: 36px;
             font-weight: 900;
             letter-spacing: 4px;
         }
         svg {
-            width: 18px;
-            height: 18px;
+            width: 24px;
+            height: 24px;
         }
     }
-
-    @media only screen and (min-width: 1000px) {
+    
+    /* For Tablet View */
+    @media screen and (min-device-width: 768px) and (max-device-width: 1024px) {
         .app-title {
-            font-size: 30px;
+            font-size: 52px;
             font-weight: 900;
-            letter-spacing: 6px;
+            letter-spacing: 4px;
         }
         svg {
-            width: 22px;
-            height: 22px;
+            width: 34px;
+            height: 34px;
         }
     }
-
-    @media only screen and (min-width: 1281px) {
+    
+    /* For Mobile Portrait View */
+    @media screen and (max-device-width: 480px) and (orientation: portrait) {
         .app-title {
-            font-size: 34px;
+            font-size: 44px;
             font-weight: 900;
-            letter-spacing: 8px;
+            letter-spacing: 4px;
+        }
+        svg {
+            width: 28px;
+            height: 28px;
+        }
+    }
+    
+    /* For Mobile Landscape View */
+    @media screen and (max-device-width: 1024px) and (orientation: landscape) {
+        .app-title {
+            font-size: 36px;
+            font-weight: 900;
+            letter-spacing: 4px;
         }
         svg {
             width: 24px;
@@ -123,11 +170,14 @@ export const HeaderWrapper = styled.header<{ isDarkMode: boolean; }>`
 `;
 
 export const GameWrapper = styled.div<{ isDarkMode: boolean }>`
-    background-color: ${props => props.isDarkMode ? "black" : "white" };;
+    background-color: ${props => props.isDarkMode ? "black" : "white"};;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 `;
 
-export const GameBoxWrapper = styled.div<{ isDarkMode: boolean }>`
+export const GameBoxWrapper = styled.div<{ isDarkMode: boolean; }>`
     border: 2px solid transparent;
     box-sizing: border-box;
     margin: 2px;
@@ -137,10 +187,10 @@ export const GameBoxWrapper = styled.div<{ isDarkMode: boolean }>`
     justify-content: center;
     font-weight: 700;
     transition: all 0.7s ease-in-out;
-    min-width: 36px;
-    min-height: 36px;
-    font-size: 18px;
     color: ${props => props.isDarkMode ? "#d7dadc" : "black"};
+    font-size: 24px;
+    width: 50px;
+    height: 50px;
 
     &.not-filled {
         border-color: ${props => props.isDarkMode ? "#3a3a3c" : "#d3d6da"};
@@ -181,21 +231,27 @@ export const GameBoxWrapper = styled.div<{ isDarkMode: boolean }>`
         color: #d7dadc;
     }
 
-    @media only screen and (min-width: 600px) {
+    /* For Desktop View */
+    @media screen and (min-width: 1024px) {
+        width: 50px;
+        height: 50px;
+    }
+    
+    /* For Tablet View */
+    @media screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+        width: 60px;
+        height: 60px;
+    }
+    
+    /* For Mobile Portrait View */
+    @media screen and (max-device-width: 480px) and (orientation: portrait) {
         width: 48px;
         height: 48px;
-        font-size: 22px;
     }
-
-    @media only screen and (min-width: 1000px) {
-        width: 48px;
-        height: 48px;
-        font-size: 24px;
-    }
-
-    @media only screen and (min-width: 1281px) {
+    
+    /* For Mobile Landscape View */
+    @media screen and (max-device-width: 1024px) and (orientation: landscape) {
         width: 56px;
         height: 56px;
-        font-size: 28px;
     }
 `;

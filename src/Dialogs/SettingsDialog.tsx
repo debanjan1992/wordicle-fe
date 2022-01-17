@@ -21,8 +21,6 @@ interface SettingsDialogProps {
 }
 
 export const DialogContentWrapper = styled.div<{ darkMode?: boolean }>`
-    width: 50vw;
-    margin: 0 auto;
     color: ${props => props.darkMode ? "#d7dadc" : "black"};
     p {
         font-size: 14px;
@@ -38,6 +36,11 @@ export const DialogContentWrapper = styled.div<{ darkMode?: boolean }>`
     }
     svg {
         fill: ${props => props.darkMode ? "#d7dadc" : "gray"};
+    }
+
+    @media only screen and (min-width: 800px) {
+        width: 60vw;
+        margin: 0 auto;
     }
 `;
 

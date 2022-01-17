@@ -20,6 +20,7 @@ interface KeyProps {
 
 const Key = ({ children, disabled, onClick }: KeyProps) => {
     const isDarkMode = React.useContext(ConfigContext).darkMode;
+    
     return (
         <KeyWrapper disabled={disabled} onClick={onClick} isDarkMode={isDarkMode}>
             <span>{children}</span>

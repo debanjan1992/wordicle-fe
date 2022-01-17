@@ -1,5 +1,6 @@
 import React from "react";
 import ConfigContext from "../ConfigContext";
+import SessionService, { SESSION_KEYS } from "../SessionService";
 import { GameBoxWrapper, WordWrapper } from "../Wordle.styles";
 
 interface GameBoxProps {
@@ -16,6 +17,7 @@ interface WordProps {
 
 const GameBox = ({ letter, colorCode }: GameBoxProps) => {
     const isDarkMode = React.useContext(ConfigContext).darkMode;
+    const wordLength = SessionService.getFromSession(SESSION_KEYS.WordLength);
 
     const getClassName = () => {
         let list = colorCode || "empty";
