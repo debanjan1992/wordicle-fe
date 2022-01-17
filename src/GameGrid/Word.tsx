@@ -17,7 +17,6 @@ interface WordProps {
 
 const GameBox = ({ letter, colorCode }: GameBoxProps) => {
     const isDarkMode = React.useContext(ConfigContext).darkMode;
-    const wordLength = SessionService.getFromSession(SESSION_KEYS.WordLength);
 
     const getClassName = () => {
         let list = colorCode || "empty";
