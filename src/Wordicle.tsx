@@ -6,7 +6,7 @@ import { WordService } from "./WordService";
 import GameOverDialog from "./Dialogs/GameOver";
 import WinnerDialog from "./Dialogs/WinnerDialog";
 import HelpDialog from "./Dialogs/HelpDialog";
-import { GameWrapper, WordleWrapper } from "./Wordle.styles";
+import { GameWrapper, WordleWrapper } from "./Wordicle.styles";
 import Snackbar from "@mui/material/Snackbar";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from '@mui/material/CircularProgress';
@@ -32,7 +32,7 @@ const getInitialMapping = (chances: number) => {
     }
 };
 
-const Wordle = () => {
+const Wordicle = () => {
     const wordsMetadata = WordService.getWordsMetadataFromSessionStorage();
     const [wordIdx, setWordIdx] = useState(wordsMetadata.index);
     const [retryNumber, setRetryNumber] = useState(SessionService.getFromSession(SESSION_KEYS.HardMode) !== null ? SessionService.getFromSession(SESSION_KEYS.HardMode) ? 4 : 6 : 6);
@@ -231,4 +231,4 @@ const Wordle = () => {
     );
 };
 
-export default Wordle;
+export default Wordicle;

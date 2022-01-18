@@ -1,4 +1,4 @@
-import { KeyboardWrapper, KeyWrapper } from "./Wordle.styles";
+import { KeyboardWrapper, KeyWrapper } from "./Wordicle.styles";
 import Backspace from "@mui/icons-material/Backspace";
 import { ReactNode } from "react";
 import ConfigContext from "./ConfigContext";

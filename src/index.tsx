@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Wordle from './Wordle';
+import Wordle from './Wordicle';
 
 ReactDOM.render(
   <React.StrictMode>

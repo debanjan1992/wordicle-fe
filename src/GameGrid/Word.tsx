@@ -1,7 +1,7 @@
 import React from "react";
 import ConfigContext from "../ConfigContext";
 import SessionService, { SESSION_KEYS } from "../SessionService";
-import { GameBoxWrapper, WordWrapper } from "../Wordle.styles";
+import { GameBoxWrapper, WordWrapper } from "../Wordicle.styles";
 
 interface GameBoxProps {
     letter?: string;

@@ -1,6 +1,6 @@
 import React from "react";
 import ConfigContext from "../ConfigContext";
-import { GameGridWrapper } from "../Wordle.styles";
+import { GameGridWrapper } from "../Wordicle.styles";
 import { WordService } from "../WordService";
 import Word from "./Word";
 

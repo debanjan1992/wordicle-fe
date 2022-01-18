@@ -73,7 +73,7 @@ export class WordService {
 
     static revealWord() {
         const existingSessionId = SessionService.getFromSession(SESSION_KEYS.SessionId);
-        return fetch(this.BASE_URL + "/reveal?sessionnId=" + existingSessionId)
+        return fetch(this.BASE_URL + "/reveal?sessionId=" + existingSessionId)
             .then(response => response.json())
             .then(response => response.data);
     }

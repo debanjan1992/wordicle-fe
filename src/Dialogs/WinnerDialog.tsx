@@ -36,7 +36,6 @@ const WinnerDialog = (props: WinnerDialogProps) => {
             } else {
                 return `${Math.floor(minutes)} minutes and ${Math.floor(seconds)} seconds`;
             }
-
         }
     };
 
