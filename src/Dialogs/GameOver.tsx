@@ -7,6 +7,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from "@mui/material/Box";
 import { WordService } from '../WordService';
 import Word from "../GameGrid/Word";
+import { useState } from "react";
 
 interface GameOverDialogProps {
     visible: boolean;
