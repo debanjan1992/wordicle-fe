@@ -17,7 +17,7 @@ interface WinnerDialogProps {
 const WinnerDialog = (props: WinnerDialogProps) => {
     const endTime = SessionService.getFromSession(SESSION_KEYS.EndTime);
     const startTime = SessionService.getFromSession(SESSION_KEYS.StartTime);
-    const chances = SessionService.getFromSession(SESSION_KEYS.WordIndex) + 1;
+    const chances = SessionService.getFromSession(SESSION_KEYS.WordIndex);
     const totalChances = React.useContext(ConfigContext).chances;
 
     let timeTaken: number = 0;

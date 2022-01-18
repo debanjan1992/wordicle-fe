@@ -47,7 +47,7 @@ const HelpDialog = (props: HelpDialogProps) => {
                         <div className="title">How to Play</div>
                         <IconButton onClick={() => props.onDismiss("close")} style={{ cursor: "pointer" }}><CloseIcon /></IconButton>
                     </div>
-                    <p>Guess the <strong>WORDLE</strong> in 6 tries</p>
+                    <p>Guess the <strong>WORDICLE</strong> in 6 tries</p>
                     <p>Each guess must be a valid word. Hit the enter button to submit.</p>
                     <p>After each guess, the color of the tiles will change to show how close your guess was to the word.</p>
                     <hr></hr>
