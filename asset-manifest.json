@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/wordicle-fe/static/css/main.e9c0e41b.css",
-    "main.js": "/wordicle-fe/static/js/main.02420d5a.js",
+    "main.js": "/wordicle-fe/static/js/main.b9fbbbec.js",
     "index.html": "/wordicle-fe/index.html",
     "main.e9c0e41b.css.map": "/wordicle-fe/static/css/main.e9c0e41b.css.map",
-    "main.02420d5a.js.map": "/wordicle-fe/static/js/main.02420d5a.js.map"
+    "main.b9fbbbec.js.map": "/wordicle-fe/static/js/main.b9fbbbec.js.map"
   },
   "entrypoints": [
     "static/css/main.e9c0e41b.css",
-    "static/js/main.02420d5a.js"
+    "static/js/main.b9fbbbec.js"
   ]
 }
