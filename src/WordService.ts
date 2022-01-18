@@ -65,10 +65,17 @@ export class WordService {
         return fetch(this.BASE_URL + "/word?sessionId=" + existingSessionId)
             .then(response => response.json())
             .then(response => {
-                SessionService.saveToSession(SESSION_KEYS.SessionId, response.id);;
-                SessionService.saveToSession(SESSION_KEYS.WordLength, response.length);;
+                SessionService.saveToSession(SESSION_KEYS.SessionId, response.id);
+                SessionService.saveToSession(SESSION_KEYS.WordLength, response.length);
                 SessionService.saveToSession(SESSION_KEYS.StartTime, new Date().getTime());
             });
+    }
+
+    static revealWord() {
+        const existingSessionId = SessionService.getFromSession(SESSION_KEYS.SessionId);
+        return fetch(this.BASE_URL + "/reveal?sessionnId=" + existingSessionId)
+            .then(response => response.json())
+            .then(response => response.data);
     }
 
     static getWordLength() {

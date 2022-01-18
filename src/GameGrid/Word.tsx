@@ -10,7 +10,6 @@ interface GameBoxProps {
 
 interface WordProps {
     wordLength?: number;
-    startIndex?: number;
     word: string;
     map: Array<string>;
 }
