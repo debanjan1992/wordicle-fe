@@ -22,7 +22,7 @@ const Key = ({ children, disabled, onClick }: KeyProps) => {
     const isDarkMode = React.useContext(ConfigContext).darkMode;
     
     return (
-        <KeyWrapper disabled={disabled} onClick={onClick} isDarkMode={isDarkMode}>
+        <KeyWrapper disabled={disabled} onClick={() => !disabled && onClick()} isDarkMode={isDarkMode}>
             <span>{children}</span>
         </KeyWrapper>
     );

@@ -227,7 +227,7 @@ export const GameBoxWrapper = styled.div<{ isDarkMode: boolean; }>`
     }
 
     &.absent {
-        background-color: #3a3a3c;
+        background-color: #BD1616;
         color: #d7dadc;
     }
 

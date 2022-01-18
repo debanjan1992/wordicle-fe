@@ -105,10 +105,4 @@ export class WordService {
             }
         });
     }
-
-    static retry() {
-        SessionService.saveToSession(SESSION_KEYS.Words, []);
-        SessionService.saveToSession(SESSION_KEYS.Mapping, []);
-        SessionService.saveToSession(SESSION_KEYS.WordIndex, 0);
-    }
 }

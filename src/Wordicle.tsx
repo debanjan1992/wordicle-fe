@@ -3,7 +3,7 @@ import Header from "./Header";
 import Keyboard from "./Keyboard";
 import { useCallback, useEffect, useState } from "react";
 import { WordService } from "./WordService";
-import GameOverDialog from "./Dialogs/GameOver";
+import GameOverDialog from "./Dialogs/GameOverDialog";
 import WinnerDialog from "./Dialogs/WinnerDialog";
 import HelpDialog from "./Dialogs/HelpDialog";
 import { GameWrapper, WordleWrapper } from "./Wordicle.styles";
@@ -130,15 +130,6 @@ const Wordicle = () => {
         }
     };
 
-    const onRetry = () => {
-        WordService.retry();
-        setWords(getInitialWords(retryNumber));
-        setColorMap(getInitialMapping(retryNumber));
-        setWordIdx(0);
-        setDisabledLetters([]);
-        setGameOverDialogVisibility(false);
-    };
-
     const onStartNewGame = (clearAll = true) => {
         setIsLoading(true);
         WordService.startNewGame(clearAll).then(() => {
@@ -196,12 +187,13 @@ const Wordicle = () => {
                     return;
                 }
                 setGameOverDialogVisibility(false);
-            }} onRetry={onRetry} onStartNewGame={onStartNewGame}></GameOverDialog>
+            }} onStartNewGame={onStartNewGame}></GameOverDialog>
             <WinnerDialog winningWord={words[wordIdx - 1]} visible={winnerDialogVisibility} onDismiss={(r) => {
                 if (r && r === "backdropClick") {
                     return;
                 }
                 setWinnerDialogVisibility(false);
+                setWordIdx(0);
             }} onStartNewGame={onStartNewGame}></WinnerDialog>
             <HelpDialog visible={helpDialogVisibility} onDismiss={() => setHelpDialogVisibility(false)}></HelpDialog>
             <SettingsDialog visible={settingsDialogVisibility}
