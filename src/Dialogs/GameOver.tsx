@@ -17,11 +17,11 @@ interface GameOverDialogProps {
 }
 
 const GameOverDialog = (props: GameOverDialogProps) => {
-    const [answer, setAnswer] = useState(null);
+    const [answer, setAnswer] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
     const revealWord = () => {
-        WordService.revealWord().then(word => setAnswer(word));
+        WordService.revealWord().then(word => setAnswer(word === null ? "" : word));
     };
 
     return (
@@ -29,14 +29,14 @@ const GameOverDialog = (props: GameOverDialogProps) => {
             <DialogTitle>Game Over!</DialogTitle>
             <DialogContent>
                 <p>Sorry! You have run out of chances to guess the word!</p>
-                {answer !== null && (
+                {answer !== "" && (
                     <Word word={answer} map={Array.from({ length: answer.length }, () => "correct")}></Word>
                 )}
             </DialogContent>
             <DialogActions>
-                <Button variant="outlined" onClick={props.onRetry} disabled={answer !== null || isLoading}>Get more chances</Button>
+                <Button variant="outlined" onClick={props.onRetry} disabled={answer !== "" || isLoading}>Get more chances</Button>
                 <Box>
-                    <Button variant="outlined" onClick={props.onRetry} disabled={answer !== null || isLoading}>Reveal Word</Button>
+                    <Button variant="outlined" onClick={props.onRetry} disabled={answer !== "" || isLoading}>Reveal Word</Button>
                     {isLoading && (
                         <CircularProgress
                             size={24}
