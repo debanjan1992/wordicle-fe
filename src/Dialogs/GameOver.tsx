@@ -3,6 +3,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Dialog from '@mui/material/Dialog';
 import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 import Box from "@mui/material/Box";
 import { WordService } from '../WordService';
 import Word from "../GameGrid/Word";
