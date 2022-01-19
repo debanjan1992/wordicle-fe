@@ -67,9 +67,9 @@ I have successfully guessed the WORDICLE - ${props.winningWord} in ${getTime(tim
 
 ${codeSnap}
 
-Play WORDICLE now on https://debanjan1992.github.io/wordicle-fe/
-
 #wordicle
+Play WORDICLE now on 
+
         `;
         return text;
     };
@@ -86,7 +86,7 @@ Play WORDICLE now on https://debanjan1992.github.io/wordicle-fe/
                     <Word word={props.winningWord} map={Array.from({ length: props.winningWord?.length }, () => "correct")}></Word>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: "20px" }}>
-                    <ShareButtons url=""
+                    <ShareButtons url="https://debanjan1992.github.io/wordicle-fe/"
                         title={getShareText()}></ShareButtons>
                 </div>
             </DialogContent>
