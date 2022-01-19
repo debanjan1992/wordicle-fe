@@ -1,3 +1,4 @@
+import React from "react";
 import GameGrid from "./GameGrid/GameGrid";
 import Header from "./Header";
 import Keyboard from "./Keyboard";
@@ -48,7 +49,8 @@ const Wordicle = () => {
     const [darkMode, setDarkMode] = useState(() => SessionService.getFromSession(SESSION_KEYS.DarkMode) || window.matchMedia("(prefers-color-scheme: dark)").matches);
     const wordLength = WordService.getWordLength();
 
-    const onKeyboardKeyPress = (event: any) => {
+    const onKeyboardKeyPress = (event: KeyboardEvent) => {
+        console.log(event);
         // onKeyboardKeyClick(event.key.toUpperCase());
     };
 
@@ -76,9 +78,9 @@ const Wordicle = () => {
         }
     }, [wordIdx, isWinner, retryNumber]);
 
-    const setColorCodes = async (codes: string[]) => {
+    const setColorCodes = (codes: string[]) => {
         const setCode = (colorCode: string, time: number) => {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 setTimeout(() => {
                     colorMap[wordIdx].push(colorCode);
                     setColorMap([...colorMap]);
@@ -86,9 +88,9 @@ const Wordicle = () => {
                 }, time);
             });
         };
-        const promises: Promise<any>[] = [];
+        const promises: Promise<unknown>[] = [];
         codes.forEach((code, index) => promises.push(setCode(code, 400 * (index + 1))));
-        Promise.all(promises).then(response => {
+        Promise.all(promises).then(() => {
             WordService.setWordsMetadataToSessionStorage(words, [...colorMap], wordIdx + 1);
             setWordIdx(wordIdx + 1);
         });
@@ -106,7 +108,7 @@ const Wordicle = () => {
             colorMap[wordIdx] = [];
             setColorCodes(response.data);
             setDisabledLetters(Array.from(new Set(disabledLetters)));
-        }).catch(error => {
+        }).catch(() => {
             setIsLoading(false);
             words[wordIdx] = "";
             setWords([...words]);
@@ -153,11 +155,9 @@ const Wordicle = () => {
     }, [wordIdx, isGameOver])
 
     useEffect(() => {
-        setIsLoading(true);
         WordService.isSessionValid().then(valid => {
             setIsLoading(false);
             if (!valid) {
-                setIsLoading(true);
                 setTimeout(() => setHelpDialogVisibility(true), 1000);
                 onStartNewGame();
             }

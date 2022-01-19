@@ -1,6 +1,5 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import ConfigContext from "../ConfigContext";
-import SessionService, { SESSION_KEYS } from "../SessionService";
 import { GameBoxWrapper, WordWrapper } from "../Wordicle.styles";
 
 interface GameBoxProps {
@@ -36,7 +35,7 @@ const GameBox = ({ letter, colorCode }: GameBoxProps) => {
 
 const Word = (props: WordProps) => {
     const generateGameBoxes = () => {
-        const renderedContent = [];
+        const renderedContent: ReactNode[] = [];
         for (let i = 1; i <= (props.wordLength || props.word.length); i++) {
             renderedContent.push(<GameBox key={i} letter={props.word[i - 1]} colorCode={props.map[i - 1]} />);
         }

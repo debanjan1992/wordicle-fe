@@ -1,3 +1,4 @@
+import React from "react";
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Dialog from '@mui/material/Dialog';
@@ -5,7 +6,6 @@ import Button from '@mui/material/Button';
 import Word from '../GameGrid/Word';
 import SessionService, { SESSION_KEYS } from '../SessionService';
 import ConfigContext from '../ConfigContext';
-import React from 'react';
 
 interface WinnerDialogProps {
     visible: boolean;
@@ -20,7 +20,7 @@ const WinnerDialog = (props: WinnerDialogProps) => {
     const chances = SessionService.getFromSession(SESSION_KEYS.WordIndex);
     const totalChances = React.useContext(ConfigContext).chances;
 
-    let timeTaken: number = 0;
+    let timeTaken = 0;
     if (startTime !== null && endTime !== null) {
         timeTaken = (endTime - startTime) / 1000;
     }

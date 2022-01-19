@@ -1,10 +1,10 @@
+import React from "react";
 import DialogContent from '@mui/material/DialogContent';
 import Dialog from '@mui/material/Dialog';
 import Word from '../GameGrid/Word';
 import styled from "styled-components";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
-import React from 'react';
 import ConfigContext from '../ConfigContext';
 
 interface HelpDialogProps {

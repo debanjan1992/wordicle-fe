@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import ConfigContext from "../ConfigContext";
 import { GameGridWrapper } from "../Wordicle.styles";
 import { WordService } from "../WordService";
@@ -13,7 +13,7 @@ interface GameGridProps {
 const GameGrid = (props: GameGridProps) => {
     const chances = React.useContext(ConfigContext).chances;
     const generateWords = () => {
-        const renderedContent = [];
+        const renderedContent: ReactNode[] = [];
         for (let i = 0; i < chances; i++) {
             renderedContent.push(<Word key={i + 1} wordLength={WordService.getWordLength()} word={props.words[i]} map={props.map[i]} />);
         }

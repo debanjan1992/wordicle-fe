@@ -1,3 +1,4 @@
+import React from "react";
 import DialogContent from '@mui/material/DialogContent';
 import Dialog from '@mui/material/Dialog';
 import styled from "styled-components";
@@ -11,7 +12,6 @@ import DarkModeIcon from "@mui/icons-material/DarkMode";
 import HardModeIcon from "@mui/icons-material/Extension";
 import Switch from '@mui/material/Switch';
 import ConfigContext from '../ConfigContext';
-import React from 'react';
 
 interface SettingsDialogProps {
     visible: boolean;

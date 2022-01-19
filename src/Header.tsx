@@ -1,9 +1,9 @@
+import React from "react";
 import HelpIcon from "@mui/icons-material/Help";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { HeaderWrapper } from "./Wordicle.styles";
-import React from "react";
 import ConfigContext from "./ConfigContext";
 
 interface HeaderProps {
@@ -22,7 +22,7 @@ const Header = (props: HeaderProps) => {
                     <HelpIcon />
                 </IconButton>
             </Tooltip>
-            <div className="app-title">WORDICLE{isHardMode && <span className="tag">[HARD]</span>}</div>
+            <div className="app-title">WORDICLE BETA{isHardMode && <span className="tag">[HARD]</span>}</div>
             <Tooltip title="Settings">
                 <IconButton onClick={props.onSettingsIconClicked}>
                     <SettingsIcon />
