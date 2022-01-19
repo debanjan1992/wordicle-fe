@@ -183,7 +183,10 @@ const Wordicle = () => {
                     return;
                 }
                 setGameOverDialogVisibility(false);
-            }} onStartNewGame={onStartNewGame}></GameOverDialog>
+            }} onStartNewGame={() => {
+                setWordIdx(0);
+                onStartNewGame();
+            }}></GameOverDialog>
             <WinnerDialog winningWord={words[wordIdx - 1]} visible={winnerDialogVisibility} onDismiss={(r) => {
                 if (r && r === "backdropClick") {
                     return;
