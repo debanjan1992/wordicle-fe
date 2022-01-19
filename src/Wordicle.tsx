@@ -98,7 +98,7 @@ const Wordicle = () => {
 
     const submitWord = (wordInput: string) => {
         setIsLoading(true);
-        WordService.submit(wordInput).then((response: { data: string[], word: string }) => {
+        WordService.submit(wordInput).then((response: { data: string[], word: string, message?: string }) => {
             setIsLoading(false);
             response.data.forEach((val: string, i: number) => {
                 if (val === "absent") {
@@ -108,11 +108,15 @@ const Wordicle = () => {
             colorMap[wordIdx] = [];
             setColorCodes(response.data);
             setDisabledLetters(Array.from(new Set(disabledLetters)));
-        }).catch(() => {
-            setIsLoading(false);
-            words[wordIdx] = "";
-            setWords([...words]);
-            setToastVisibility(true);
+        }).catch((error) => {
+            if (error.message === "Invalid Session") {
+                onStartNewGame(true);
+            } else {
+                setIsLoading(false);
+                words[wordIdx] = "";
+                setWords([...words]);
+                setToastVisibility(true);
+            }
         });
     };
 
