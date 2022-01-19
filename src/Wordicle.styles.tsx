@@ -81,7 +81,7 @@ export const KeyWrapper = styled.div<{ disabled?: boolean; isDarkMode: boolean; 
     
     /* For Mobile Portrait View */
     @media screen and (max-device-width: 480px) and (orientation: portrait) {
-        min-width: 28px;
+        min-width: 20px;
         min-height: 70px;
     }
     

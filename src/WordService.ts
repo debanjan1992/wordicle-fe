@@ -72,7 +72,7 @@ export class WordService {
                 SessionService.saveToSession(SESSION_KEYS.SessionId, response.id);
                 SessionService.saveToSession(SESSION_KEYS.WordLength, response.length);
                 SessionService.saveToSession(SESSION_KEYS.StartTime, new Date().getTime());
-            });
+            }).catch(error => alert(error));
     }
 
     static revealWord() {
