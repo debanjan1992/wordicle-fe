@@ -97,12 +97,14 @@ export class WordService {
                 word: word,
                 sessionId: this.getSessionId()
             })
-        }).then(response => {
-            if (response.status === 200) {
-                return response.json();
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (!response.success) {
+                throw new Error(response.message);
             } else {
-                throw new Error("Not found");
+                return response;
             }
-        });
+        })
     }
 }
