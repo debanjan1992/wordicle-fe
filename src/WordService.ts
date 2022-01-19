@@ -62,7 +62,6 @@ export class WordService {
         if (clearAll) {
             SessionService.deleteAll();
         }
-        console.log("URL", this.BASE_URL);
         return fetch(this.BASE_URL + "/word?sessionId=" + existingSessionId)
             .then(response => response.json())
             .then(response => {
