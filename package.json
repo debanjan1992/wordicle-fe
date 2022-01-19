@@ -19,8 +19,8 @@
     "typescript": "^4.5.4"
   },
   "scripts": {
-    "start": "webpack serve --open --config webpack.config.dev.js",
-    "build": "webpack --config webpack.config.prod.js",
+    "start": "webpack serve --open --progress",
+    "build": "webpack --env production --progress",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
@@ -54,6 +54,7 @@
     "@types/webpack": "^5.28.0",
     "babel-loader": "^8.2.3",
     "css-loader": "^6.5.1",
+    "dotenv-webpack": "^7.0.3",
     "file-loader": "^6.2.0",
     "gh-pages": "^3.2.3",
     "html-webpack-plugin": "^5.5.0",

@@ -1,8 +1,8 @@
+import EnvironmentService from "./EnvironmentService";
 import SessionService, { SESSION_KEYS } from "./SessionService";
 
 export class WordService {
-    static BASE_URL = "https://wordicle-be.herokuapp.com/api";
-    // static BASE_URL = "http://192.168.1.107:4000/api";
+    static BASE_URL = EnvironmentService.getApiBaseUrl();
 
     static isGameOver = false;
 
@@ -62,6 +62,7 @@ export class WordService {
         if (clearAll) {
             SessionService.deleteAll();
         }
+        console.log("URL", this.BASE_URL);
         return fetch(this.BASE_URL + "/word?sessionId=" + existingSessionId)
             .then(response => response.json())
             .then(response => {
