@@ -48,6 +48,22 @@ export const KeyWrapper = styled.div<{ disabled?: boolean; isDarkMode: boolean; 
     min-width: 25px;
     padding: 0 8px;
     min-height: 60px;
+    transition: all 0.4s;
+
+    &.correct {
+        border-color: #538d4e;
+        color: #538d4e;
+    }
+
+    &.present {
+        border-color: #b59f3b;
+        color: #b59f3b;
+    }
+
+    &.absent {
+        border-color: #BD1616;
+        color: #BD1616;
+    }
 
     /* For Desktop View */
     @media screen and (min-width: 1024px) {
@@ -187,7 +203,7 @@ export const GameBoxWrapper = styled.div<{ isDarkMode: boolean; }>`
     justify-content: center;
     font-weight: 700;
     transition: all 0.7s ease-in-out;
-    color: ${props => props.isDarkMode ? "#d7dadc" : "black"};
+    color: ${props => props.isDarkMode ? "#d7dadc" : "white"};
     font-size: 24px;
     width: 50px;
     height: 50px;
@@ -217,18 +233,15 @@ export const GameBoxWrapper = styled.div<{ isDarkMode: boolean; }>`
     &.correct {
         background-color: #538d4e;
         border-color: #538d4e;
-        color: #d7dadc;
     }
 
     &.present {
         background-color: #b59f3b;
         border-color: #b59f3b;
-        color: #d7dadc;
     }
 
     &.absent {
         background-color: #BD1616;
-        color: #d7dadc;
     }
 
     /* For Desktop View */

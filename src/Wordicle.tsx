@@ -39,14 +39,13 @@ const Wordicle = () => {
     const [retryNumber, setRetryNumber] = useState(SessionService.getFromSession(SESSION_KEYS.HardMode) !== null ? SessionService.getFromSession(SESSION_KEYS.HardMode) ? 4 : 6 : 6);
     const [words, setWords] = useState(() => getInitialWords(retryNumber));
     const [colorMap, setColorMap] = useState(() => getInitialMapping(retryNumber));
-    const [disabledLetters, setDisabledLetters] = useState(wordsMetadata.disabled as string[]);
     const [toastVisibility, setToastVisibility] = useState(false);
     const [gameOverDialogVisibility, setGameOverDialogVisibility] = useState(false);
     const [winnerDialogVisibility, setWinnerDialogVisibility] = useState(false);
     const [helpDialogVisibility, setHelpDialogVisibility] = useState(false);
     const [settingsDialogVisibility, setSettingsDialogVisibility] = useState(false);
     const [isLoading, setIsLoading] = useState(() => false);
-    const [darkMode, setDarkMode] = useState(() => SessionService.getFromSession(SESSION_KEYS.DarkMode) || window.matchMedia("(prefers-color-scheme: dark)").matches);
+    const [darkMode, setDarkMode] = useState(() => SessionService.getFromSession(SESSION_KEYS.DarkMode) !== null ? SessionService.getFromSession(SESSION_KEYS.DarkMode) : window.matchMedia("(prefers-color-scheme: dark)").matches);
     const wordLength = WordService.getWordLength();
 
     const onKeyboardKeyPress = (event: KeyboardEvent) => {
@@ -100,14 +99,8 @@ const Wordicle = () => {
         setIsLoading(true);
         WordService.submit(wordInput).then((response: { data: string[], word: string, message?: string }) => {
             setIsLoading(false);
-            response.data.forEach((val: string, i: number) => {
-                if (val === "absent") {
-                    disabledLetters.push(response.word[i]);
-                }
-            });
             colorMap[wordIdx] = [];
             setColorCodes(response.data);
-            setDisabledLetters(Array.from(new Set(disabledLetters)));
         }).catch((error) => {
             if (error.message === "Invalid Session") {
                 onStartNewGame(true);
@@ -143,7 +136,6 @@ const Wordicle = () => {
             setWords(getInitialWords(retryNumber));
             setColorMap(getInitialMapping(retryNumber));
             setWordIdx(0);
-            setDisabledLetters([]);
         });
         setGameOverDialogVisibility(false);
         setWinnerDialogVisibility(false);
@@ -183,7 +175,7 @@ const Wordicle = () => {
                     onSettingsIconClicked={() => setSettingsDialogVisibility(true)} />
                 <WordleWrapper>
                     <GameGrid wordLength={wordLength} words={words} map={colorMap} />
-                    <Keyboard onKeyPressed={onKeyboardKeyClick} activeWord={words[wordIdx]} disabledLetters={disabledLetters} wordLength={wordLength} />
+                    <Keyboard onKeyPressed={onKeyboardKeyClick} activeWord={words[wordIdx]} wordLength={wordLength} />
                 </WordleWrapper>
             </GameWrapper>
             <GameOverDialog visible={gameOverDialogVisibility} onDismiss={(r) => {
