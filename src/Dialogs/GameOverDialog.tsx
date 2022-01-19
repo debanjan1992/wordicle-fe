@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
@@ -27,6 +27,10 @@ const GameOverDialog = (props: GameOverDialogProps) => {
         });
     };
 
+    useEffect(() => {
+        revealWord();
+    }, [])
+
     return (
         <Dialog onClose={(e, r) => {
             setAnswer("");
@@ -53,7 +57,6 @@ const GameOverDialog = (props: GameOverDialogProps) => {
                 )}
             </DialogContent>
             <DialogActions>
-                <Button variant="outlined" onClick={revealWord} disabled={answer !== "" || isLoading}>Reveal Word</Button>
                 <Button variant="contained" onClick={() => {
                     props.onStartNewGame();
                     setAnswer("");
