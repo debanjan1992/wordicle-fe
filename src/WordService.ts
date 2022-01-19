@@ -62,7 +62,11 @@ export class WordService {
         if (clearAll) {
             SessionService.deleteAll();
         }
-        return fetch(this.BASE_URL + "/word?sessionId=" + existingSessionId)
+        let url = this.BASE_URL + "/word";
+        if (existingSessionId !== null) {
+            url = url + "?sessionId=" + existingSessionId;
+        }
+        return fetch(url)
             .then(response => response.json())
             .then(response => {
                 SessionService.saveToSession(SESSION_KEYS.SessionId, response.id);
@@ -73,9 +77,13 @@ export class WordService {
 
     static revealWord() {
         const existingSessionId = SessionService.getFromSession(SESSION_KEYS.SessionId);
-        return fetch(this.BASE_URL + "/reveal?sessionId=" + existingSessionId)
-            .then(response => response.json())
-            .then(response => response.data);
+        if (existingSessionId === null) {
+            return Promise.resolve("");
+        } else {
+            return fetch(this.BASE_URL + "/reveal?sessionId=" + existingSessionId)
+                .then(response => response.json())
+                .then(response => response.data);
+        }
     }
 
     static getWordLength() {
@@ -98,13 +106,13 @@ export class WordService {
                 sessionId: this.getSessionId()
             })
         })
-        .then(response => response.json())
-        .then(response => {
-            if (!response.success) {
-                throw new Error(response.message);
-            } else {
-                return response;
-            }
-        })
+            .then(response => response.json())
+            .then(response => {
+                if (!response.success) {
+                    throw new Error(response.message);
+                } else {
+                    return response;
+                }
+            })
     }
 }

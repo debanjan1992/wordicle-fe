@@ -28,8 +28,10 @@ const GameOverDialog = (props: GameOverDialogProps) => {
     };
 
     useEffect(() => {
-        revealWord();
-    }, [])
+        if (props.visible) {
+            revealWord();
+        }
+    }, [props.visible])
 
     return (
         <Dialog onClose={(e, r) => {
