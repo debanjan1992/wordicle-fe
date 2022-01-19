@@ -37,7 +37,7 @@ export const KeyWrapper = styled.div<{ disabled?: boolean; isDarkMode: boolean; 
     opacity: ${props => props.disabled ? 0.4 : 1};
     user-select: none;
     color: ${props => props.isDarkMode ? "#d7dadc" : "black"};
-    border: 1px solid transparent;
+    border: 2px solid transparent;
     border-color: ${props => props.isDarkMode ? "rgba(255,255,255,0.2)" : "transparent"};
     &:hover {
         background-color: ${props => !props.disabled ? props.isDarkMode ? "rgba(255,255,255,0.1)" : "#e9e9e9" : "transparent"};
@@ -48,7 +48,7 @@ export const KeyWrapper = styled.div<{ disabled?: boolean; isDarkMode: boolean; 
     min-width: 25px;
     padding: 0 8px;
     min-height: 60px;
-    transition: all 0.4s;
+    transition: all 0.7s;
 
     &.correct {
         border-color: #538d4e;
@@ -203,7 +203,7 @@ export const GameBoxWrapper = styled.div<{ isDarkMode: boolean; }>`
     justify-content: center;
     font-weight: 700;
     transition: all 0.7s ease-in-out;
-    color: ${props => props.isDarkMode ? "#d7dadc" : "white"};
+    color: ${props => props.isDarkMode ? "#d7dadc" : "#3a3a3c"};
     font-size: 24px;
     width: 50px;
     height: 50px;
@@ -233,15 +233,19 @@ export const GameBoxWrapper = styled.div<{ isDarkMode: boolean; }>`
     &.correct {
         background-color: #538d4e;
         border-color: #538d4e;
+        color: ${props => props.isDarkMode ? "#d7dadc" : "white"};
     }
 
     &.present {
         background-color: #b59f3b;
         border-color: #b59f3b;
+        color: ${props => props.isDarkMode ? "#d7dadc" : "white"};
     }
 
     &.absent {
         background-color: #BD1616;
+        border-color: #BD1616;
+        color: ${props => props.isDarkMode ? "#d7dadc" : "white"};
     }
 
     /* For Desktop View */
