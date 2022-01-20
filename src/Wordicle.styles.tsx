@@ -162,7 +162,7 @@ export const HeaderWrapper = styled.header<{ isDarkMode: boolean; }>`
     /* For Mobile Portrait View */
     @media screen and (max-device-width: 480px) and (orientation: portrait) {
         .app-title {
-            font-size: 44px;
+            font-size: 40px;
             font-weight: 900;
             letter-spacing: 4px;
         }
