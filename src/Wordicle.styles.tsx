@@ -196,8 +196,8 @@ export const GameWrapper = styled.div<{ isDarkMode: boolean }>`
 
 const getGameBoxSideForMobilePortrait = (wordLength: number): number => {
     const sideLength = (window.screen.availWidth / wordLength) - 14;
-    if (sideLength > 70) {
-        return 70;
+    if (sideLength > 60) {
+        return 60;
     } else {
         return sideLength;
     }
