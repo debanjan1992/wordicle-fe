@@ -199,7 +199,7 @@ const Wordicle = () => {
                 setWordIdx(0);
                 onStartNewGame();
             }}></GameOverDialog>
-            <WinnerDialog winningWord={words[wordIdx - 1]} visible={winnerDialogVisibility} onDismiss={(r) => {
+            <WinnerDialog visible={winnerDialogVisibility} onDismiss={(r) => {
                 if (r && r === "backdropClick") {
                     return;
                 }

@@ -9,7 +9,6 @@ import GameGrid from "../GameGrid/GameGrid";
 
 interface WinnerDialogProps {
     visible: boolean;
-    winningWord: string;
     onDismiss: (reason: string) => any;
     onStartNewGame: () => any;
 }
@@ -19,6 +18,10 @@ const WinnerDialog = (props: WinnerDialogProps) => {
     const startTime = SessionService.getFromSession(SESSION_KEYS.StartTime);
     const chances = SessionService.getFromSession(SESSION_KEYS.WordIndex);
     const totalChances = React.useContext(ConfigContext).chances;
+    const words = SessionService.getFromSession(SESSION_KEYS.Words) || [];
+    const colorMap = SessionService.getFromSession(SESSION_KEYS.Mapping) || [];
+    const wordLength = SessionService.getFromSession(SESSION_KEYS.WordLength) || 0;
+    const wordIdx = SessionService.getFromSession(SESSION_KEYS.WordIndex) || 0;
 
     let timeTaken = 0;
     if (startTime !== null && endTime !== null) {
@@ -60,7 +63,7 @@ const WinnerDialog = (props: WinnerDialogProps) => {
             });
         }
         const text = `
-I have successfully guessed the WORDICLE - ${props.winningWord} in ${getTime(timeTaken)} and in ${chances}/${totalChances} tries.
+I have successfully guessed the WORDICLE - ${words[wordIdx === 0 ? wordIdx : wordIdx - 1]} in ${getTime(timeTaken)} and in ${chances}/${totalChances} tries.
 
 ${codeSnap}
 
@@ -68,9 +71,6 @@ ${codeSnap}
 Play WORDICLE now on`;
         return text;
     };
-
-    const words = SessionService.getFromSession(SESSION_KEYS.Words) || [];
-    const colorMap = SessionService.getFromSession(SESSION_KEYS.Mapping) || [];
 
     return (
         <Dialog onClose={(e, r) => props.onDismiss(r)} open={props.visible} disableEscapeKeyDown={true}>
@@ -82,7 +82,7 @@ Play WORDICLE now on`;
                 {timeTaken && <p>You have guessed the word correctly in <strong>{getTime(timeTaken)}</strong> and in <strong>{chances}/{totalChances}</strong> chances</p>}
                 {!timeTaken && <p>You have guessed the word correctly</p>}
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <GameGrid wordLength={props.winningWord.length} words={words} map={colorMap} dontShowEmpty={true} />
+                    <GameGrid wordLength={wordLength} words={words} map={colorMap} dontShowEmpty={true} />
                     {/* <Word word={props.winningWord} map={Array.from({ length: props.winningWord?.length }, () => "correct")}></Word> */}
                 </div>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: "20px" }}>
