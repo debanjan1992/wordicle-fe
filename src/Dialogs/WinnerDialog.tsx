@@ -1,14 +1,11 @@
 import React from "react";
 import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
 import Dialog from '@mui/material/Dialog';
 import Button from '@mui/material/Button';
-import Word from '../GameGrid/Word';
 import SessionService, { SESSION_KEYS } from '../SessionService';
 import ConfigContext from '../ConfigContext';
-import ShareIcon from "@mui/icons-material/Share";
-import Fab from '@mui/material/Fab';
 import ShareButtons from "../ShareButtons";
+import GameGrid from "../GameGrid/GameGrid";
 
 interface WinnerDialogProps {
     visible: boolean;
@@ -68,31 +65,31 @@ I have successfully guessed the WORDICLE - ${props.winningWord} in ${getTime(tim
 ${codeSnap}
 
 #wordicle
-Play WORDICLE now on 
-
-        `;
+Play WORDICLE now on`;
         return text;
     };
+
+    const words = SessionService.getFromSession(SESSION_KEYS.Words) || [];
+    const colorMap = SessionService.getFromSession(SESSION_KEYS.Mapping) || [];
 
     return (
         <Dialog onClose={(e, r) => props.onDismiss(r)} open={props.visible} disableEscapeKeyDown={true}>
             <DialogContent>
                 <div className="header" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "40px" }}>
                     <div className="title" style={{ fontSize: "24px" }}><strong>Congratulations</strong></div>
+                    <Button size="small" variant="contained" onClick={props.onStartNewGame}>New Game</Button>
                 </div>
                 {timeTaken && <p>You have guessed the word correctly in <strong>{getTime(timeTaken)}</strong> and in <strong>{chances}/{totalChances}</strong> chances</p>}
                 {!timeTaken && <p>You have guessed the word correctly</p>}
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <Word word={props.winningWord} map={Array.from({ length: props.winningWord?.length }, () => "correct")}></Word>
+                    <GameGrid wordLength={props.winningWord.length} words={words} map={colorMap} dontShowEmpty={true} />
+                    {/* <Word word={props.winningWord} map={Array.from({ length: props.winningWord?.length }, () => "correct")}></Word> */}
                 </div>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: "20px" }}>
                     <ShareButtons url="https://debanjan1992.github.io/wordicle-fe/"
                         title={getShareText()}></ShareButtons>
                 </div>
             </DialogContent>
-            <DialogActions sx={{ marginTop: "20px" }}>
-                <Button size="small" variant="contained" onClick={props.onStartNewGame}>Start a New Game</Button>
-            </DialogActions>
         </Dialog>
     );
 };

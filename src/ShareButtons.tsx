@@ -1,9 +1,9 @@
 import React from "react";
 import {
-    FacebookShareButton,
-    FacebookIcon,
-    LinkedinShareButton,
-    LinkedinIcon,
+    // FacebookShareButton,
+    // FacebookIcon,
+    // LinkedinShareButton,
+    // LinkedinIcon,
     WhatsappShareButton,
     WhatsappIcon
 } from 'react-share';
@@ -21,28 +21,29 @@ const ShareButtons = ({ url, title }: ShareButtonsProps) => {
 
     return (
         <div style={{ display: "flex", alignItems: "center"}}>
-            <strong style={{ marginRight: "10px" }}>Share on {"   "}</strong>
-            <FacebookShareButton url={url} style={{ marginRight: "10px" }}>
+            <strong style={{ marginRight: "10px", fontSize: "12px" }}>Share on {"   "}</strong>
+            {/* <FacebookShareButton url={url} style={{ marginRight: "10px" }}>
                 <FacebookIcon size={40} round={true} />
             </FacebookShareButton>
 
             <LinkedinShareButton url={url} style={{ marginRight: "10px" }}>
                 <LinkedinIcon size={40} round={true} />
-            </LinkedinShareButton>
+            </LinkedinShareButton> */}
 
             <WhatsappShareButton url={url} title={title} style={{ marginRight: "10px" }}>
                 <WhatsappIcon size={40} round={true} />
             </WhatsappShareButton>
 
-            <Fab color="primary" size="small" sx={{ position: "relative", top: "-3px"}} onClick={() => {
+            <Fab color="primary" size="small" variant="extended" sx={{ position: "relative", top: "-3px"}} onClick={() => {
                 if (window.isSecureContext && window.navigator.clipboard) {
-                    window.navigator.clipboard.writeText(title);
+                    window.navigator.clipboard.writeText(title + " " + url.trim());
                 } else {
-                    alert(title);
+                    alert(title + " " + url.trim());
                 }
                 setShowSnackbar(true);
             }}>
                 <CopyIcon />
+                Copy
             </Fab>
             <Snackbar
                 open={showSnackbar}

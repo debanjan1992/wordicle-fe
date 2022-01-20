@@ -1,5 +1,5 @@
 import EnvironmentService from "./EnvironmentService";
-import SessionService, { SESSION_KEYS } from "./SessionService";
+import SessionService, { GAME_STATUS, SESSION_KEYS } from "./SessionService";
 
 export class WordService {
     static BASE_URL = EnvironmentService.getApiBaseUrl();
@@ -67,6 +67,7 @@ export class WordService {
             SessionService.deleteKey(SESSION_KEYS.Mapping);
             SessionService.deleteKey(SESSION_KEYS.WordIndex);
             SessionService.deleteKey(SESSION_KEYS.Words);
+            SessionService.deleteKey(SESSION_KEYS.GameStatus);
         }
         let url = this.BASE_URL + "/word";
         if (existingSessionId !== null) {
@@ -78,6 +79,7 @@ export class WordService {
                 SessionService.saveToSession(SESSION_KEYS.SessionId, response.id);
                 SessionService.saveToSession(SESSION_KEYS.WordLength, response.length);
                 SessionService.saveToSession(SESSION_KEYS.StartTime, new Date().getTime());
+                SessionService.saveToSession(SESSION_KEYS.GameStatus, GAME_STATUS.InProgress);
             }).catch(error => alert(error));
     }
 

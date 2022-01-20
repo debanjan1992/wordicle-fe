@@ -8,6 +8,7 @@ interface GameGridProps {
     wordLength: number;
     words: string[];
     map: Array<Array<string>>;
+    dontShowEmpty?: boolean;
 }
 
 const GameGrid = (props: GameGridProps) => {
@@ -15,7 +16,13 @@ const GameGrid = (props: GameGridProps) => {
     const generateWords = () => {
         const renderedContent: ReactNode[] = [];
         for (let i = 0; i < chances; i++) {
-            renderedContent.push(<Word key={i + 1} wordLength={WordService.getWordLength()} word={props.words[i]} map={props.map[i]} />);
+            if (!props.dontShowEmpty) {
+                renderedContent.push(<Word key={i + 1} wordLength={WordService.getWordLength()} word={props.words[i]} map={props.map[i]} />);
+            } else {
+                if (props.dontShowEmpty && props.words[i] !== "") {
+                    renderedContent.push(<Word key={i + 1} wordLength={WordService.getWordLength()} word={props.words[i]} map={props.map[i]} />);
+                }
+            }
         }
         return renderedContent;
     };

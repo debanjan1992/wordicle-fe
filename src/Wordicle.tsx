@@ -1,8 +1,7 @@
-import React from "react";
 import GameGrid from "./GameGrid/GameGrid";
 import Header from "./Header";
 import Keyboard from "./Keyboard";
-import { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { WordService } from "./WordService";
 import GameOverDialog from "./Dialogs/GameOverDialog";
 import WinnerDialog from "./Dialogs/WinnerDialog";
@@ -13,7 +12,7 @@ import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from '@mui/material/CircularProgress';
 import SettingsDialog from "./Dialogs/SettingsDialog";
 import ConfigContext from "./ConfigContext";
-import SessionService, { SESSION_KEYS } from "./SessionService";
+import SessionService, { GAME_STATUS, SESSION_KEYS } from "./SessionService";
 
 const getInitialWords = (chances: number) => {
     const wordsMetadata = WordService.getWordsMetadataFromSessionStorage();
@@ -48,12 +47,11 @@ const Wordicle = () => {
     const [darkMode, setDarkMode] = useState(() => SessionService.getFromSession(SESSION_KEYS.DarkMode) !== null ? SessionService.getFromSession(SESSION_KEYS.DarkMode) : window.matchMedia("(prefers-color-scheme: dark)").matches);
     const wordLength = WordService.getWordLength();
 
-    const onKeyboardKeyPress = (event: KeyboardEvent) => {
-        console.log(event);
-        // onKeyboardKeyClick(event.key.toUpperCase());
-    };
+    // const onKeyboardKeyPress = (event: KeyboardEvent) => {
+    //     onKeyboardKeyClick(event.key.toUpperCase());
+    // };
 
-    const isWinner = useCallback(() => {
+    const isWinner = () => {
         if (wordIdx - 1 >= 0) {
             const word = colorMap[wordIdx - 1];
             if (word.includes("present") || word.includes("absent") || word.length === 0) {
@@ -62,20 +60,15 @@ const Wordicle = () => {
             return true;
         }
         return false;
-    }, [wordIdx, colorMap]);
+    };
 
-    const isGameOver = useCallback(() => {
-        if (isWinner()) {
-            SessionService.saveToSession(SESSION_KEYS.EndTime, new Date().getTime());
-            setTimeout(() => setWinnerDialogVisibility(true), 1200);
+    const isLoser = () => {
+        if (wordIdx < chances) {
+            return false;
         } else {
-            if (wordIdx < chances) {
-                return false;
-            } else {
-                return true;
-            }
+            return true;
         }
-    }, [wordIdx, isWinner]);
+    };
 
     const setColorCodes = (codes: string[]) => {
         const setCode = (colorCode: string, time: number) => {
@@ -142,31 +135,40 @@ const Wordicle = () => {
     };
 
     useEffect(() => {
-        if (isGameOver()) {
-            SessionService.saveToSession(SESSION_KEYS.EndTime, new Date().getTime());
-            setTimeout(() => {
-                setGameOverDialogVisibility(true);
-            }, 1200);
+        if (wordIdx !== 0) {
+            const gameStatus = SessionService.getFromSession(SESSION_KEYS.GameStatus);
+            if (isWinner()) {
+                if (gameStatus === GAME_STATUS.InProgress) {
+                    SessionService.saveToSession(SESSION_KEYS.GameStatus, GAME_STATUS.GameOverWin);
+                    SessionService.saveToSession(SESSION_KEYS.EndTime, new Date().getTime());
+                }
+                setTimeout(() => setWinnerDialogVisibility(true), 1000);
+            } else if (isLoser()) {
+                if (gameStatus === GAME_STATUS.InProgress) {
+                    SessionService.saveToSession(SESSION_KEYS.GameStatus, GAME_STATUS.GameOverLost);
+                    SessionService.saveToSession(SESSION_KEYS.EndTime, new Date().getTime());
+                }
+                setTimeout(() => {
+                    setGameOverDialogVisibility(true);
+                }, 1000);
+            }
         }
-    }, [wordIdx, isGameOver])
+    }, [wordIdx])
 
     useEffect(() => {
-        setWords(getInitialWords(chances));
-        setColorMap(getInitialMapping(chances));
-        setWordIdx(0);
-        onStartNewGame(true);
-    }, [chances])
-
-    useEffect(() => {
+        const wasHelpPanelShown = SessionService.getFromSession(SESSION_KEYS.HelpPanelShown);
+        if (wasHelpPanelShown === null || wasHelpPanelShown === "false") {
+            SessionService.saveToSession(SESSION_KEYS.HelpPanelShown, true);
+            setTimeout(() => setHelpDialogVisibility(true), 1000);
+        }
         WordService.isSessionValid().then(valid => {
             setIsLoading(false);
             if (!valid) {
-                setTimeout(() => setHelpDialogVisibility(true), 1000);
                 onStartNewGame();
             }
         });
-        document.addEventListener("keydown", onKeyboardKeyPress);
-        return () => document.removeEventListener("keydown", onKeyboardKeyPress);
+        // document.addEventListener("keydown", onKeyboardKeyPress);
+        // return () => document.removeEventListener("keydown", onKeyboardKeyPress);
     }, []);
 
     return (
@@ -178,7 +180,10 @@ const Wordicle = () => {
                 <CircularProgress color="inherit" />
             </Backdrop>
             <GameWrapper isDarkMode={darkMode}>
-                <Header onHelpIconClicked={() => setHelpDialogVisibility(true)}
+                <Header onHelpIconClicked={() => {
+                    SessionService.saveToSession(SESSION_KEYS.HelpPanelShown, true);
+                    setHelpDialogVisibility(true);
+                }}
                     onSettingsIconClicked={() => setSettingsDialogVisibility(true)} />
                 <WordleWrapper>
                     <GameGrid wordLength={wordLength} words={words} map={colorMap} />
@@ -215,6 +220,10 @@ const Wordicle = () => {
                     } else {
                         setChances(6);
                     }
+                    setWords(getInitialWords(chances));
+                    setColorMap(getInitialMapping(chances));
+                    setWordIdx(0);
+                    onStartNewGame(true);
                 }}
             ></SettingsDialog>
             <Snackbar

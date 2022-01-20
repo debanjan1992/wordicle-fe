@@ -8,6 +8,14 @@ export enum SESSION_KEYS {
     Words = "words",
     Mapping = "mapping",
     WordIndex = "word_index",
+    HelpPanelShown = "help_panel_shown",
+    GameStatus = "game_status"
+}
+
+export enum GAME_STATUS {
+    GameOverWin = "Game Over: Win",
+    GameOverLost = "Game Over: Lost",
+    InProgress = "In Progress"
 }
 
 class SessionService {
