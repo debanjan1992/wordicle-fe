@@ -36,9 +36,9 @@ const getInitialMapping = (chances: number) => {
 const Wordicle = () => {
     const wordsMetadata = WordService.getWordsMetadataFromSessionStorage();
     const [wordIdx, setWordIdx] = useState(wordsMetadata.index);
-    const [retryNumber, setRetryNumber] = useState(SessionService.getFromSession(SESSION_KEYS.HardMode) !== null ? SessionService.getFromSession(SESSION_KEYS.HardMode) ? 4 : 6 : 6);
-    const [words, setWords] = useState(() => getInitialWords(retryNumber));
-    const [colorMap, setColorMap] = useState(() => getInitialMapping(retryNumber));
+    const [chances, setChances] = useState(() => SessionService.getFromSession(SESSION_KEYS.HardMode) !== null ? SessionService.getFromSession(SESSION_KEYS.HardMode) === "true" ? 4 : 6 : 6);
+    const [words, setWords] = useState(() => getInitialWords(chances));
+    const [colorMap, setColorMap] = useState(() => getInitialMapping(chances));
     const [toastVisibility, setToastVisibility] = useState(false);
     const [gameOverDialogVisibility, setGameOverDialogVisibility] = useState(false);
     const [winnerDialogVisibility, setWinnerDialogVisibility] = useState(false);
@@ -69,13 +69,13 @@ const Wordicle = () => {
             SessionService.saveToSession(SESSION_KEYS.EndTime, new Date().getTime());
             setTimeout(() => setWinnerDialogVisibility(true), 1200);
         } else {
-            if (wordIdx < retryNumber) {
+            if (wordIdx < chances) {
                 return false;
             } else {
                 return true;
             }
         }
-    }, [wordIdx, isWinner, retryNumber]);
+    }, [wordIdx, isWinner]);
 
     const setColorCodes = (codes: string[]) => {
         const setCode = (colorCode: string, time: number) => {
@@ -133,8 +133,8 @@ const Wordicle = () => {
         setIsLoading(true);
         WordService.startNewGame(clearAll).then(() => {
             setIsLoading(false);
-            setWords(getInitialWords(retryNumber));
-            setColorMap(getInitialMapping(retryNumber));
+            setWords(getInitialWords(chances));
+            setColorMap(getInitialMapping(chances));
             setWordIdx(0);
         });
         setGameOverDialogVisibility(false);
@@ -151,6 +151,13 @@ const Wordicle = () => {
     }, [wordIdx, isGameOver])
 
     useEffect(() => {
+        setWords(getInitialWords(chances));
+        setColorMap(getInitialMapping(chances));
+        setWordIdx(0);
+        onStartNewGame(true);
+    }, [chances])
+
+    useEffect(() => {
         WordService.isSessionValid().then(valid => {
             setIsLoading(false);
             if (!valid) {
@@ -163,7 +170,7 @@ const Wordicle = () => {
     }, []);
 
     return (
-        <ConfigContext.Provider value={{ darkMode: darkMode, chances: retryNumber }}>
+        <ConfigContext.Provider value={{ darkMode: darkMode, chances: chances }}>
             <Backdrop open={isLoading} sx={{
                 backgroundColor: darkMode ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.3)",
                 color: darkMode ? "white" : "black",
@@ -204,11 +211,9 @@ const Wordicle = () => {
                 onToggleHardMode={hardMode => {
                     SessionService.saveToSession(SESSION_KEYS.HardMode, hardMode);
                     if (hardMode) {
-                        setRetryNumber(4);
-                        onStartNewGame(true);
+                        setChances(4);
                     } else {
-                        setRetryNumber(6);
-                        onStartNewGame(true);
+                        setChances(6);
                     }
                 }}
             ></SettingsDialog>

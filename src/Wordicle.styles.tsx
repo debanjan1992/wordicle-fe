@@ -119,8 +119,10 @@ export const HeaderWrapper = styled.header<{ isDarkMode: boolean; }>`
         color: ${props => props.isDarkMode ? "#d7dadc" : "black"};
         .tag {
             font-size: 10px;
-            color: crimson;
             letter-spacing: 0;
+        }
+        .tag.hard {
+            color: crimson;
         }
     }
 

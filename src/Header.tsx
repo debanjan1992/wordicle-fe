@@ -22,7 +22,7 @@ const Header = (props: HeaderProps) => {
                     <HelpIcon />
                 </IconButton>
             </Tooltip>
-            <div className="app-title">WORDICLE{isHardMode && <span className="tag">[HARD]</span>}</div>
+            <div className="app-title">WORDICLE<span className="tag">[BETA]</span>{isHardMode && <span className="tag hard">[HARD]</span>}</div>
             <Tooltip title="Settings">
                 <IconButton onClick={props.onSettingsIconClicked}>
                     <SettingsIcon />

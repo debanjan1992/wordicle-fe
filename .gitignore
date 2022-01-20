@@ -12,6 +12,7 @@
 /build
 
 .env
+.env.dev
 
 # misc
 .DS_Store

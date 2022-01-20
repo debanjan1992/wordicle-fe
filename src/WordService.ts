@@ -60,7 +60,13 @@ export class WordService {
     static startNewGame(clearAll: boolean) {
         const existingSessionId = SessionService.getFromSession(SESSION_KEYS.SessionId);
         if (clearAll) {
-            SessionService.deleteAll();
+            SessionService.deleteKey(SESSION_KEYS.SessionId);
+            SessionService.deleteKey(SESSION_KEYS.WordLength);
+            SessionService.deleteKey(SESSION_KEYS.StartTime);
+            SessionService.deleteKey(SESSION_KEYS.EndTime);
+            SessionService.deleteKey(SESSION_KEYS.Mapping);
+            SessionService.deleteKey(SESSION_KEYS.WordIndex);
+            SessionService.deleteKey(SESSION_KEYS.Words);
         }
         let url = this.BASE_URL + "/word";
         if (existingSessionId !== null) {
