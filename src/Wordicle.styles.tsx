@@ -194,7 +194,16 @@ export const GameWrapper = styled.div<{ isDarkMode: boolean }>`
     flex: 1;
 `;
 
-export const GameBoxWrapper = styled.div<{ isDarkMode: boolean; }>`
+const getGameBoxSideForMobilePortrait = (wordLength: number): number => {
+    const sideLength = (window.screen.availWidth / wordLength) - 10;
+    if (sideLength > 80) {
+        return 80;
+    } else {
+        return sideLength;
+    }
+};
+
+export const GameBoxWrapper = styled.div<{ isDarkMode: boolean; wordLength: number; }>`
     border: 2px solid transparent;
     box-sizing: border-box;
     margin: 2px;
@@ -251,8 +260,8 @@ export const GameBoxWrapper = styled.div<{ isDarkMode: boolean; }>`
 
     /* For Desktop View */
     @media screen and (min-width: 1024px) {
-        width: 50px;
-        height: 50px;
+        width: 55px;
+        height: 55px;
     }
     
     /* For Tablet View */
@@ -263,8 +272,8 @@ export const GameBoxWrapper = styled.div<{ isDarkMode: boolean; }>`
     
     /* For Mobile Portrait View */
     @media screen and (max-device-width: 480px) and (orientation: portrait) {
-        width: 48px;
-        height: 48px;
+        width: ${props => getGameBoxSideForMobilePortrait(props.wordLength) + "px"};
+        height: ${props => getGameBoxSideForMobilePortrait(props.wordLength) + "px"};
     }
     
     /* For Mobile Landscape View */

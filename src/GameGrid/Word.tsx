@@ -1,5 +1,6 @@
 import React, { ReactNode } from "react";
 import ConfigContext from "../ConfigContext";
+import SessionService, { SESSION_KEYS } from "../SessionService";
 import { GameBoxWrapper, WordWrapper } from "../Wordicle.styles";
 
 interface GameBoxProps {
@@ -15,6 +16,7 @@ interface WordProps {
 
 const GameBox = ({ letter, colorCode }: GameBoxProps) => {
     const isDarkMode = React.useContext(ConfigContext).darkMode;
+    const wordLength = SessionService.getFromSession(SESSION_KEYS.WordLength) || 1;
 
     const getClassName = () => {
         let list = colorCode || "empty";
@@ -27,7 +29,7 @@ const GameBox = ({ letter, colorCode }: GameBoxProps) => {
     };
 
     return (
-        <GameBoxWrapper className={getClassName()} isDarkMode={isDarkMode}>
+        <GameBoxWrapper className={getClassName()} isDarkMode={isDarkMode} wordLength={wordLength}>
             <span>{letter}</span>
         </GameBoxWrapper>
     );
