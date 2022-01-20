@@ -12,7 +12,6 @@ export const KeyboardWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 5px;
     >.row {
         display: flex;
         align-items: center;
