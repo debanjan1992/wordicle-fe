@@ -26,10 +26,10 @@ const DialogContentWrapper = styled.div<{ isDarkMode: boolean; }>`
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 40px;
+        margin-bottom: 30px;
 
         .title {
-            font-size: 28px;
+            font-size: 26px;
             color: #50df50;
             font-weight: bolder;
         }
@@ -122,16 +122,16 @@ Play WORDICLE now on https://debanjan1992.github.io/wordicle-fe/`;
                 <DialogContent>
                     <div className="header">
                         <div className="title">CONGRATULATIONS</div>
-                        <Button size="small" variant="contained" onClick={props.onStartNewGame}>New Game</Button>
                     </div>
                     {timeTaken && <p>You have guessed the word correctly in <strong>{getTime(timeTaken)}</strong> and in <strong>{chances}/{totalChances}</strong> chances</p>}
                     <div className="content">
                         <div style={{ flex: 2, display: "flex", flexDirection: "column", alignItems: "center" }}>
                             <GameGrid snapshotMode={true} wordLength={wordLength} words={words} map={colorMap} dontShowEmpty={true} />
-                            <Button variant="contained" color="success" size="small" sx={{ margin: "12px 0", width: "100%", maxWidth: "250px" }} onClick={() => onShare("whatsapp")}>
+                            <Button variant="contained" color="success" size="small" sx={{ marginTop: "12px", marginBottom: "5px", width: "100%", maxWidth: "250px" }} onClick={() => onShare("whatsapp")}>
                                 <WhatsappIcon sx={{ color: "white", marginRight: "5px" }}></WhatsappIcon>Share on Whatsapp</Button>
-                            <Button variant="contained" size="small" sx={{ width: "100%", maxWidth: "250px" }} onClick={() => onShare("copy")}>
+                            <Button variant="contained" size="small" sx={{ width: "100%", maxWidth: "250px", marginBottom: "20px" }} onClick={() => onShare("copy")}>
                                 <CopyIcon sx={{ color: "white", marginRight: "5px" }}></CopyIcon>Copy</Button>
+                            <Button size="small" color="error" variant="contained" onClick={props.onStartNewGame} sx={{ width: "100%", maxWidth: "250px"}}>New Game</Button>
                         </div>
                         {/* <div style={{ flex: 1.5, paddingLeft: "10px" }}>
 

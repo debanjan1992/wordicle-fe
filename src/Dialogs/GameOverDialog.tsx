@@ -24,10 +24,10 @@ const DialogContentWrapper = styled.div<{ isDarkMode: boolean; }>`
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 40px;
+        margin-bottom: 30px;
 
         .title {
-            font-size: 28px;
+            font-size: 24px;
             color: crimson;
             font-weight: bolder;
         }
