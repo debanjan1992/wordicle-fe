@@ -214,9 +214,12 @@ export const GameBoxWrapper = styled.div<{ isDarkMode: boolean; wordLength: numb
     font-weight: 700;
     transition: all 0.7s ease-in-out;
     color: ${props => props.isDarkMode ? "#e9e9e9" : "#3a3a3c"};
-    width: ${ props => props.snapshotMode ? "44px !important" : "50px" };
+    /* width: ${ props => props.snapshotMode ? "44px !important" : "50px" };
     height: ${ props => props.snapshotMode ? "44px !important" : "50px" };
-    font-size: ${ props => props.snapshotMode ? "20px !important" : "24px" };
+    font-size: ${ props => props.snapshotMode ? "20px !important" : "24px" }; */
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
 
     &.not-filled {
         border-color: ${props => props.isDarkMode ? "#3a3a3c" : "#d3d6da"};
