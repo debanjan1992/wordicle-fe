@@ -6,15 +6,17 @@ import { GameBoxWrapper, WordWrapper } from "../Wordicle.styles";
 interface GameBoxProps {
     letter?: string;
     colorCode: string;
+    snapshotMode?: boolean;
 }
 
 interface WordProps {
     wordLength?: number;
     word: string;
     map: Array<string>;
+    snapshotMode?: boolean;
 }
 
-const GameBox = ({ letter, colorCode }: GameBoxProps) => {
+const GameBox = ({ letter, colorCode, snapshotMode }: GameBoxProps) => {
     const isDarkMode = React.useContext(ConfigContext).darkMode;
     const wordLength = SessionService.getFromSession(SESSION_KEYS.WordLength) || 1;
 
@@ -29,7 +31,7 @@ const GameBox = ({ letter, colorCode }: GameBoxProps) => {
     };
 
     return (
-        <GameBoxWrapper className={getClassName()} isDarkMode={isDarkMode} wordLength={wordLength}>
+        <GameBoxWrapper className={getClassName()} isDarkMode={isDarkMode} wordLength={wordLength} snapshotMode={snapshotMode}>
             <span>{letter}</span>
         </GameBoxWrapper>
     );
@@ -39,7 +41,7 @@ const Word = (props: WordProps) => {
     const generateGameBoxes = () => {
         const renderedContent: ReactNode[] = [];
         for (let i = 1; i <= (props.wordLength || props.word.length); i++) {
-            renderedContent.push(<GameBox key={i} letter={props.word[i - 1]} colorCode={props.map[i - 1]} />);
+            renderedContent.push(<GameBox key={i} letter={props.word[i - 1]} colorCode={props.map[i - 1]} snapshotMode={props.snapshotMode} />);
         }
         return renderedContent;
     };

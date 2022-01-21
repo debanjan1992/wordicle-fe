@@ -1,23 +1,43 @@
 import React, { useEffect } from "react";
-import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
 import Dialog from '@mui/material/Dialog';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import { WordService } from '../WordService';
 import Word from "../GameGrid/Word";
 import { useState } from "react";
+import ConfigContext from "../ConfigContext";
+import styled from "styled-components";
 
 interface GameOverDialogProps {
     visible: boolean;
-    onDismiss: (ereason: string) => any;
+    onDismiss: (reason: string) => any;
     onStartNewGame: () => any;
 }
+
+const DialogContentWrapper = styled.div<{ isDarkMode: boolean; }>`
+    background-color: ${props => props.isDarkMode ? "#131313" : "white"};
+    color: ${props => props.isDarkMode ? "#d7dadc" : "black"};
+    transition: all 0.4s;
+
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 40px;
+
+        .title {
+            font-size: 28px;
+            color: crimson;
+            font-weight: bolder;
+        }
+    }
+`;
 
 const GameOverDialog = (props: GameOverDialogProps) => {
     const [answer, setAnswer] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const isDarkMode = React.useContext(ConfigContext).darkMode;
 
     const revealWord = () => {
         setIsLoading(true);
@@ -37,9 +57,23 @@ const GameOverDialog = (props: GameOverDialogProps) => {
         <Dialog onClose={(e, r) => {
             setAnswer("");
             props.onDismiss(r);
-        }} open={props.visible} disableEscapeKeyDown={true}>
-            <DialogTitle>Game Over!</DialogTitle>
-            <DialogContent>
+        }} open={props.visible} disableEscapeKeyDown={true} sx={{ backgroundColor: "transparent"}}>
+            <DialogContentWrapper isDarkMode={isDarkMode}>
+                <DialogContent>
+                    <div className="header">
+                        <div className="title"><strong>GAME OVER</strong></div>
+                        <Button size="small" variant="contained" onClick={() => {
+                            props.onStartNewGame();
+                            setAnswer("");
+                        }} disabled={isLoading}>New Game</Button>
+                    </div>
+                    <p style={{ marginBottom: "15px" }}>Sorry! You have run out of chances to guess the word!</p>
+                    {answer !== "" && (<>
+                        <div style={{ marginBottom: "10px", fontWeight: "bold" }}>The Wordicle is</div>
+                        <Word word={answer} map={Array.from({ length: answer.length }, () => "correct")}></Word>
+                    </>
+                    )}
+                </DialogContent>
                 {isLoading && (
                     <CircularProgress
                         size={24}
@@ -51,19 +85,7 @@ const GameOverDialog = (props: GameOverDialogProps) => {
                             marginLeft: "-12px",
                         }}></CircularProgress>
                 )}
-                <p>Sorry! You have run out of chances to guess the word!</p>
-                {answer !== "" && (<>
-                    <div style={{ marginBottom: "10px", fontWeight: "bold" }}>The Wordicle is</div>
-                    <Word word={answer} map={Array.from({ length: answer.length }, () => "correct")}></Word>
-                </>
-                )}
-            </DialogContent>
-            <DialogActions>
-                <Button variant="contained" onClick={() => {
-                    props.onStartNewGame();
-                    setAnswer("");
-                }} disabled={isLoading}>New Word</Button>
-            </DialogActions>
+            </DialogContentWrapper>
         </Dialog>
     );
 };

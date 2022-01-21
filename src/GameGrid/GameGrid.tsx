@@ -9,6 +9,7 @@ interface GameGridProps {
     words: string[];
     map: Array<Array<string>>;
     dontShowEmpty?: boolean;
+    snapshotMode?: boolean;
 }
 
 const GameGrid = (props: GameGridProps) => {
@@ -17,10 +18,10 @@ const GameGrid = (props: GameGridProps) => {
         const renderedContent: ReactNode[] = [];
         for (let i = 0; i < chances; i++) {
             if (!props.dontShowEmpty) {
-                renderedContent.push(<Word key={i + 1} wordLength={WordService.getWordLength()} word={props.words[i]} map={props.map[i]} />);
+                renderedContent.push(<Word key={i + 1} snapshotMode={props.snapshotMode} wordLength={WordService.getWordLength()} word={props.words[i]} map={props.map[i]} />);
             } else {
                 if (props.dontShowEmpty && props.words[i] !== "") {
-                    renderedContent.push(<Word key={i + 1} wordLength={WordService.getWordLength()} word={props.words[i]} map={props.map[i]} />);
+                    renderedContent.push(<Word key={i + 1} snapshotMode={props.snapshotMode} wordLength={WordService.getWordLength()} word={props.words[i]} map={props.map[i]} />);
                 }
             }
         }

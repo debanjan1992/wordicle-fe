@@ -4,8 +4,12 @@ import Dialog from '@mui/material/Dialog';
 import Button from '@mui/material/Button';
 import SessionService, { SESSION_KEYS } from '../SessionService';
 import ConfigContext from '../ConfigContext';
-import ShareButtons from "../ShareButtons";
 import GameGrid from "../GameGrid/GameGrid";
+import styled from "styled-components";
+import WhatsappIcon from "@mui/icons-material/Whatsapp";
+import CopyIcon from "@mui/icons-material/CopyAll";
+import Snackbar from "@mui/material/Snackbar";
+import { flexbox } from "@mui/system";
 
 interface WinnerDialogProps {
     visible: boolean;
@@ -13,7 +17,32 @@ interface WinnerDialogProps {
     onStartNewGame: () => any;
 }
 
+const DialogContentWrapper = styled.div<{ isDarkMode: boolean; }>`
+    background-color: ${props => props.isDarkMode ? "#131313" : "white"};
+    color: ${props => props.isDarkMode ? "#d7dadc" : "black"};
+    transition: all 0.4s;
+
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 40px;
+
+        .title {
+            font-size: 28px;
+            color: #50df50;
+            font-weight: bolder;
+        }
+    }
+
+    .content {
+        display: flex;
+        align-items: center;
+    }
+`;
+
 const WinnerDialog = (props: WinnerDialogProps) => {
+    const [showSnackbar, setShowSnackbar] = React.useState(false);
     const endTime = SessionService.getFromSession(SESSION_KEYS.EndTime);
     const startTime = SessionService.getFromSession(SESSION_KEYS.StartTime);
     const chances = SessionService.getFromSession(SESSION_KEYS.WordIndex);
@@ -22,6 +51,7 @@ const WinnerDialog = (props: WinnerDialogProps) => {
     const colorMap = SessionService.getFromSession(SESSION_KEYS.Mapping) || [];
     const wordLength = SessionService.getFromSession(SESSION_KEYS.WordLength) || 0;
     const wordIdx = SessionService.getFromSession(SESSION_KEYS.WordIndex) || 0;
+    const isDarkMode = React.useContext(ConfigContext).darkMode;
 
     let timeTaken = 0;
     if (startTime !== null && endTime !== null) {
@@ -68,28 +98,53 @@ I have successfully guessed the WORDICLE - ${words[wordIdx === 0 ? wordIdx : wor
 ${codeSnap}
 
 #wordicle
-Play WORDICLE now on`;
+Play WORDICLE now on https://debanjan1992.github.io/wordicle-fe/`;
         return text;
+    };
+
+    const onShare = (medium: string) => {
+        const shareText = getShareText();
+        if (medium === "whatsapp") {
+            window.open("https://web.whatsapp.com/send?text=" + encodeURI(shareText), "_target");
+        } else if (medium === "copy") {
+            if (window.isSecureContext && window.navigator.clipboard) {
+                window.navigator.clipboard.writeText(shareText);
+                setShowSnackbar(true);
+            } else {
+                alert(shareText);
+            }
+        }
     };
 
     return (
         <Dialog onClose={(e, r) => props.onDismiss(r)} open={props.visible} disableEscapeKeyDown={true}>
-            <DialogContent>
-                <div className="header" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "40px" }}>
-                    <div className="title" style={{ fontSize: "24px" }}><strong>Congratulations</strong></div>
-                    <Button size="small" variant="contained" onClick={props.onStartNewGame}>New Game</Button>
-                </div>
-                {timeTaken && <p>You have guessed the word correctly in <strong>{getTime(timeTaken)}</strong> and in <strong>{chances}/{totalChances}</strong> chances</p>}
-                {!timeTaken && <p>You have guessed the word correctly</p>}
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <GameGrid wordLength={wordLength} words={words} map={colorMap} dontShowEmpty={true} />
-                    {/* <Word word={props.winningWord} map={Array.from({ length: props.winningWord?.length }, () => "correct")}></Word> */}
-                </div>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: "20px" }}>
-                    <ShareButtons url="https://debanjan1992.github.io/wordicle-fe/"
-                        title={getShareText()}></ShareButtons>
-                </div>
-            </DialogContent>
+            <DialogContentWrapper isDarkMode={isDarkMode}>
+                <DialogContent>
+                    <div className="header">
+                        <div className="title">CONGRATULATIONS</div>
+                        <Button size="small" variant="contained" onClick={props.onStartNewGame}>New Game</Button>
+                    </div>
+                    {timeTaken && <p>You have guessed the word correctly in <strong>{getTime(timeTaken)}</strong> and in <strong>{chances}/{totalChances}</strong> chances</p>}
+                    <div className="content">
+                        <div style={{ flex: 2, display: "flex", flexDirection: "column", alignItems: "center" }}>
+                            <GameGrid snapshotMode={true} wordLength={wordLength} words={words} map={colorMap} dontShowEmpty={true} />
+                            <Button variant="contained" color="success" size="small" sx={{ margin: "12px 0", width: "100%", maxWidth: "250px" }} onClick={() => onShare("whatsapp")}>
+                                <WhatsappIcon sx={{ color: "white", marginRight: "5px" }}></WhatsappIcon>Share on Whatsapp</Button>
+                            <Button variant="contained" size="small" sx={{ width: "100%", maxWidth: "250px" }} onClick={() => onShare("copy")}>
+                                <CopyIcon sx={{ color: "white", marginRight: "5px" }}></CopyIcon>Copy</Button>
+                        </div>
+                        {/* <div style={{ flex: 1.5, paddingLeft: "10px" }}>
+
+                        </div> */}
+                    </div>
+                </DialogContent>
+                <Snackbar
+                    open={showSnackbar}
+                    autoHideDuration={3000}
+                    message="Copied to clipboard."
+                    onClose={() => setShowSnackbar(false)}
+                />
+            </DialogContentWrapper>
         </Dialog>
     );
 };
