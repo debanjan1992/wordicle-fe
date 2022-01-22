@@ -4,12 +4,11 @@ import Dialog from '@mui/material/Dialog';
 import Button from '@mui/material/Button';
 import SessionService, { SESSION_KEYS } from '../SessionService';
 import ConfigContext from '../ConfigContext';
-import GameGrid from "../GameGrid/GameGrid";
 import styled from "styled-components";
 import WhatsappIcon from "@mui/icons-material/Whatsapp";
 import CopyIcon from "@mui/icons-material/CopyAll";
 import Snackbar from "@mui/material/Snackbar";
-import { flexbox } from "@mui/system";
+import Word from "../GameGrid/Word";
 
 interface WinnerDialogProps {
     visible: boolean;
@@ -48,7 +47,6 @@ const WinnerDialog = (props: WinnerDialogProps) => {
     const chances = SessionService.getFromSession(SESSION_KEYS.WordIndex);
     const totalChances = React.useContext(ConfigContext).chances;
     const words = SessionService.getFromSession(SESSION_KEYS.Words) || [];
-    const colorMap = SessionService.getFromSession(SESSION_KEYS.Mapping) || [];
     const wordLength = SessionService.getFromSession(SESSION_KEYS.WordLength) || 0;
     const wordIdx = SessionService.getFromSession(SESSION_KEYS.WordIndex) || 0;
     const isDarkMode = React.useContext(ConfigContext).darkMode;
@@ -105,7 +103,7 @@ Play WORDICLE now on https://debanjan1992.github.io/wordicle-fe/`;
     const onShare = (medium: string) => {
         const shareText = getShareText();
         if (medium === "whatsapp") {
-            window.open("https://web.whatsapp.com/send?text=" + encodeURI(shareText), "_target");
+            window.open("whatsapp://send?text=Your message here" + encodeURI(shareText), "_target");
         } else if (medium === "copy") {
             if (window.isSecureContext && window.navigator.clipboard) {
                 window.navigator.clipboard.writeText(shareText);
@@ -126,12 +124,12 @@ Play WORDICLE now on https://debanjan1992.github.io/wordicle-fe/`;
                     {timeTaken && <p>You have guessed the word correctly in <strong>{getTime(timeTaken)}</strong> and in <strong>{chances}/{totalChances}</strong> chances</p>}
                     <div className="content">
                         <div style={{ flex: 2, display: "flex", flexDirection: "column", alignItems: "center" }}>
-                            <GameGrid snapshotMode={true} wordLength={wordLength} words={words} map={colorMap} dontShowEmpty={true} />
+                            <Word wordLength={wordLength} word={words[wordIdx - 1]} map={Array.from({ length: wordLength }, () => "correct")} />
                             <Button variant="contained" color="success" size="small" sx={{ marginTop: "12px", marginBottom: "5px", width: "100%", maxWidth: "250px" }} onClick={() => onShare("whatsapp")}>
                                 <WhatsappIcon sx={{ color: "white", marginRight: "5px" }}></WhatsappIcon>Share on Whatsapp</Button>
                             <Button variant="contained" size="small" sx={{ width: "100%", maxWidth: "250px", marginBottom: "20px" }} onClick={() => onShare("copy")}>
                                 <CopyIcon sx={{ color: "white", marginRight: "5px" }}></CopyIcon>Copy</Button>
-                            <Button size="small" color="error" variant="contained" onClick={props.onStartNewGame} sx={{ width: "100%", maxWidth: "250px"}}>New Game</Button>
+                            <Button size="small" color="error" variant="contained" onClick={props.onStartNewGame} sx={{ width: "100%", maxWidth: "250px" }}>New Game</Button>
                         </div>
                         {/* <div style={{ flex: 1.5, paddingLeft: "10px" }}>
 

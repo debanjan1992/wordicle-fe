@@ -1,7 +1,7 @@
 import GameGrid from "./GameGrid/GameGrid";
 import Header from "./Header";
 import Keyboard from "./Keyboard";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { WordService } from "./WordService";
 import GameOverDialog from "./Dialogs/GameOverDialog";
 import WinnerDialog from "./Dialogs/WinnerDialog";
