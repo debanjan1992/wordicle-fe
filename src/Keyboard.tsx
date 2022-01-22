@@ -9,6 +9,7 @@ interface KeyboardProps {
     onKeyPressed: (key: string) => any;
     activeWord: string;
     wordLength: number;
+    visible: boolean;
 }
 
 interface KeyProps {
@@ -29,7 +30,7 @@ const Key = ({ children, disabled, colorCode, onClick }: KeyProps) => {
     );
 };
 
-const Keyboard = ({ onKeyPressed, activeWord, wordLength }: KeyboardProps) => {
+const Keyboard = ({ onKeyPressed, activeWord, wordLength, visible }: KeyboardProps) => {
     const firstRow = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
     const secondRow = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
     const thirdRow = ["ENTER", "Z", "X", "C", "V", "B", "N", "M"];
@@ -59,7 +60,7 @@ const Keyboard = ({ onKeyPressed, activeWord, wordLength }: KeyboardProps) => {
     };
 
     return (
-        <KeyboardWrapper>
+        <KeyboardWrapper visible={visible}>
             <div className="row">
                 {firstRow.map(letter => <Key key={letter} colorCode={getColorCode(letter)} onClick={() => onKeyPress(letter)} isDarkMode={isDarkMode}>{letter}</Key>)}
             </div>

@@ -2,6 +2,7 @@ import React, { ReactNode } from "react";
 import ConfigContext from "../ConfigContext";
 import { GameGridWrapper } from "../Wordicle.styles";
 import { WordService } from "../WordService";
+import StatsBar from "./StatsBar";
 import Word from "./Word";
 
 interface GameGridProps {
@@ -10,6 +11,7 @@ interface GameGridProps {
     map: Array<Array<string>>;
     dontShowEmpty?: boolean;
     snapshotMode?: boolean;
+    visible: boolean;
 }
 
 const GameGrid = (props: GameGridProps) => {
@@ -28,8 +30,11 @@ const GameGrid = (props: GameGridProps) => {
         return renderedContent;
     };
     return (
-        <GameGridWrapper>
-            {generateWords()}
+        <GameGridWrapper visible={props.visible}>
+            { props.visible && <StatsBar />}
+            <div className="words-wrapper">
+                {generateWords()}
+            </div>
         </GameGridWrapper>
     );
 };

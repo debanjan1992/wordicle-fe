@@ -8,10 +8,12 @@ export const WordleWrapper = styled.div`
     height: 100%;
 `;
 
-export const KeyboardWrapper = styled.div`
+export const KeyboardWrapper = styled.div<{ visible: boolean }>`
     display: flex;
     flex-direction: column;
     align-items: center;
+    opacity: ${props => props.visible ? "1" : "0"};
+    transition: opacity 0.7s;
     >.row {
         display: flex;
         align-items: center;
@@ -92,10 +94,12 @@ export const KeyWrapper = styled.div<{ disabled?: boolean; isDarkMode: boolean; 
     }
 `;
 
-export const GameGridWrapper = styled.div`
+export const GameGridWrapper = styled.div<{ visible: boolean }>`
     display: flex;
     flex-direction: column;
     align-items: center;
+    opacity: ${props => props.visible ? "1" : "0"};
+    transition: opacity 0.7s;
 `;
 
 export const WordWrapper = styled.div`
@@ -186,7 +190,7 @@ export const HeaderWrapper = styled.header<{ isDarkMode: boolean; }>`
     }
 `;
 
-export const GameWrapper = styled.div<{ isDarkMode: boolean }>`
+export const GameWrapper = styled.div<{ isDarkMode: boolean; isNewGame: boolean; }>`
     background-color: ${props => props.isDarkMode ? "black" : "white"};;
     height: 100%;
     display: flex;
@@ -214,9 +218,6 @@ export const GameBoxWrapper = styled.div<{ isDarkMode: boolean; wordLength: numb
     font-weight: 700;
     transition: all 0.7s ease-in-out;
     color: ${props => props.isDarkMode ? "#e9e9e9" : "#3a3a3c"};
-    /* width: ${ props => props.snapshotMode ? "44px !important" : "50px" };
-    height: ${ props => props.snapshotMode ? "44px !important" : "50px" };
-    font-size: ${ props => props.snapshotMode ? "20px !important" : "24px" }; */
     width: 50px;
     height: 50px;
     font-size: 24px;

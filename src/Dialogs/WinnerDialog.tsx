@@ -13,7 +13,7 @@ import Word from "../GameGrid/Word";
 interface WinnerDialogProps {
     visible: boolean;
     onDismiss: (reason: string) => any;
-    onStartNewGame: () => any;
+    goBackToMainMenu: () => any;
 }
 
 const DialogContentWrapper = styled.div<{ isDarkMode: boolean; }>`
@@ -42,19 +42,13 @@ const DialogContentWrapper = styled.div<{ isDarkMode: boolean; }>`
 
 const WinnerDialog = (props: WinnerDialogProps) => {
     const [showSnackbar, setShowSnackbar] = React.useState(false);
-    const endTime = SessionService.getFromSession(SESSION_KEYS.EndTime);
-    const startTime = SessionService.getFromSession(SESSION_KEYS.StartTime);
+    const gameDurationInMinutes = SessionService.getFromSession(SESSION_KEYS.GameDuration);
     const chances = SessionService.getFromSession(SESSION_KEYS.WordIndex);
     const totalChances = React.useContext(ConfigContext).chances;
     const words = SessionService.getFromSession(SESSION_KEYS.Words) || [];
     const wordLength = SessionService.getFromSession(SESSION_KEYS.WordLength) || 0;
     const wordIdx = SessionService.getFromSession(SESSION_KEYS.WordIndex) || 0;
     const isDarkMode = React.useContext(ConfigContext).darkMode;
-
-    let timeTaken = 0;
-    if (startTime !== null && endTime !== null) {
-        timeTaken = (endTime - startTime) / 1000;
-    }
 
     const getTime = (time: number) => {
         if (time < 60) {
@@ -91,7 +85,7 @@ const WinnerDialog = (props: WinnerDialogProps) => {
             });
         }
         const text = `
-I have successfully guessed the WORDICLE - ${words[wordIdx === 0 ? wordIdx : wordIdx - 1]} in ${getTime(timeTaken)} and in ${chances}/${totalChances} tries.
+I have successfully guessed the WORDICLE - ${words[wordIdx === 0 ? wordIdx : wordIdx - 1]} in ${getTime(gameDurationInMinutes * 60)} and in ${chances}/${totalChances} tries.
 
 ${codeSnap}
 
@@ -121,7 +115,7 @@ Play WORDICLE now on https://debanjan1992.github.io/wordicle-fe/`;
                     <div className="header">
                         <div className="title">CONGRATULATIONS</div>
                     </div>
-                    {timeTaken && <p>You have guessed the word correctly in <strong>{getTime(timeTaken)}</strong> and in <strong>{chances}/{totalChances}</strong> chances</p>}
+                    {gameDurationInMinutes && <p>You have guessed the word correctly in <strong>{getTime(gameDurationInMinutes * 60)}</strong> and in <strong>{chances}/{totalChances}</strong> chances</p>}
                     <div className="content">
                         <div style={{ flex: 2, display: "flex", flexDirection: "column", alignItems: "center" }}>
                             <Word wordLength={wordLength} word={words[wordIdx - 1]} map={Array.from({ length: wordLength }, () => "correct")} />
@@ -129,7 +123,7 @@ Play WORDICLE now on https://debanjan1992.github.io/wordicle-fe/`;
                                 <WhatsappIcon sx={{ color: "white", marginRight: "5px" }}></WhatsappIcon>Share on Whatsapp</Button>
                             <Button variant="contained" size="small" sx={{ width: "100%", maxWidth: "250px", marginBottom: "20px" }} onClick={() => onShare("copy")}>
                                 <CopyIcon sx={{ color: "white", marginRight: "5px" }}></CopyIcon>Copy</Button>
-                            <Button size="small" color="error" variant="contained" onClick={props.onStartNewGame} sx={{ width: "100%", maxWidth: "250px" }}>New Game</Button>
+                            <Button size="small" color="error" variant="contained" onClick={props.goBackToMainMenu} sx={{ width: "100%", maxWidth: "250px" }}>Main Menu</Button>
                         </div>
                         {/* <div style={{ flex: 1.5, paddingLeft: "10px" }}>
 
