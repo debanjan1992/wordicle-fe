@@ -77,9 +77,10 @@ export class WordService {
             .then(response => {
                 SessionService.saveToSession(SESSION_KEYS.SessionId, response.id);
                 SessionService.saveToSession(SESSION_KEYS.WordLength, response.length);
-                SessionService.saveToSession(SESSION_KEYS.StartTime, new Date().getTime());
+                SessionService.saveToSession(SESSION_KEYS.StartTime, +response.startTime);
                 SessionService.saveToSession(SESSION_KEYS.GameStatus, GAME_STATUS.InProgress);
-                SessionService.saveToSession(SESSION_KEYS.BestTime, response.bestTime)
+                SessionService.saveToSession(SESSION_KEYS.BestTime, response.bestTime);
+                return response;
             }).catch(error => alert(error));
     }
 

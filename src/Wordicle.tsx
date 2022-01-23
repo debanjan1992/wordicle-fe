@@ -8,8 +8,6 @@ import WinnerDialog from "./Dialogs/WinnerDialog";
 import HelpDialog from "./Dialogs/HelpDialog";
 import { GameWrapper, WordleWrapper } from "./Wordicle.styles";
 import Snackbar from "@mui/material/Snackbar";
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
 import SettingsDialog from "./Dialogs/SettingsDialog";
 import ConfigContext from "./ConfigContext";
 import SessionService, { GAME_STATUS, SESSION_KEYS } from "./SessionService";
@@ -35,6 +33,9 @@ const getInitialMapping = (chances: number) => {
 
 const Wordicle = () => {
   const wordsMetadata = WordService.getWordsMetadataFromSessionStorage();
+  const [startTime, setStartTime] = useState(() =>
+    SessionService.getFromSession(SESSION_KEYS.StartTime)
+  );
   const [wordIdx, setWordIdx] = useState(wordsMetadata.index);
   const [chances, setChances] = useState(() =>
     SessionService.getFromSession(SESSION_KEYS.HardMode) !== null
@@ -154,11 +155,12 @@ const Wordicle = () => {
 
   const onStartNewGame = () => {
     setIsLoading(true);
-    WordService.startNewGame().then(() => {
+    WordService.startNewGame().then((response: any) => {
       setIsLoading(false);
       setWords(getInitialWords(chances));
       setColorMap(getInitialMapping(chances));
       setWordIdx(0);
+      setStartTime(+response.startTime);
     });
     setGameOverDialogVisibility(false);
     setWinnerDialogVisibility(false);
@@ -207,7 +209,12 @@ const Wordicle = () => {
 
   return (
     <ConfigContext.Provider
-      value={{ darkMode: darkMode, chances: chances, isLoading: isLoading }}
+      value={{
+        darkMode: darkMode,
+        chances: chances,
+        isLoading: isLoading,
+        startTime: startTime,
+      }}
     >
       <GameWrapper isDarkMode={darkMode} isNewGame={showNewGameScreen}>
         <Header
@@ -254,7 +261,10 @@ const Wordicle = () => {
           }
           setGameOverDialogVisibility(false);
         }}
-        onMainMenuClick={() => setShowNewGameScreen(true)}
+        onMainMenuClick={() => {
+          setShowNewGameScreen(true);
+          setGameOverDialogVisibility(false);
+        }}
       ></GameOverDialog>
       <WinnerDialog
         visible={winnerDialogVisibility}

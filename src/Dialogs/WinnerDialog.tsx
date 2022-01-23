@@ -202,7 +202,6 @@ Play WORDICLE now on https://debanjan1992.github.io/wordicle-fe/`;
     }
   }, [props.visible]);
 
-  console.log("Total Played", totalPlayed);
 
   return (
     <Dialog
