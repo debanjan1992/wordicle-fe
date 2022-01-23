@@ -9,7 +9,7 @@ html {
 
 body {
   margin: 0;
-  font-family: "Raleway", sans-serif;
+  font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100%;
@@ -361,4 +361,55 @@ body {
     margin-top: 30%;
     margin-left: 80%;
   }
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(-25%);
+  }
+  100% {
+    transform: translateX(25%);
+  }
+}
+
+.newgame-bg.light {
+  animation: slide 3s ease-in-out infinite alternate;
+  background-image: linear-gradient(-60deg, #6c3 50%, #09f 50%);
+  bottom: 0;
+  left: -50%;
+  opacity: 0.5;
+  position: fixed;
+  right: -50%;
+  top: 0;
+  z-index: -1;
+}
+
+.newgame-bg2.light {
+  animation-direction: alternate-reverse;
+  animation-duration: 4s;
+}
+
+.newgame-bg3.light {
+  animation-duration: 5s;
+}
+
+.newgame-bg.dark {
+  animation: slide 3s ease-in-out infinite alternate;
+  background-image: linear-gradient(-60deg, #082032 50%, #A12568 50%);
+  bottom: 0;
+  left: -50%;
+  opacity: 0.5;
+  position: fixed;
+  right: -50%;
+  top: 0;
+  z-index: -1;
+}
+
+.newgame-bg2.dark {
+  animation-direction: alternate-reverse;
+  animation-duration: 4s;
+}
+
+.newgame-bg3.dark {
+  animation-duration: 5s;
 }

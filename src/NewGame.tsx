@@ -57,16 +57,36 @@ const NewGame = ({
   const isDarkMode = React.useContext(ConfigContext).darkMode;
   return (
     <NewGameWrapper visible={visible} isDarkMode={isDarkMode}>
+      <div className={`newgame-bg ${isDarkMode ? "dark" : "light"}`}></div>
+      <div
+        className={`newgame-bg newgame-bg2 ${isDarkMode ? "dark" : "light"}`}
+      ></div>
+      <div
+        className={`newgame-bg newgame-bg3 ${isDarkMode ? "dark" : "light"}`}
+      ></div>
       <div className="app-title">
         WORDICLE<span className="tag">[BETA]</span>
       </div>
-      <Button variant="contained" color="success" onClick={onStartClick}>
+      <Button
+        startIcon={<PlayIcon />}
+        variant="contained"
+        color="success"
+        onClick={onStartClick}
+      >
         PLAY
       </Button>
-      <Button variant="contained" onClick={onSettingsClick}>
+      <Button
+        startIcon={<SettingsIcon />}
+        variant="contained"
+        onClick={onSettingsClick}
+      >
         SETTINGS
       </Button>
-      <Button variant="contained" onClick={onRulesClick}>
+      <Button
+        startIcon={<HelpIcon />}
+        variant="contained"
+        onClick={onRulesClick}
+      >
         GAME RULES
       </Button>
     </NewGameWrapper>

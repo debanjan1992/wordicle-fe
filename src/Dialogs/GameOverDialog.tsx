@@ -62,7 +62,7 @@ const GameOverDialog = (props: GameOverDialogProps) => {
                 <DialogContent>
                     <div className="header">
                         <div className="title"><strong>GAME OVER</strong></div>
-                        <Button size="small" variant="contained" onClick={() => {
+                        <Button variant="contained" onClick={() => {
                             props.onMainMenuClick();
                             setAnswer("");
                         }} disabled={isLoading}>Main Menu</Button>

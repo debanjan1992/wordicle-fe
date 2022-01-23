@@ -5,7 +5,9 @@ import Button from "@mui/material/Button";
 import SessionService, { SESSION_KEYS } from "../SessionService";
 import ConfigContext from "../ConfigContext";
 import styled from "styled-components";
+import ShareIcon from "@mui/icons-material/Share";
 import WhatsappIcon from "@mui/icons-material/Whatsapp";
+import IconButton from "@mui/material/IconButton";
 import CopyIcon from "@mui/icons-material/CopyAll";
 import Snackbar from "@mui/material/Snackbar";
 import Word from "../GameGrid/Word";
@@ -19,7 +21,7 @@ interface WinnerDialogProps {
 }
 
 const DialogButtonsWrapper = styled.div<{ isDarkMode: boolean }>`
-  margin-top: 40px;
+  margin-top: 30px;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -96,6 +98,20 @@ const DialogContentWrapper = styled.div<{ isDarkMode: boolean }>`
           font-size: 18px;
           font-weight: bold;
         }
+      }
+    }
+    .share-section {
+      margin-top: 30px;
+      .heading {
+        font-weight: bold;
+        font-size: 14px;
+        margin-bottom: 5px;
+        text-align: center;
+      }
+      .sharing-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
     }
   }
@@ -192,9 +208,17 @@ Play WORDICLE now on https://debanjan1992.github.io/wordicle-fe/`;
     const shareText = getShareText();
     if (medium === "whatsapp") {
       window.open(
-        "whatsapp://send?text=Your message here" + encodeURI(shareText),
+        "whatsapp://send?text=" + encodeURIComponent(shareText),
         "_target"
       );
+    } else if (medium === "share") {
+      if (window.isSecureContext && window.navigator.share) {
+        window.navigator.share({
+          text: getShareText(),
+          title: "WORDICLE",
+          url: "https://debanjan1992.github.io/wordicle-fe/",
+        });
+      }
     } else if (medium === "copy") {
       if (window.isSecureContext && window.navigator.clipboard) {
         window.navigator.clipboard.writeText(shareText);
@@ -293,31 +317,31 @@ Play WORDICLE now on https://debanjan1992.github.io/wordicle-fe/`;
               map={Array.from({ length: wordLength }, () => "correct")}
               badgeCount={totalPlayed}
             />
+            <div className="share-section">
+              <div className="heading">SHARE</div>
+              <div className="sharing-buttons">
+                <Tooltip title="Share on whatsapp">
+                  <IconButton
+                    color="success"
+                    onClick={() => onShare("whatsapp")}
+                  >
+                    <WhatsappIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Share">
+                  <IconButton color="secondary" onClick={() => onShare("share")}>
+                    <ShareIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Copy">
+                  <IconButton color="error" onClick={() => onShare("copy")}>
+                    <CopyIcon />
+                  </IconButton>
+                </Tooltip>
+              </div>
+            </div>
             <DialogButtonsWrapper isDarkMode={isDarkMode}>
               <Button
-                variant="contained"
-                color="success"
-                size="small"
-                onClick={() => onShare("whatsapp")}
-              >
-                <WhatsappIcon
-                  sx={{ color: "white", marginRight: "5px" }}
-                ></WhatsappIcon>
-                Share on Whatsapp
-              </Button>
-              <Button
-                variant="contained"
-                size="small"
-                onClick={() => onShare("copy")}
-              >
-                <CopyIcon
-                  sx={{ color: "white", marginRight: "5px" }}
-                ></CopyIcon>
-                Copy
-              </Button>
-              <Button
-                size="small"
-                color="error"
                 variant="contained"
                 onClick={props.goBackToMainMenu}
               >
