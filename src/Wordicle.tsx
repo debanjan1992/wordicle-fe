@@ -169,7 +169,14 @@ const Wordicle = () => {
   useEffect(() => {
     if (wordIdx !== 0) {
       const gameStatus = SessionService.getFromSession(SESSION_KEYS.GameStatus);
-      if (isLoser()) {
+      if (
+        SessionService.getFromSession(SESSION_KEYS.GameStatus) ===
+        GAME_STATUS.GameOverWin
+      ) {
+        setTimeout(() => {
+          setWinnerDialogVisibility(true);
+        }, 1000);
+      } else if (isLoser()) {
         if (gameStatus === GAME_STATUS.InProgress) {
           SessionService.saveToSession(
             SESSION_KEYS.GameStatus,
@@ -178,13 +185,6 @@ const Wordicle = () => {
         }
         setTimeout(() => {
           setGameOverDialogVisibility(true);
-        }, 1000);
-      } else if (
-        SessionService.getFromSession(SESSION_KEYS.GameStatus) ===
-        GAME_STATUS.GameOverWin
-      ) {
-        setTimeout(() => {
-          setWinnerDialogVisibility(true);
         }, 1000);
       }
     }
