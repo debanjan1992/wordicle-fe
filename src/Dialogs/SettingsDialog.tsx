@@ -64,7 +64,7 @@ const SettingsDialog = (props: SettingsDialogProps) => {
                             <Switch checked={config.darkMode}
                                 onChange={e => props.onToggleDarkMode(e.target.checked)} />
                         </ListItem>
-                        <ListItem>
+                        {/* <ListItem>
                             <ListItemIcon>
                                 <HardModeIcon />
                             </ListItemIcon>
@@ -74,7 +74,7 @@ const SettingsDialog = (props: SettingsDialogProps) => {
                                 }}>With Hard Mode enabled, you will get only 4 chances to guess the word. This will also restart the game. </span>} />
                             <Switch checked={config.chances === 4}
                                 onChange={e => props.onToggleHardMode(e.target.checked)} />
-                        </ListItem>
+                        </ListItem> */}
                     </List>
                 </DialogContentWrapper>
             </DialogContent>

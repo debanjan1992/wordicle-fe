@@ -89,8 +89,7 @@ export class WordService {
             return Promise.resolve("");
         } else {
             return fetch(this.BASE_URL + "/reveal?sessionId=" + existingSessionId)
-                .then(response => response.json())
-                .then(response => response.data);
+                .then(response => response.json());
         }
     }
 

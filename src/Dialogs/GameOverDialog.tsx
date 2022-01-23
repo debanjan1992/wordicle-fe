@@ -12,7 +12,7 @@ import styled from "styled-components";
 interface GameOverDialogProps {
     visible: boolean;
     onDismiss: (reason: string) => any;
-    onStartNewGame: () => any;
+    onMainMenuClick: () => any;
 }
 
 const DialogContentWrapper = styled.div<{ isDarkMode: boolean; }>`
@@ -41,9 +41,9 @@ const GameOverDialog = (props: GameOverDialogProps) => {
 
     const revealWord = () => {
         setIsLoading(true);
-        WordService.revealWord().then(word => {
+        WordService.revealWord().then(response => {
             setIsLoading(false);
-            setAnswer(word === null ? "" : word);
+            setAnswer(response.data === null ? "" : response.data);
         });
     };
 
@@ -63,9 +63,9 @@ const GameOverDialog = (props: GameOverDialogProps) => {
                     <div className="header">
                         <div className="title"><strong>GAME OVER</strong></div>
                         <Button size="small" variant="contained" onClick={() => {
-                            props.onStartNewGame();
+                            props.onMainMenuClick();
                             setAnswer("");
-                        }} disabled={isLoading}>New Game</Button>
+                        }} disabled={isLoading}>Main Menu</Button>
                     </div>
                     <p style={{ marginBottom: "15px" }}>Sorry! You have run out of chances to guess the word!</p>
                     {answer !== "" && (<>

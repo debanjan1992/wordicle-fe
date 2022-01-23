@@ -9,6 +9,7 @@ import ConfigContext from "./ConfigContext";
 interface HeaderProps {
     onHelpIconClicked: () => any;
     onSettingsIconClicked: () => any;
+    isNewGameScreen: boolean;
 }
 
 const Header = (props: HeaderProps) => {
@@ -16,7 +17,7 @@ const Header = (props: HeaderProps) => {
     const isHardMode = React.useContext(ConfigContext).chances === 4;
 
     return (
-        <HeaderWrapper isDarkMode={isDarkMode}>
+        <HeaderWrapper isDarkMode={isDarkMode} isNewGameScreen={props.isNewGameScreen}>
             <Tooltip title="Help">
                 <IconButton onClick={props.onHelpIconClicked}>
                     <HelpIcon />
