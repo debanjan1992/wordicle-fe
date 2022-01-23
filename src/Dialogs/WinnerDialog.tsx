@@ -202,7 +202,6 @@ Play WORDICLE now on https://debanjan1992.github.io/wordicle-fe/`;
     }
   }, [props.visible]);
 
-
   return (
     <Dialog
       onClose={(e, r) => props.onDismiss(r)}
@@ -210,9 +209,11 @@ Play WORDICLE now on https://debanjan1992.github.io/wordicle-fe/`;
       disableEscapeKeyDown={true}
     >
       <DialogContentWrapper isDarkMode={isDarkMode}>
-        <div className="pyro">
-          <div className="before"></div>
-          <div className="after"></div>
+        <div className="pyro-container">
+          <div className="pyro">
+            <div className="before"></div>
+            <div className="after"></div>
+          </div>
         </div>
         <DialogContent>
           <div className="header">
