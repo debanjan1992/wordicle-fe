@@ -26,7 +26,7 @@ class SessionService {
 
     static getFromSession(key: string) {
         const value = sessionStorage.getItem(key);
-        if (value !== null) {
+        if (value !== null && value !== "undefined") {
             return JSON.parse(value);
         }
         return null;
