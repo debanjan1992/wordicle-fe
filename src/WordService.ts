@@ -6,14 +6,19 @@ export class WordService {
 
     static isGameOver = false;
 
-    static isSessionValid() {
+    static getSessionDetails() {
         const sessionId = this.getSessionId();
         if (sessionId === null) {
             return Promise.resolve(false);
         } else {
-            return fetch(this.BASE_URL + "/session/valid?id=" + sessionId)
+            return fetch(this.BASE_URL + "/session?id=" + sessionId)
                 .then(response => response.json())
-                .then(response => response.valid);
+                .then(response => {
+                    SessionService.saveToSession(SESSION_KEYS.WordLength, response.length);
+                    SessionService.saveToSession(SESSION_KEYS.StartTime, response.startTime);
+                    SessionService.saveToSession(SESSION_KEYS.BestTime, response.bestTime);
+                    return response;
+                });
         }
     }
 
@@ -57,29 +62,24 @@ export class WordService {
         return SessionService.getFromSession(SESSION_KEYS.SessionId);
     }
 
-    static startNewGame(clearAll: boolean) {
-        const existingSessionId = SessionService.getFromSession(SESSION_KEYS.SessionId);
-        if (clearAll) {
-            SessionService.deleteKey(SESSION_KEYS.SessionId);
-            SessionService.deleteKey(SESSION_KEYS.WordLength);
-            SessionService.deleteKey(SESSION_KEYS.StartTime);
-            SessionService.deleteKey(SESSION_KEYS.EndTime);
-            SessionService.deleteKey(SESSION_KEYS.Mapping);
-            SessionService.deleteKey(SESSION_KEYS.WordIndex);
-            SessionService.deleteKey(SESSION_KEYS.Words);
-            SessionService.deleteKey(SESSION_KEYS.GameStatus);
-        }
-        let url = this.BASE_URL + "/word";
-        if (existingSessionId !== null) {
-            url = url + "?sessionId=" + existingSessionId;
-        }
-        return fetch(url)
+    static startNewGame() {
+        SessionService.deleteKey(SESSION_KEYS.SessionId);
+        SessionService.deleteKey(SESSION_KEYS.WordLength);
+        SessionService.deleteKey(SESSION_KEYS.StartTime);
+        SessionService.deleteKey(SESSION_KEYS.GameDuration);
+        SessionService.deleteKey(SESSION_KEYS.Mapping);
+        SessionService.deleteKey(SESSION_KEYS.WordIndex);
+        SessionService.deleteKey(SESSION_KEYS.Words);
+        SessionService.deleteKey(SESSION_KEYS.GameStatus);
+        SessionService.deleteKey(SESSION_KEYS.BestTime);
+        return fetch(this.BASE_URL + "/newGame")
             .then(response => response.json())
             .then(response => {
                 SessionService.saveToSession(SESSION_KEYS.SessionId, response.id);
                 SessionService.saveToSession(SESSION_KEYS.WordLength, response.length);
                 SessionService.saveToSession(SESSION_KEYS.StartTime, new Date().getTime());
                 SessionService.saveToSession(SESSION_KEYS.GameStatus, GAME_STATUS.InProgress);
+                SessionService.saveToSession(SESSION_KEYS.BestTime, response.bestTime)
             }).catch(error => alert(error));
     }
 
@@ -89,8 +89,7 @@ export class WordService {
             return Promise.resolve("");
         } else {
             return fetch(this.BASE_URL + "/reveal?sessionId=" + existingSessionId)
-                .then(response => response.json())
-                .then(response => response.data);
+                .then(response => response.json());
         }
     }
 
