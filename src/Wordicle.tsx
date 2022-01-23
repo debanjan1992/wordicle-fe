@@ -254,7 +254,7 @@ const Wordicle = () => {
           }
           setGameOverDialogVisibility(false);
         }}
-        onMainMenuClick={() => setGameOverDialogVisibility(false)}
+        onMainMenuClick={() => setShowNewGameScreen(true)}
       ></GameOverDialog>
       <WinnerDialog
         visible={winnerDialogVisibility}
