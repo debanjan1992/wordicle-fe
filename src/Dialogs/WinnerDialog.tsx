@@ -11,8 +11,6 @@ import Snackbar from "@mui/material/Snackbar";
 import Word from "../GameGrid/Word";
 import { WordService } from "../WordService";
 import Tooltip from "@mui/material/Tooltip";
-import IconButton from "@mui/material/IconButton";
-import InfoIcon from "@mui/icons-material/Info";
 
 interface WinnerDialogProps {
   visible: boolean;
@@ -120,6 +118,27 @@ const WinnerDialog = (props: WinnerDialogProps) => {
   const wordIdx = SessionService.getFromSession(SESSION_KEYS.WordIndex) || 0;
   const isDarkMode = React.useContext(ConfigContext).darkMode;
 
+  const getTimeInString = (timeInSeconds: number) => {
+    const days = Math.floor(timeInSeconds / (60 * 60 * 24));
+    const hours = Math.floor((timeInSeconds / (60 * 60)) % 24);
+    const minutes = Math.floor((timeInSeconds / 60) % 60);
+    const seconds = Math.floor(timeInSeconds % 60);
+    let result = "";
+    if (days > 0) {
+      result = result + days + " days ";
+    }
+    if (hours > 0) {
+      result = result + hours + " hours ";
+    }
+    if (minutes) {
+      result = result + minutes + " minutes ";
+    }
+    if (seconds) {
+      result = result + seconds + " seconds";
+    }
+    return result;
+  };
+
   const getTime = (timeInSeconds: number) => {
     let timeLeft = { days: 0, hours: 0, minutes: 0, seconds: 0 };
 
@@ -158,7 +177,7 @@ const WinnerDialog = (props: WinnerDialogProps) => {
     const text = `
 I have successfully guessed the WORDICLE - ${
       words[wordIdx === 0 ? wordIdx : wordIdx - 1]
-    } in ${getTime(
+    } in ${getTimeInString(
       gameDurationInMinutes * 60
     )} and in ${chances}/${totalChances} tries.
 
