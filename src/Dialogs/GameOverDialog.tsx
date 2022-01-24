@@ -55,6 +55,9 @@ const GameOverDialog = (props: GameOverDialogProps) => {
 
     return (
         <Dialog onClose={(e, r) => {
+            if (r && r == "backdropClick") {
+                return;
+            }
             setAnswer("");
             props.onDismiss(r);
         }} open={props.visible} disableEscapeKeyDown={true} sx={{ backgroundColor: "transparent"}}>

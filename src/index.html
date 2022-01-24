@@ -64,18 +64,6 @@
         y.parentNode.insertBefore(t, y);
       })(window, document, "clarity", "script", "a97bx16g4b");
     </script>
-    <script>
-      if ("serviceWorker" in navigator) {
-        navigator.serviceWorker
-          .register("./sw.js")
-          .then(function (reg) {
-            console.log("Successfully registered service worker", reg);
-          })
-          .catch(function (err) {
-            console.warn("Error whilst registering service worker", err);
-          });
-      }
-    </script>
   </head>
 
   <body>
