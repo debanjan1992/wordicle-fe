@@ -1,4 +1,4 @@
-var CACHE_NAME = "wordicle-cache-v1";
+var CACHE_NAME = "wordicle-cache-v2";
 
 self.addEventListener("activate", function (event) {
   event.waitUntil(
