@@ -12,6 +12,7 @@ import SettingsDialog from "./Dialogs/SettingsDialog";
 import ConfigContext from "./ConfigContext";
 import SessionService, { GAME_STATUS, SESSION_KEYS } from "./SessionService";
 import NewGame from "./NewGame";
+import useKey from "./useKey";
 
 const getInitialWords = (chances: number) => {
   const wordsMetadata = WordService.getWordsMetadataFromSessionStorage();
@@ -37,15 +38,8 @@ const Wordicle = () => {
     SessionService.getFromSession(SESSION_KEYS.StartTime)
   );
   const [wordIdx, setWordIdx] = useState(wordsMetadata.index);
-  const [chances, setChances] = useState(() =>
-    SessionService.getFromSession(SESSION_KEYS.HardMode) !== null
-      ? SessionService.getFromSession(SESSION_KEYS.HardMode) === "true"
-        ? 4
-        : 6
-      : 6
-  );
-  const [words, setWords] = useState(() => getInitialWords(chances));
-  const [colorMap, setColorMap] = useState(() => getInitialMapping(chances));
+  const [words, setWords] = useState(() => getInitialWords(5));
+  const [colorMap, setColorMap] = useState(() => getInitialMapping(5));
   const [toastVisibility, setToastVisibility] = useState(false);
   const [gameOverDialogVisibility, setGameOverDialogVisibility] =
     useState(false);
@@ -61,9 +55,14 @@ const Wordicle = () => {
       : window.matchMedia("(prefers-color-scheme: dark)").matches
   );
   const wordLength = WordService.getWordLength();
+  useKey((e) => {
+    if (!isLoading && !showNewGameScreen) {
+      onKeyboardKeyClick(e.key.toUpperCase());
+    }
+  });
 
   const isLoser = () => {
-    if (wordIdx < chances) {
+    if (wordIdx < 5) {
       return false;
     } else {
       return true;
@@ -145,7 +144,7 @@ const Wordicle = () => {
         words[wordIdx] = key;
       }
       setWords([...words]);
-    } else if (key === "ENTER") {
+    } else if (key === "ENTER" && words[wordIdx].length === wordLength) {
       submitWord(words[wordIdx]);
     } else if (key === "BACKSPACE" && words[wordIdx].length - 1 >= 0) {
       words[wordIdx] = words[wordIdx].substring(0, words[wordIdx].length - 1);
@@ -157,13 +156,17 @@ const Wordicle = () => {
     setIsLoading(true);
     WordService.startNewGame().then((response: any) => {
       setIsLoading(false);
-      setWords(getInitialWords(chances));
-      setColorMap(getInitialMapping(chances));
+      setWords(getInitialWords(5));
+      setColorMap(getInitialMapping(5));
       setWordIdx(0);
       setStartTime(+response.startTime);
     });
     setGameOverDialogVisibility(false);
     setWinnerDialogVisibility(false);
+  };
+
+  const keyboardEventListener = (e: KeyboardEvent) => {
+    onKeyboardKeyClick(e.key.toUpperCase());
   };
 
   useEffect(() => {
@@ -211,7 +214,7 @@ const Wordicle = () => {
     <ConfigContext.Provider
       value={{
         darkMode: darkMode,
-        chances: chances,
+        chances: 5,
         isLoading: isLoading,
         startTime: startTime,
       }}
@@ -273,7 +276,6 @@ const Wordicle = () => {
             return;
           }
           setWinnerDialogVisibility(false);
-          setWordIdx(0);
         }}
         goBackToMainMenu={() => {
           setWinnerDialogVisibility(false);
@@ -290,18 +292,6 @@ const Wordicle = () => {
         onToggleDarkMode={(darkMode) => {
           SessionService.saveToSession(SESSION_KEYS.DarkMode, darkMode);
           setDarkMode(darkMode);
-        }}
-        onToggleHardMode={(hardMode) => {
-          SessionService.saveToSession(SESSION_KEYS.HardMode, hardMode);
-          if (hardMode) {
-            setChances(4);
-          } else {
-            setChances(6);
-          }
-          setWords(getInitialWords(chances));
-          setColorMap(getInitialMapping(chances));
-          setWordIdx(0);
-          onStartNewGame();
         }}
       ></SettingsDialog>
       <Snackbar

@@ -16,7 +16,6 @@ import ConfigContext from '../ConfigContext';
 interface SettingsDialogProps {
     visible: boolean;
     onToggleDarkMode: (darkMode: boolean) => any;
-    onToggleHardMode: (hardMode: boolean) => any;
     onDismiss: (reason: string) => any;
 }
 

@@ -11,8 +11,10 @@ ReactDOM.render(
 );
 
 window.addEventListener("load", () => {
-  navigator.serviceWorker
-    .register("./service_worker.js")
-    .then((reg) => console.log("Service worker: Registered"))
-    .catch((err) => console.log(`Service worker: Error: ${err}`));
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker
+      .register("./service_worker.js")
+      .then((reg) => console.log("Service worker: Registered"))
+      .catch((err) => console.log(`Service worker: Error: ${err}`));
+  }
 });

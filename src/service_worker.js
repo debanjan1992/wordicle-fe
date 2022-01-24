@@ -1,12 +1,24 @@
 var CACHE_NAME = "wordicle-cache-v2";
 
+// self.addEventListener("install", function (event) {
+//   event.waitUntil(
+//     caches.open(CACHE_NAME).then((cache) => {
+//       return cache.addAll([
+//         "./index.html",
+//         "./assets",
+//         "./main.bundle.js",
+//         "./manifest.json",
+//         "./service_worker.js",
+//       ]);
+//     })
+//   );
+// });
+
 self.addEventListener("activate", function (event) {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
-      console.log("Cache Names", cacheNames);
       return Promise.all(
         cacheNames.map((cache) => {
-          console.log("Cache", cache);
           if (cache !== CACHE_NAME) {
             return caches.delete(cache);
           }
