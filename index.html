@@ -15,10 +15,13 @@
         t.src = "https://www.clarity.ms/tag/" + i;
         y = l.getElementsByTagName(r)[0];
         y.parentNode.insertBefore(t, y);
-      })(window, document, "clarity", "script", "a97bx16g4b");</script><script>if (!navigator.serviceWorker.controller) {
-        navigator.serviceWorker.register("./sw.js").then(function (reg) {
-          console.log(
-            "Service worker has been registered for scope: " + reg.scope
-          );
-        });
+      })(window, document, "clarity", "script", "a97bx16g4b");</script><script>if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .register("./sw.js")
+          .then(function (reg) {
+            console.log("Successfully registered service worker", reg);
+          })
+          .catch(function (err) {
+            console.warn("Error whilst registering service worker", err);
+          });
       }</script><script defer="defer" src="main.bundle.js"></script></head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id="root"></div></body></html>
