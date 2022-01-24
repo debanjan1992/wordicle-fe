@@ -33,13 +33,14 @@ const getInitialMapping = (chances: number) => {
 };
 
 const Wordicle = () => {
+  const chances = 6;
   const wordsMetadata = WordService.getWordsMetadataFromSessionStorage();
   const [startTime, setStartTime] = useState(() =>
     SessionService.getFromSession(SESSION_KEYS.StartTime)
   );
   const [wordIdx, setWordIdx] = useState(wordsMetadata.index);
-  const [words, setWords] = useState(() => getInitialWords(5));
-  const [colorMap, setColorMap] = useState(() => getInitialMapping(5));
+  const [words, setWords] = useState(() => getInitialWords(chances));
+  const [colorMap, setColorMap] = useState(() => getInitialMapping(chances));
   const [toastVisibility, setToastVisibility] = useState(false);
   const [gameOverDialogVisibility, setGameOverDialogVisibility] =
     useState(false);
@@ -55,6 +56,7 @@ const Wordicle = () => {
       : window.matchMedia("(prefers-color-scheme: dark)").matches
   );
   const wordLength = WordService.getWordLength();
+  
   useKey((e) => {
     if (!isLoading && showNewGameScreen && e.key.toUpperCase() === "ENTER") {
       setShowNewGameScreen(false);
@@ -67,7 +69,7 @@ const Wordicle = () => {
   });
 
   const isLoser = () => {
-    if (wordIdx < 5) {
+    if (wordIdx < chances) {
       return false;
     } else {
       return true;
@@ -161,8 +163,8 @@ const Wordicle = () => {
     setIsLoading(true);
     WordService.startNewGame().then((response: any) => {
       setIsLoading(false);
-      setWords(getInitialWords(5));
-      setColorMap(getInitialMapping(5));
+      setWords(getInitialWords(chances));
+      setColorMap(getInitialMapping(chances));
       setWordIdx(0);
       setStartTime(+response.startTime);
     });
@@ -219,7 +221,7 @@ const Wordicle = () => {
     <ConfigContext.Provider
       value={{
         darkMode: darkMode,
-        chances: 5,
+        chances: chances,
         isLoading: isLoading,
         startTime: startTime,
       }}
