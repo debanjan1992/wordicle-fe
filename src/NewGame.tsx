@@ -70,6 +70,7 @@ const NewGame = ({
       <Button
         startIcon={<PlayIcon />}
         variant="contained"
+        size="large"
         color="success"
         onClick={onStartClick}
       >
@@ -78,6 +79,7 @@ const NewGame = ({
       <Button
         startIcon={<SettingsIcon />}
         variant="contained"
+        size="large"
         onClick={onSettingsClick}
       >
         SETTINGS
@@ -85,6 +87,7 @@ const NewGame = ({
       <Button
         startIcon={<HelpIcon />}
         variant="contained"
+        size="large"
         onClick={onRulesClick}
       >
         GAME RULES
