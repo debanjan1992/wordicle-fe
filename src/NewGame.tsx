@@ -37,7 +37,7 @@ const NewGameWrapper = styled.div<{ visible: boolean; isDarkMode: boolean }>`
     width: 200px;
   }
   .app-title {
-    font-size: 40px;
+    font-size: 50px;
     color: ${(props) => (props.isDarkMode ? "#d7dadc" : "black")};
     margin-bottom: 30px;
     font-weight: bolder;
@@ -88,6 +88,7 @@ const NewGame = ({
         startIcon={<HelpIcon />}
         variant="contained"
         size="large"
+        color="warning"
         onClick={onRulesClick}
       >
         GAME RULES
