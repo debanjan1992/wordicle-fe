@@ -1,5 +1,5 @@
 var CACHE_NAME = "wordicle-cache-v1";
-var urlsToCache = ["/", "/assets/", "/index.html", "/main.bundle.js"];
+var urlsToCache = ["./", "./index.html", "./main.bundle.js"];
 
 self.addEventListener("install", function (event) {
   // Perform install steps
