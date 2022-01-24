@@ -56,6 +56,11 @@ const Wordicle = () => {
   );
   const wordLength = WordService.getWordLength();
   useKey((e) => {
+    if (!isLoading && showNewGameScreen && e.key.toUpperCase() === "ENTER") {
+      setShowNewGameScreen(false);
+      onStartNewGame();
+      return;
+    }
     if (!isLoading && !showNewGameScreen) {
       onKeyboardKeyClick(e.key.toUpperCase());
     }
