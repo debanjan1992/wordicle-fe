@@ -43,7 +43,7 @@ const config = (env) => {
       new CopyWebpackPlugin({
         patterns: [
           { from: "src/assets", to: "assets" },
-          { from: "src/sw.js", to: "./" },
+          { from: "src/service_worker.js", to: "./" },
           { from: "src/manifest.json", to: "./" },
         ],
       }),
