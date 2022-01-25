@@ -51,9 +51,10 @@ const Timer = () => {
   const [time, setTime] = useState(calculateTime(startTime));
 
   useEffect(() => {
+    console.debug(time, startTime, context.gameStatus);
     if (
-      context.gameStatus ===
-      GAME_STATUS.InProgress
+      context.gameStatus !== GAME_STATUS.GameOverLost &&
+      context.gameStatus !== GAME_STATUS.GameOverWin
     ) {
       const timer = setTimeout(() => setTime(calculateTime(startTime)), 1000);
       return () => clearTimeout(timer);
