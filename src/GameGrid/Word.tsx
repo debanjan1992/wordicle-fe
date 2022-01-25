@@ -34,7 +34,7 @@ const GameBox = ({
 
   const getClassName = () => {
     let list = colorCode || "empty";
-    if (letter !== undefined) {
+    if (letter !== undefined && letter !== "") {
       list = list + " filled";
     } else {
       list = list + " not-filled";

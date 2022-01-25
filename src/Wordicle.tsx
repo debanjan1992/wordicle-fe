@@ -58,12 +58,6 @@ const Wordicle = () => {
     useState(false);
 
   useKey((e) => {
-    // too be removed
-    // const enableKeyboardInput = SessionService.getFromSession("keyboard");
-    // if (enableKeyboardInput === null || enableKeyboardInput === "false") {
-    //   return;
-    // }
-    // end: to be removed
     if (!isLoading && showNewGameScreen && e.key.toUpperCase() === "ENTER") {
       setTimeout(() => setShowNewGameScreen(false), 400);
       onStartNewGame();
@@ -175,7 +169,7 @@ const Wordicle = () => {
 
   const onStartNewGame = () => {
     setIsLoading(true);
-    WordService.startNewGame().then((response: any) => {
+    return WordService.startNewGame().then((response: any) => {
       SessionService.saveToSession(SESSION_KEYS.SessionId, response.id);
       SessionService.saveToSession(
         SESSION_KEYS.Words,
@@ -193,7 +187,6 @@ const Wordicle = () => {
         GAME_STATUS.InProgress
       );
       SessionService.saveToSession(SESSION_KEYS.BestTime, response.bestTime);
-      setIsLoading(false);
       setWords(getInitialWords(chances));
       setColorMap(getInitialMapping(chances));
       setWordIdx(0);
@@ -202,6 +195,7 @@ const Wordicle = () => {
       setGameStatus(GAME_STATUS.InProgress);
       setSessionId(response.id);
       setWordLength(response.length);
+      setIsLoading(false);
     });
   };
 
@@ -272,9 +266,11 @@ const Wordicle = () => {
         <WordleWrapper>
           <NewGame
             visible={showNewGameScreen}
+            isLoading={isLoading}
             onStartClick={() => {
-              setTimeout(() => setShowNewGameScreen(false), 400);
-              onStartNewGame();
+              onStartNewGame().then(() =>
+                setTimeout(() => setShowNewGameScreen(false), 400)
+              );
             }}
             onSettingsClick={() => {
               setTimeout(() => setSettingsDialogVisibility(true), 400);
