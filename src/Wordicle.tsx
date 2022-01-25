@@ -45,7 +45,10 @@ const Wordicle = () => {
   const [bestTime, setBestTime] = useState(wordsMetadata.bestTime);
   const [sessionId, setSessionId] = useState(wordsMetadata.sessionId);
   const [wordLength, setWordLength] = useState(wordsMetadata.wordLength);
-  const [toastVisibility, setToastVisibility] = useState(false);
+  const [invalidWordToastVisibility, setInvalidWordToastVisibility] =
+    useState(false);
+  const [duplicateWordToastVisibility, setDuplicateWordToastVisibility] =
+    useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showNewGameScreen, setShowNewGameScreen] = useState(false);
 
@@ -95,7 +98,17 @@ const Wordicle = () => {
     return Promise.all(promises);
   };
 
+  const isDuplicateWord = (word: string) => {
+    let toMatchArray = [...words];
+    toMatchArray.splice(wordIdx, 1);
+    return toMatchArray.includes(word);
+  };
+
   const submitWord = (wordInput: string) => {
+    if (isDuplicateWord(wordInput)) {
+      setDuplicateWordToastVisibility(true);
+      return;
+    }
     setIsLoading(true);
     WordService.submit(wordInput)
       .then(
@@ -137,7 +150,7 @@ const Wordicle = () => {
           setIsLoading(false);
           words[wordIdx] = "";
           setWords([...words]);
-          setToastVisibility(true);
+          setInvalidWordToastVisibility(true);
         }
       });
   };
@@ -332,10 +345,18 @@ const Wordicle = () => {
         }}
       ></SettingsDialog>
       <Snackbar
-        open={toastVisibility}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        open={invalidWordToastVisibility}
         autoHideDuration={3000}
         message="Word not found in word list!"
-        onClose={() => setToastVisibility(false)}
+        onClose={() => setInvalidWordToastVisibility(false)}
+      />
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        open={duplicateWordToastVisibility}
+        autoHideDuration={3000}
+        message="You have already tried out this word"
+        onClose={() => setDuplicateWordToastVisibility(false)}
       />
     </ConfigContext.Provider>
   );
