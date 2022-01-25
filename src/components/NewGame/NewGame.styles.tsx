@@ -17,9 +17,12 @@ export const NewGameWrapper = styled.div<{ visible: boolean; isDarkMode: boolean
   transform: ${(props) =>
     props.visible ? "translateY(0%)" : "translateY(100%)"};
   opacity: ${(props) => (props.visible ? 1 : 0)};
+  
   z-index: 100;
   button {
     min-width: 200px;
+    pointer-events: ${props => props.visible ? "all" : "none"};
+    user-select: none;
   }
   .app-title {
     font-size: 50px;

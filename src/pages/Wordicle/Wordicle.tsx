@@ -66,7 +66,6 @@ const Wordicle = () => {
   useKey((e) => {
     if (!isLoading && showNewGameScreen && e.key.toUpperCase() === "ENTER") {
       setTimeout(() => setShowNewGameScreen(false), 400);
-      console.info("Starting new game because Enter key was pressed on New Game screen");
       onStartNewGame();
     } else if (
       !isLoading &&
@@ -311,10 +310,11 @@ const Wordicle = () => {
             visible={showNewGameScreen}
             isLoading={isLoading}
             onStartClick={() => {
-              console.info("Starting new game because Play was clicked on New Game screen");
-              onStartNewGame().then(() =>
-                setTimeout(() => setShowNewGameScreen(false), 400)
-              );
+              if (showNewGameScreen) {
+                onStartNewGame().then(() =>
+                  setTimeout(() => setShowNewGameScreen(false), 400)
+                );
+              }
             }}
             onSettingsClick={() => {
               setTimeout(() => setSettingsDialogVisibility(true), 400);

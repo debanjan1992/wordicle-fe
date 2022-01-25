@@ -1,8 +1,31 @@
 const path = require("path");
+const fs = require("fs");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
+
+const changeManifestFile = (env) => {
+  console.log(`--- changing manifest.json file for ${env} ---`);
+  const maniFestJSON = JSON.parse(
+    fs.readFileSync(path.join(__dirname, "manifest.json"))
+  );
+  if (env === "development") {
+    maniFestJSON["start_url"] = "/";
+  } else if (env === "production") {
+    const appUrl = JSON.parse(
+      fs.readFileSync(path.join(__dirname, "package.json"))
+    ).homepage;
+    maniFestJSON["start_url"] = appUrl;
+  }
+  console.log(
+    `--- writing to manifest.json file: start_url - ${maniFestJSON["start_url"]} ---`
+  );
+  fs.writeFileSync(
+    path.join(__dirname, "manifest.json"),
+    JSON.stringify(maniFestJSON, null, 4)
+  );
+};
 
 const config = (env) => {
   const environment = env.production ? "production" : "development";
@@ -49,6 +72,8 @@ const config = (env) => {
       }),
     ],
   };
+
+  changeManifestFile(environment);
 
   if (environment === "development") {
     webpackConfig.devtool = "source-map";
