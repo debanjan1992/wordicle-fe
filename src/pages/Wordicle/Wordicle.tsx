@@ -50,6 +50,8 @@ const Wordicle = () => {
     useState(false);
   const [duplicateWordToastVisibility, setDuplicateWordToastVisibility] =
     useState(false);
+  const [sessionExpiredToastVisibility, setSessionExpiredToastVisibility] =
+    useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showNewGameScreen, setShowNewGameScreen] = useState(false);
 
@@ -64,6 +66,7 @@ const Wordicle = () => {
   useKey((e) => {
     if (!isLoading && showNewGameScreen && e.key.toUpperCase() === "ENTER") {
       setTimeout(() => setShowNewGameScreen(false), 400);
+      console.info("Starting new game because Enter key was pressed on New Game screen");
       onStartNewGame();
     } else if (
       !isLoading &&
@@ -111,7 +114,7 @@ const Wordicle = () => {
       return;
     }
     setIsLoading(true);
-    WordService.submit(wordInput)
+    WordService.submit(sessionId, wordInput)
       .then(
         (response: {
           data: string[];
@@ -133,32 +136,28 @@ const Wordicle = () => {
             );
           }
           colorMap[wordIdx] = [];
-          setColorCodes(response.data).then(() => {
-            setIsLoading(false);
-            setWords(words);
-            setColorMap([...colorMap]);
-            setWordIdx(wordIdx + 1);
-            SessionStorageService.saveToSession(SESSION_KEYS.Words, words);
-            SessionStorageService.saveToSession(SESSION_KEYS.Mapping, [
-              ...colorMap,
-            ]);
-            SessionStorageService.saveToSession(
-              SESSION_KEYS.WordIndex,
-              wordIdx + 1
-            );
-          });
+          return setColorCodes(response.data);
         }
       )
+      .then(() => {
+        setWords(words);
+        setColorMap([...colorMap]);
+        setWordIdx(wordIdx + 1);
+        SessionStorageService.saveToSession(SESSION_KEYS.Words, words);
+        SessionStorageService.saveToSession(SESSION_KEYS.Mapping, [
+          ...colorMap,
+        ]);
+        SessionStorageService.saveToSession(
+          SESSION_KEYS.WordIndex,
+          wordIdx + 1
+        );
+      })
       .catch((error) => {
-        if (error.message === "Invalid Session") {
-          setShowNewGameScreen(true);
-        } else {
-          setIsLoading(false);
-          words[wordIdx] = "";
-          setWords([...words]);
-          setInvalidWordToastVisibility(true);
-        }
-      });
+        setIsLoading(false);
+        setSessionExpiredToastVisibility(true);
+        setShowNewGameScreen(true);
+      })
+      .finally(() => setIsLoading(false));
   };
 
   const onKeyboardKeyClick = (key: string) => {
@@ -255,11 +254,8 @@ const Wordicle = () => {
       setHelpDialogVisibility(true);
     }
     setIsLoading(true);
-    WordService.getSessionDetails().then((response: any) => {
-      setIsLoading(false);
-      if (!response.valid) {
-        setShowNewGameScreen(true);
-      } else {
+    WordService.getSessionDetails(sessionId)
+      .then((response: any) => {
         setBestTime(response.bestTime);
         setWordLength(response.length);
         setStartTime(response.startTime);
@@ -275,8 +271,14 @@ const Wordicle = () => {
           SESSION_KEYS.StartTime,
           response.startTime
         );
-      }
-    });
+      })
+      .catch((error) => {
+        setShowNewGameScreen(true);
+        if (sessionId !== null) {
+          setSessionExpiredToastVisibility(true);
+        }
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
   return (
@@ -309,6 +311,7 @@ const Wordicle = () => {
             visible={showNewGameScreen}
             isLoading={isLoading}
             onStartClick={() => {
+              console.info("Starting new game because Play was clicked on New Game screen");
               onStartNewGame().then(() =>
                 setTimeout(() => setShowNewGameScreen(false), 400)
               );
@@ -385,6 +388,13 @@ const Wordicle = () => {
         autoHideDuration={3000}
         message="You have already tried out this word"
         onClose={() => setDuplicateWordToastVisibility(false)}
+      />
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        open={sessionExpiredToastVisibility}
+        autoHideDuration={3000}
+        message="Your session has expired. Start a new game."
+        onClose={() => setSessionExpiredToastVisibility(false)}
       />
     </ConfigContext.Provider>
   );

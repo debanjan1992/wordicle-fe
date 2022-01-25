@@ -1,35 +1,50 @@
 import { GAME_STATUS, SESSION_KEYS } from "../config/CONSTANTS";
 import EnvironmentService from "./EnvironmentService";
 import SessionStorageService from "./SessionStorageService";
+import axios from "axios";
 
 export class WordService {
   static BASE_URL = EnvironmentService.getApiBaseUrl();
 
   static isGameOver = false;
 
-  static getSessionDetails() {
-    const sessionId = this.getSessionId();
+  static getSessionDetails(sessionId: string | null) {
     if (sessionId === null) {
-      return Promise.resolve(false);
+      return Promise.reject();
     } else {
-      return fetch(this.BASE_URL + "/session?id=" + sessionId)
-        .then((response) => response.json());
+      return axios
+        .get(this.BASE_URL + "/session?id=" + sessionId)
+        .then((response) => response.data);
     }
   }
 
   static getWordsMetadataFromSessionStorage() {
     const words = SessionStorageService.getFromSession(SESSION_KEYS.Words);
     const mapping = SessionStorageService.getFromSession(SESSION_KEYS.Mapping);
-    const wordIndex = SessionStorageService.getFromSession(SESSION_KEYS.WordIndex);
-    const startTime = SessionStorageService.getFromSession(SESSION_KEYS.StartTime);
-    const gameStatus = SessionStorageService.getFromSession(SESSION_KEYS.GameStatus);
-    const darkMode = SessionStorageService.getFromSession(SESSION_KEYS.DarkMode);
+    const wordIndex = SessionStorageService.getFromSession(
+      SESSION_KEYS.WordIndex
+    );
+    const startTime = SessionStorageService.getFromSession(
+      SESSION_KEYS.StartTime
+    );
+    const gameStatus = SessionStorageService.getFromSession(
+      SESSION_KEYS.GameStatus
+    );
+    const darkMode = SessionStorageService.getFromSession(
+      SESSION_KEYS.DarkMode
+    );
     const gameDuration = SessionStorageService.getFromSession(
       SESSION_KEYS.GameDuration
     );
-    const bestTime = SessionStorageService.getFromSession(SESSION_KEYS.BestTime);
-    const sessionId = SessionStorageService.getFromSession(SESSION_KEYS.SessionId);
-    const wordLength = SessionStorageService.getFromSession(SESSION_KEYS.WordLength);
+    const bestTime = SessionStorageService.getFromSession(
+      SESSION_KEYS.BestTime
+    );
+    const sessionId = SessionStorageService.getFromSession(
+      SESSION_KEYS.SessionId
+    );
+    const wordLength = SessionStorageService.getFromSession(
+      SESSION_KEYS.WordLength
+    );
     const output = {
       words: [],
       mapping: [],
@@ -84,10 +99,6 @@ export class WordService {
     return output;
   }
 
-  static getSessionId() {
-    return SessionStorageService.getFromSession(SESSION_KEYS.SessionId);
-  }
-
   static startNewGame() {
     SessionStorageService.deleteKey(SESSION_KEYS.SessionId);
     SessionStorageService.deleteKey(SESSION_KEYS.WordLength);
@@ -98,9 +109,9 @@ export class WordService {
     SessionStorageService.deleteKey(SESSION_KEYS.Words);
     SessionStorageService.deleteKey(SESSION_KEYS.GameStatus);
     SessionStorageService.deleteKey(SESSION_KEYS.BestTime);
-    return fetch(this.BASE_URL + "/newGame", { method: "POST" })
-      .then((response) => response.json())
-      .catch((error) => alert(error));
+    return axios
+      .post(this.BASE_URL + "/newGame")
+      .then((response) => response.data);
   }
 
   static revealWord() {
@@ -110,14 +121,16 @@ export class WordService {
     if (existingSessionId === null) {
       return Promise.resolve("");
     } else {
-      return fetch(
-        this.BASE_URL + "/reveal?sessionId=" + existingSessionId
-      ).then((response) => response.json());
+      return axios
+        .get(this.BASE_URL + "/reveal?sessionId=" + existingSessionId)
+        .then((response) => response.data);
     }
   }
 
   static getWordLength() {
-    const wordLength = SessionStorageService.getFromSession(SESSION_KEYS.WordLength);
+    const wordLength = SessionStorageService.getFromSession(
+      SESSION_KEYS.WordLength
+    );
     if (wordLength !== null) {
       return +wordLength;
     } else {
@@ -125,24 +138,15 @@ export class WordService {
     }
   }
 
-  static submit(word: string) {
-    return fetch(this.BASE_URL + "/submit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        word: word,
-        sessionId: this.getSessionId(),
-      }),
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        if (!response.success) {
-          throw new Error(response.message);
-        } else {
-          return response;
-        }
-      });
+  static submit(sessionId: string | null, word: string) {
+    if (sessionId === null) {
+      return Promise.reject();
+    }
+    return axios
+      .post(this.BASE_URL + "/submit", {
+        word,
+        sessionId,
+      })
+      .then((response) => response.data);
   }
 }

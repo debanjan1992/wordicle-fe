@@ -42,7 +42,7 @@ const StatsBar = () => {
     }
   };
   const bestTime = getBestTimeParts();
-  const isDarkMode = React.useContext(ConfigContext).darkMode;
+  const isDarkMode = context.darkMode;
 
   return (
     <StatsBarWrapper isDarkMode={isDarkMode}>
