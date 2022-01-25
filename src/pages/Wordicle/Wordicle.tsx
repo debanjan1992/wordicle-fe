@@ -1,18 +1,19 @@
-import GameGrid from "./GameGrid/GameGrid";
-import Header from "./Header";
-import Keyboard from "./Keyboard";
+import GameGrid from "../../components/GameGrid/GameGrid";
+import Header from "../../components/Header/Header";
+import Keyboard from "../../components/Keyboard/Keyboard";
 import React, { useEffect, useState } from "react";
-import { WordService } from "./WordService";
-import GameOverDialog from "./Dialogs/GameOverDialog";
-import WinnerDialog from "./Dialogs/WinnerDialog";
-import HelpDialog from "./Dialogs/HelpDialog";
-import { GameWrapper, WordleWrapper } from "./Wordicle.styles";
+import { WordService } from "../../services/WordService";
+import GameOverDialog from "../../dialogs/GameOverDialog/GameOverDialog";
+import WinnerDialog from "../../dialogs/WinnerDialog/WinnerDialog";
+import HelpDialog from "../../dialogs/HelpDialog/HelpDialog";
 import Snackbar from "@mui/material/Snackbar";
-import SettingsDialog from "./Dialogs/SettingsDialog";
-import ConfigContext from "./ConfigContext";
-import SessionService, { GAME_STATUS, SESSION_KEYS } from "./SessionService";
-import NewGame from "./NewGame";
-import useKey from "./useKey";
+import SettingsDialog from "../../dialogs/SettingsDialog/SettingsDialog";
+import ConfigContext from "../../config/ConfigContext";
+import SessionStorageService from "../../services/SessionStorageService";
+import NewGame from "../../components/NewGame/NewGame";
+import useKey from "../../hooks/useKey";
+import { GAME_STATUS, SESSION_KEYS } from "../../config/CONSTANTS";
+import { GameWrapper, WordleWrapper } from "./Wordicle.styles";
 
 export const getInitialWords = (chances: number) => {
   const wordsMetadata = WordService.getWordsMetadataFromSessionStorage();
@@ -121,12 +122,12 @@ const Wordicle = () => {
         }) => {
           if (response.gameOver) {
             setGameDuration(+response.duration);
-            SessionService.saveToSession(
+            SessionStorageService.saveToSession(
               SESSION_KEYS.GameDuration,
               response.duration
             );
             setGameStatus(GAME_STATUS.GameOverWin);
-            SessionService.saveToSession(
+            SessionStorageService.saveToSession(
               SESSION_KEYS.GameStatus,
               GAME_STATUS.GameOverWin
             );
@@ -137,9 +138,14 @@ const Wordicle = () => {
             setWords(words);
             setColorMap([...colorMap]);
             setWordIdx(wordIdx + 1);
-            SessionService.saveToSession(SESSION_KEYS.Words, words);
-            SessionService.saveToSession(SESSION_KEYS.Mapping, [...colorMap]);
-            SessionService.saveToSession(SESSION_KEYS.WordIndex, wordIdx + 1);
+            SessionStorageService.saveToSession(SESSION_KEYS.Words, words);
+            SessionStorageService.saveToSession(SESSION_KEYS.Mapping, [
+              ...colorMap,
+            ]);
+            SessionStorageService.saveToSession(
+              SESSION_KEYS.WordIndex,
+              wordIdx + 1
+            );
           });
         }
       )
@@ -183,23 +189,32 @@ const Wordicle = () => {
   const onStartNewGame = () => {
     setIsLoading(true);
     return WordService.startNewGame().then((response: any) => {
-      SessionService.saveToSession(SESSION_KEYS.SessionId, response.id);
-      SessionService.saveToSession(
+      SessionStorageService.saveToSession(SESSION_KEYS.SessionId, response.id);
+      SessionStorageService.saveToSession(
         SESSION_KEYS.Words,
         getInitialWords(chances)
       );
-      SessionService.saveToSession(
+      SessionStorageService.saveToSession(
         SESSION_KEYS.Mapping,
         getInitialMapping(chances)
       );
-      SessionService.saveToSession(SESSION_KEYS.WordIndex, 0);
-      SessionService.saveToSession(SESSION_KEYS.WordLength, response.length);
-      SessionService.saveToSession(SESSION_KEYS.StartTime, +response.startTime);
-      SessionService.saveToSession(
+      SessionStorageService.saveToSession(SESSION_KEYS.WordIndex, 0);
+      SessionStorageService.saveToSession(
+        SESSION_KEYS.WordLength,
+        response.length
+      );
+      SessionStorageService.saveToSession(
+        SESSION_KEYS.StartTime,
+        +response.startTime
+      );
+      SessionStorageService.saveToSession(
         SESSION_KEYS.GameStatus,
         GAME_STATUS.InProgress
       );
-      SessionService.saveToSession(SESSION_KEYS.BestTime, response.bestTime);
+      SessionStorageService.saveToSession(
+        SESSION_KEYS.BestTime,
+        response.bestTime
+      );
       setWords(getInitialWords(chances));
       setColorMap(getInitialMapping(chances));
       setWordIdx(0);
@@ -221,7 +236,7 @@ const Wordicle = () => {
       } else if (isLoser()) {
         if (gameStatus === GAME_STATUS.InProgress) {
           setGameStatus(GAME_STATUS.GameOverLost);
-          SessionService.saveToSession(
+          SessionStorageService.saveToSession(
             SESSION_KEYS.GameStatus,
             GAME_STATUS.GameOverLost
           );
@@ -246,7 +261,20 @@ const Wordicle = () => {
         setShowNewGameScreen(true);
       } else {
         setBestTime(response.bestTime);
-        SessionService.saveToSession(SESSION_KEYS.BestTime, +response.bestTime);
+        setWordLength(response.length);
+        setStartTime(response.startTime);
+        SessionStorageService.saveToSession(
+          SESSION_KEYS.BestTime,
+          +response.bestTime
+        );
+        SessionStorageService.saveToSession(
+          SESSION_KEYS.WordLength,
+          response.length
+        );
+        SessionStorageService.saveToSession(
+          SESSION_KEYS.StartTime,
+          response.startTime
+        );
       }
     });
   }, []);
@@ -340,7 +368,7 @@ const Wordicle = () => {
         visible={settingsDialogVisibility}
         onDismiss={() => setSettingsDialogVisibility(false)}
         onToggleDarkMode={(darkMode) => {
-          SessionService.saveToSession(SESSION_KEYS.DarkMode, darkMode);
+          SessionStorageService.saveToSession(SESSION_KEYS.DarkMode, darkMode);
           setDarkMode(darkMode);
         }}
       ></SettingsDialog>

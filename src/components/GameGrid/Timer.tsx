@@ -1,8 +1,9 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import ConfigContext from "../ConfigContext";
-import SessionService, { GAME_STATUS, SESSION_KEYS } from "../SessionService";
+import { GAME_STATUS } from "../../config/CONSTANTS";
+import ConfigContext from "../../config/ConfigContext";
+import SessionStorageService from "../../services/SessionStorageService";
 
 interface TimeLeftType {
   days: number;

@@ -1,5 +1,6 @@
+import { GAME_STATUS, SESSION_KEYS } from "../config/CONSTANTS";
 import EnvironmentService from "./EnvironmentService";
-import SessionService, { GAME_STATUS, SESSION_KEYS } from "./SessionService";
+import SessionStorageService from "./SessionStorageService";
 
 export class WordService {
   static BASE_URL = EnvironmentService.getApiBaseUrl();
@@ -12,48 +13,23 @@ export class WordService {
       return Promise.resolve(false);
     } else {
       return fetch(this.BASE_URL + "/session?id=" + sessionId)
-        .then((response) => response.json())
-        .then((response) => {
-          SessionService.saveToSession(
-            SESSION_KEYS.WordLength,
-            response.length
-          );
-          SessionService.saveToSession(
-            SESSION_KEYS.StartTime,
-            response.startTime
-          );
-          SessionService.saveToSession(
-            SESSION_KEYS.BestTime,
-            response.bestTime
-          );
-          return response;
-        });
+        .then((response) => response.json());
     }
   }
 
-  static setWordsMetadataToSessionStorage(
-    words: string[],
-    mapping: string[][],
-    index: number
-  ) {
-    SessionService.saveToSession(SESSION_KEYS.Words, words);
-    SessionService.saveToSession(SESSION_KEYS.Mapping, mapping);
-    SessionService.saveToSession(SESSION_KEYS.WordIndex, index);
-  }
-
   static getWordsMetadataFromSessionStorage() {
-    const words = SessionService.getFromSession(SESSION_KEYS.Words);
-    const mapping = SessionService.getFromSession(SESSION_KEYS.Mapping);
-    const wordIndex = SessionService.getFromSession(SESSION_KEYS.WordIndex);
-    const startTime = SessionService.getFromSession(SESSION_KEYS.StartTime);
-    const gameStatus = SessionService.getFromSession(SESSION_KEYS.GameStatus);
-    const darkMode = SessionService.getFromSession(SESSION_KEYS.DarkMode);
-    const gameDuration = SessionService.getFromSession(
+    const words = SessionStorageService.getFromSession(SESSION_KEYS.Words);
+    const mapping = SessionStorageService.getFromSession(SESSION_KEYS.Mapping);
+    const wordIndex = SessionStorageService.getFromSession(SESSION_KEYS.WordIndex);
+    const startTime = SessionStorageService.getFromSession(SESSION_KEYS.StartTime);
+    const gameStatus = SessionStorageService.getFromSession(SESSION_KEYS.GameStatus);
+    const darkMode = SessionStorageService.getFromSession(SESSION_KEYS.DarkMode);
+    const gameDuration = SessionStorageService.getFromSession(
       SESSION_KEYS.GameDuration
     );
-    const bestTime = SessionService.getFromSession(SESSION_KEYS.BestTime);
-    const sessionId = SessionService.getFromSession(SESSION_KEYS.SessionId);
-    const wordLength = SessionService.getFromSession(SESSION_KEYS.WordLength);
+    const bestTime = SessionStorageService.getFromSession(SESSION_KEYS.BestTime);
+    const sessionId = SessionStorageService.getFromSession(SESSION_KEYS.SessionId);
+    const wordLength = SessionStorageService.getFromSession(SESSION_KEYS.WordLength);
     const output = {
       words: [],
       mapping: [],
@@ -109,26 +85,26 @@ export class WordService {
   }
 
   static getSessionId() {
-    return SessionService.getFromSession(SESSION_KEYS.SessionId);
+    return SessionStorageService.getFromSession(SESSION_KEYS.SessionId);
   }
 
   static startNewGame() {
-    SessionService.deleteKey(SESSION_KEYS.SessionId);
-    SessionService.deleteKey(SESSION_KEYS.WordLength);
-    SessionService.deleteKey(SESSION_KEYS.StartTime);
-    SessionService.deleteKey(SESSION_KEYS.GameDuration);
-    SessionService.deleteKey(SESSION_KEYS.Mapping);
-    SessionService.deleteKey(SESSION_KEYS.WordIndex);
-    SessionService.deleteKey(SESSION_KEYS.Words);
-    SessionService.deleteKey(SESSION_KEYS.GameStatus);
-    SessionService.deleteKey(SESSION_KEYS.BestTime);
+    SessionStorageService.deleteKey(SESSION_KEYS.SessionId);
+    SessionStorageService.deleteKey(SESSION_KEYS.WordLength);
+    SessionStorageService.deleteKey(SESSION_KEYS.StartTime);
+    SessionStorageService.deleteKey(SESSION_KEYS.GameDuration);
+    SessionStorageService.deleteKey(SESSION_KEYS.Mapping);
+    SessionStorageService.deleteKey(SESSION_KEYS.WordIndex);
+    SessionStorageService.deleteKey(SESSION_KEYS.Words);
+    SessionStorageService.deleteKey(SESSION_KEYS.GameStatus);
+    SessionStorageService.deleteKey(SESSION_KEYS.BestTime);
     return fetch(this.BASE_URL + "/newGame", { method: "POST" })
       .then((response) => response.json())
       .catch((error) => alert(error));
   }
 
   static revealWord() {
-    const existingSessionId = SessionService.getFromSession(
+    const existingSessionId = SessionStorageService.getFromSession(
       SESSION_KEYS.SessionId
     );
     if (existingSessionId === null) {
@@ -141,7 +117,7 @@ export class WordService {
   }
 
   static getWordLength() {
-    const wordLength = SessionService.getFromSession(SESSION_KEYS.WordLength);
+    const wordLength = SessionStorageService.getFromSession(SESSION_KEYS.WordLength);
     if (wordLength !== null) {
       return +wordLength;
     } else {

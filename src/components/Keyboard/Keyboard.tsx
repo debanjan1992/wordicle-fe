@@ -1,41 +1,9 @@
-import { KeyboardWrapper, KeyWrapper } from "./Wordicle.styles";
+import { KeyboardWrapper, KeyWrapper } from "./Keyboard.styles";
 import Backspace from "@mui/icons-material/Backspace";
-import { ReactNode } from "react";
-import ConfigContext from "./ConfigContext";
+import ConfigContext from "../../config/ConfigContext";
 import React from "react";
-import SessionService, { SESSION_KEYS } from "./SessionService";
-
-interface KeyboardProps {
-  onKeyPressed: (key: string) => any;
-  activeWord: string;
-  wordLength: number;
-  visible: boolean;
-}
-
-interface KeyProps {
-  children: ReactNode;
-  isDarkMode: boolean;
-  disabled?: boolean;
-  colorCode?: string;
-  onClick: () => any;
-}
-
-const Key = ({ children, disabled, colorCode, onClick }: KeyProps) => {
-  const isDarkMode = React.useContext(ConfigContext).darkMode;
-
-  return (
-    <KeyWrapper
-      className={colorCode || ""}
-      disabled={disabled}
-      onClick={() => {
-        !disabled && onClick();
-      }}
-      isDarkMode={isDarkMode}
-    >
-      <span>{children}</span>
-    </KeyWrapper>
-  );
-};
+import { KeyboardProps } from "./Keyboard.types";
+import Key from "./Key";
 
 const Keyboard = ({
   onKeyPressed,

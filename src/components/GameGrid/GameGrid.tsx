@@ -1,18 +1,10 @@
 import React, { ReactNode } from "react";
-import ConfigContext from "../ConfigContext";
-import { GameGridWrapper } from "../Wordicle.styles";
-import { WordService } from "../WordService";
+import ConfigContext from "../../config/ConfigContext";
+import { GameGridWrapper } from "./GameGrid.styles";
+import { WordService } from "../../services/WordService";
 import StatsBar from "./StatsBar";
 import Word from "./Word";
-
-interface GameGridProps {
-  wordLength: number;
-  words: string[];
-  map: Array<Array<string>>;
-  dontShowEmpty?: boolean;
-  snapshotMode?: boolean;
-  visible: boolean;
-}
+import { GameGridProps } from "./GameGrid.types";
 
 const GameGrid = (props: GameGridProps) => {
   const chances = React.useContext(ConfigContext).chances;

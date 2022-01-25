@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
-import ConfigContext from "./ConfigContext";
+import ConfigContext from "../../config/ConfigContext";
 import React from "react";
 
 import PlayIcon from "@mui/icons-material/PlayArrow";

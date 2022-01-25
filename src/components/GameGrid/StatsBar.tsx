@@ -1,8 +1,6 @@
-import { config } from "process";
 import React from "react";
 import styled from "styled-components";
-import ConfigContext from "../ConfigContext";
-import SessionService, { SESSION_KEYS } from "../SessionService";
+import ConfigContext from "../../config/ConfigContext";
 import Timer, { TimerWrapper } from "./Timer";
 
 const StatsBarWrapper = styled.div<{ isDarkMode: boolean }>`

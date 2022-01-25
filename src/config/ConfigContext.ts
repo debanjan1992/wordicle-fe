@@ -1,6 +1,6 @@
 import React from "react";
-import { GAME_STATUS } from "./SessionService";
-import { WordService } from "./WordService";
+import { GAME_STATUS } from "./CONSTANTS";
+import { WordService } from "../services/WordService";
 
 const getInitialWords = (chances: number) => {
   const wordsMetadata = WordService.getWordsMetadataFromSessionStorage();

@@ -1,18 +1,4 @@
-var CACHE_NAME = "wordicle-cache-v10";
-
-// self.addEventListener("install", function (event) {
-//   event.waitUntil(
-//     caches.open(CACHE_NAME).then((cache) => {
-//       return cache.addAll([
-//         "./index.html",
-//         "./assets",
-//         "./main.bundle.js",
-//         "./manifest.json",
-//         "./service_worker.js",
-//       ]);
-//     })
-//   );
-// });
+var CACHE_NAME = "wordicle-cache-v11";
 
 self.addEventListener("activate", function (event) {
   event.waitUntil(

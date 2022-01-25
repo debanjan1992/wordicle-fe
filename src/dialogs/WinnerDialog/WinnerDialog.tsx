@@ -2,120 +2,18 @@ import React, { useEffect, useState } from "react";
 import DialogContent from "@mui/material/DialogContent";
 import Dialog from "@mui/material/Dialog";
 import Button from "@mui/material/Button";
-import SessionService, { SESSION_KEYS } from "../SessionService";
-import ConfigContext from "../ConfigContext";
-import styled from "styled-components";
+import ConfigContext from "../../config/ConfigContext";
 import ShareIcon from "@mui/icons-material/Share";
 import WhatsappIcon from "@mui/icons-material/Whatsapp";
 import IconButton from "@mui/material/IconButton";
 import CopyIcon from "@mui/icons-material/CopyAll";
 import Snackbar from "@mui/material/Snackbar";
-import Word from "../GameGrid/Word";
-import { WordService } from "../WordService";
+import Word from "../../components/GameGrid/Word";
+import { WordService } from "../../services/WordService";
 import Tooltip from "@mui/material/Tooltip";
+import { WinnerDialogProps } from "./WinnerDialog.types";
+import { WinnerDialogContentWrapper, WinnerDialogButtonsWrapper } from "./WinnerDialog.styles";
 
-interface WinnerDialogProps {
-  visible: boolean;
-  onDismiss: (reason: string) => any;
-  goBackToMainMenu: () => any;
-}
-
-const DialogButtonsWrapper = styled.div<{ isDarkMode: boolean }>`
-  margin-top: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  padding-top: 20px;
-  button {
-    margin: 0 10px;
-  }
-  border-top: 1px solid transparent;
-  border-color: ${(props) => (props.isDarkMode ? "#272727" : "#e4e4e4")};
-
-  /* For Mobile Portrait View */
-  @media screen and (max-device-width: 480px) and (orientation: portrait) {
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: center;
-    button {
-      margin: 5px 0px;
-    }
-  }
-
-  @media screen and (max-width: 560px) {
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: center;
-    button {
-      margin: 5px 0px;
-    }
-  }
-`;
-
-const DialogContentWrapper = styled.div<{ isDarkMode: boolean }>`
-  background-color: ${(props) => (props.isDarkMode ? "#131313" : "white")};
-  color: ${(props) => (props.isDarkMode ? "#d7dadc" : "black")};
-  transition: all 0.4s;
-
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 30px;
-
-    .title {
-      font-size: 26px;
-      color: #50df50;
-      font-weight: bolder;
-    }
-  }
-
-  .content {
-    .stats {
-      display: flex;
-      align-items: stretch;
-      justify-content: space-between;
-      user-select: none;
-      margin-bottom: 40px;
-
-      .divider {
-        width: 1px;
-        background-color: ${(props) =>
-          props.isDarkMode ? "#272727" : "#e4e4e4"};
-      }
-
-      .winner-stat {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        flex-shrink: 0;
-
-        label {
-          font-size: 11px;
-        }
-        .stat-value {
-          font-size: 18px;
-          font-weight: bold;
-        }
-      }
-    }
-    .share-section {
-      margin-top: 30px;
-      .heading {
-        font-weight: bold;
-        font-size: 14px;
-        margin-bottom: 5px;
-        text-align: center;
-      }
-      .sharing-buttons {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-    }
-  }
-`;
 
 const WinnerDialog = (props: WinnerDialogProps) => {
   const context = React.useContext(ConfigContext);
@@ -247,7 +145,7 @@ Play WORDICLE now on https://debanjan1992.github.io/wordicle-fe/`;
       open={props.visible}
       disableEscapeKeyDown={true}
     >
-      <DialogContentWrapper isDarkMode={isDarkMode}>
+      <WinnerDialogContentWrapper isDarkMode={isDarkMode}>
         <div className="pyro-container">
           <div className="pyro">
             <div className="before"></div>
@@ -336,14 +234,14 @@ Play WORDICLE now on https://debanjan1992.github.io/wordicle-fe/`;
                 </Tooltip>
               </div>
             </div>
-            <DialogButtonsWrapper isDarkMode={isDarkMode}>
+            <WinnerDialogButtonsWrapper isDarkMode={isDarkMode}>
               <Button
                 variant="contained"
                 onClick={props.goBackToMainMenu}
               >
                 Main Menu
               </Button>
-            </DialogButtonsWrapper>
+            </WinnerDialogButtonsWrapper>
           </div>
         </DialogContent>
         <Snackbar
@@ -352,7 +250,7 @@ Play WORDICLE now on https://debanjan1992.github.io/wordicle-fe/`;
           message="Copied to clipboard."
           onClose={() => setShowSnackbar(false)}
         />
-      </DialogContentWrapper>
+      </WinnerDialogContentWrapper>
     </Dialog>
   );
 };

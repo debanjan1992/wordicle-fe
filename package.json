@@ -21,6 +21,7 @@
   },
   "scripts": {
     "start": "webpack serve --open --progress",
+    "prebuild": "del-cli --force build",
     "build": "webpack --env production --progress",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
@@ -56,6 +57,7 @@
     "babel-loader": "^8.2.3",
     "copy-webpack-plugin": "^10.2.1",
     "css-loader": "^6.5.1",
+    "del-cli": "^4.0.1",
     "dotenv-webpack": "^7.0.3",
     "file-loader": "^6.2.0",
     "gh-pages": "^3.2.3",
