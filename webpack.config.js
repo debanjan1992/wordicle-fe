@@ -12,11 +12,13 @@ const changeManifestFile = (env) => {
   );
   if (env === "development") {
     maniFestJSON["start_url"] = "/";
+    maniFestJSON["scope"] = "/";
   } else if (env === "production") {
     const appUrl = JSON.parse(
       fs.readFileSync(path.join(__dirname, "package.json"))
     ).homepage;
     maniFestJSON["start_url"] = appUrl;
+    maniFestJSON["scope"] = appUrl;
   }
   console.log(
     `--- writing to manifest.json file: start_url - ${maniFestJSON["start_url"]} ---`
