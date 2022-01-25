@@ -59,10 +59,10 @@ const Wordicle = () => {
 
   useKey((e) => {
     // too be removed
-    const enableKeyboardInput = SessionService.getFromSession("keyboard");
-    if (enableKeyboardInput === null || enableKeyboardInput === "false") {
-      return;
-    }
+    // const enableKeyboardInput = SessionService.getFromSession("keyboard");
+    // if (enableKeyboardInput === null || enableKeyboardInput === "false") {
+    //   return;
+    // }
     // end: to be removed
     if (!isLoading && showNewGameScreen && e.key.toUpperCase() === "ENTER") {
       setTimeout(() => setShowNewGameScreen(false), 400);
