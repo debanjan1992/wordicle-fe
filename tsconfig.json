@@ -21,7 +21,6 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src",
-    "service_worker.js"
+    "src"
   ]
 }

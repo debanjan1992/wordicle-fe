@@ -1,10 +1,10 @@
 {
     "name": "Wordicle: The Word Game",
     "short_name": "Wordicle",
-    "start_url": "https://debanjan1992.github.io/wordicle-fe",
-    "scope": "https://debanjan1992.github.io/wordicle-fe",
+    "start_url": "https://debanjan1992.github.io/wordicle-fe/",
+    "scope": "https://debanjan1992.github.io/wordicle-fe/",
     "description": "An everyday word game",
-    "orientation": "any",
+    "orientation": "portrait",
     "icons": [
         {
             "src": "./assets/android-chrome-192x192.png",

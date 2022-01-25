@@ -21,7 +21,7 @@ const changeManifestFile = (env) => {
     maniFestJSON["scope"] = appUrl;
   }
   console.log(
-    `--- writing to manifest.json file: start_url - ${maniFestJSON["start_url"]} ---`
+    `--- writing to manifest.json file: start_url and scope - ${maniFestJSON["start_url"]} ---`
   );
   fs.writeFileSync(
     path.join(__dirname, "manifest.json"),

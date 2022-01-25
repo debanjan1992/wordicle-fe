@@ -1,4 +1,4 @@
-var CACHE_NAME = "wordicle-cache-v16";
+var CACHE_NAME = "wordicle-cache-v18";
 
 self.addEventListener("install", function (event) {
   event.waitUntil(
@@ -35,27 +35,15 @@ self.addEventListener("activate", function (event) {
 
 self.addEventListener("fetch", function (event) {
   event.respondWith(
-    caches.match(event.request).then(function (response) {
-      // Cache hit - return response
-      if (response) {
-        return response;
+    (async function () {
+      try {
+        var res = await fetch(event.request);
+        var cache = await caches.open(CACHE_NAME);
+        cache.put(event.request.url, res.clone());
+        return res;
+      } catch (error) {
+        return caches.match(event.request);
       }
-      return fetch(event.request);
-    })
+    })()
   );
 });
-
-// self.addEventListener("fetch", function (event) {
-//   event.respondWith(
-//     (async function () {
-//       try {
-//         var res = await fetch(event.request);
-//         var cache = await caches.open(CACHE_NAME);
-//         cache.put(event.request.url, res.clone());
-//         return res;
-//       } catch (error) {
-//         return caches.match(event.request);
-//       }
-//     })()
-//   );
-// });
