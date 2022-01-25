@@ -152,9 +152,19 @@ const Wordicle = () => {
         );
       })
       .catch((error) => {
-        setIsLoading(false);
-        setSessionExpiredToastVisibility(true);
-        setShowNewGameScreen(true);
+        const message = error.response.data.message;
+        if (message === "invalid word") {
+          words[wordIdx] = "";
+          setWords([...words]);
+          SessionStorageService.saveToSession(SESSION_KEYS.Words, words);
+          setInvalidWordToastVisibility(true);
+        } else if (message === "invalid session") {
+          setSessionExpiredToastVisibility(true);
+          setShowNewGameScreen(true);
+        } else if (message === "session expired") {
+          setSessionExpiredToastVisibility(true);
+          setShowNewGameScreen(true);
+        }
       })
       .finally(() => setIsLoading(false));
   };
