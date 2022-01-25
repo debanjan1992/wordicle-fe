@@ -58,10 +58,20 @@ const Wordicle = () => {
     useState(false);
 
   useKey((e) => {
+    // too be removed
+    const enableKeyboardInput = SessionService.getFromSession("keyboard");
+    if (enableKeyboardInput === null || enableKeyboardInput === "false") {
+      return;
+    }
+    // end: to be removed
     if (!isLoading && showNewGameScreen && e.key.toUpperCase() === "ENTER") {
       setTimeout(() => setShowNewGameScreen(false), 400);
       onStartNewGame();
-    } else if (!isLoading && !showNewGameScreen && gameStatus === GAME_STATUS.InProgress) {
+    } else if (
+      !isLoading &&
+      !showNewGameScreen &&
+      gameStatus === GAME_STATUS.InProgress
+    ) {
       onKeyboardKeyClick(e.key.toUpperCase());
     }
   });
@@ -151,7 +161,11 @@ const Wordicle = () => {
         words[wordIdx] = key;
       }
       setWords([...words]);
-    } else if (key === "ENTER" && words[wordIdx].length === wordLength && !isLoading) {
+    } else if (
+      key === "ENTER" &&
+      words[wordIdx].length === wordLength &&
+      !isLoading
+    ) {
       submitWord(words[wordIdx]);
     } else if (key === "BACKSPACE" && words[wordIdx].length - 1 >= 0) {
       words[wordIdx] = words[wordIdx].substring(0, words[wordIdx].length - 1);
@@ -162,15 +176,6 @@ const Wordicle = () => {
   const onStartNewGame = () => {
     setIsLoading(true);
     WordService.startNewGame().then((response: any) => {
-      setIsLoading(false);
-      setWords(getInitialWords(chances));
-      setColorMap(getInitialMapping(chances));
-      setWordIdx(0);
-      setStartTime(+response.startTime);
-      setBestTime(response.bestTime);
-      setGameStatus(GAME_STATUS.InProgress);
-      setSessionId(response.id);
-      setWordLength(response.length);
       SessionService.saveToSession(SESSION_KEYS.SessionId, response.id);
       SessionService.saveToSession(
         SESSION_KEYS.Words,
@@ -188,9 +193,16 @@ const Wordicle = () => {
         GAME_STATUS.InProgress
       );
       SessionService.saveToSession(SESSION_KEYS.BestTime, response.bestTime);
+      setIsLoading(false);
+      setWords(getInitialWords(chances));
+      setColorMap(getInitialMapping(chances));
+      setWordIdx(0);
+      setStartTime(+response.startTime);
+      setBestTime(response.bestTime);
+      setGameStatus(GAME_STATUS.InProgress);
+      setSessionId(response.id);
+      setWordLength(response.length);
     });
-    setGameOverDialogVisibility(false);
-    setWinnerDialogVisibility(false);
   };
 
   useEffect(() => {
