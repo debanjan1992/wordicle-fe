@@ -1,11 +1,16 @@
-var CACHE_NAME = "wordicle-cache-v12";
+var CACHE_NAME = "wordicle-cache-v13";
 
 self.addEventListener("install", function (event) {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll([
         "./index.html",
-        "./assets",
+        "./assets/android-chrome-192x192.png",
+        "./assets/android-chrome-512x512.png",
+        "./assets/apple-touch-icon.png",
+        "./assets/favicon-16x16.png",
+        "./assets/favicon-32x32.png",
+        "./assets/favicon.ico",
         "./main.bundle.js",
         "./manifest.json",
         "./service_worker.js",
