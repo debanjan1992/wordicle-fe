@@ -69,8 +69,8 @@ const Word = (props: WordProps) => {
         <GameBox
           key={i}
           wordPosition={props.position}
-          letter={props.word[i - 1]}
-          colorCode={props.map[i - 1]}
+          letter={props.word === "" ? "" : props.word[i - 1]}
+          colorCode={props.map ? props.map[i - 1] : ""}
           snapshotMode={props.snapshotMode}
         />
       );
