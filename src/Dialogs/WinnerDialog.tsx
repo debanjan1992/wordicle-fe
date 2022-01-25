@@ -118,21 +118,17 @@ const DialogContentWrapper = styled.div<{ isDarkMode: boolean }>`
 `;
 
 const WinnerDialog = (props: WinnerDialogProps) => {
+  const context = React.useContext(ConfigContext);
   const [showSnackbar, setShowSnackbar] = React.useState(false);
-  const gameDurationInMinutes = +(
-    SessionService.getFromSession(SESSION_KEYS.GameDuration) || 0
-  );
-  const [bestTimeInMinutes, setBestTimeInMinutes] = useState(
-    () => SessionService.getFromSession(SESSION_KEYS.BestTime) || 0
-  );
+  const gameDurationInMinutes = context.gameDuration;
+  const [bestTimeInMinutes, setBestTimeInMinutes] = useState(context.bestTime);
   const [totalPlayed, setTotalPlayed] = useState(0);
-  const chances = SessionService.getFromSession(SESSION_KEYS.WordIndex);
-  const totalChances = React.useContext(ConfigContext).chances;
-  const words = SessionService.getFromSession(SESSION_KEYS.Words) || [];
-  const wordLength =
-    SessionService.getFromSession(SESSION_KEYS.WordLength) || 0;
-  const wordIdx = SessionService.getFromSession(SESSION_KEYS.WordIndex) || 0;
-  const isDarkMode = React.useContext(ConfigContext).darkMode;
+  const chances = context.wordIdx;
+  const totalChances = context.chances;
+  const words = context.words;
+  const wordLength = context.wordLength;
+  const wordIdx = context.wordIdx;
+  const isDarkMode = context.darkMode;
 
   const getTimeInString = (timeInSeconds: number) => {
     const days = Math.floor(timeInSeconds / (60 * 60 * 24));
@@ -171,7 +167,7 @@ const WinnerDialog = (props: WinnerDialogProps) => {
   };
 
   const getShareText = () => {
-    const mapping = SessionService.getFromSession(SESSION_KEYS.Mapping);
+    const mapping = context.mapping;
     let codeSnap = ``;
     if (mapping !== null) {
       mapping.forEach((codes: string[]) => {
@@ -230,7 +226,7 @@ Play WORDICLE now on https://debanjan1992.github.io/wordicle-fe/`;
   };
 
   const timeTaken = getTime(gameDurationInMinutes * 60);
-  const fastestTimeTaken = getTime(bestTimeInMinutes * 60);
+  const fastestTimeTaken = getTime(bestTimeInMinutes === "NA" ? 0 : (+bestTimeInMinutes * 60));
 
   const revealWord = () => {
     WordService.revealWord().then((response) => {

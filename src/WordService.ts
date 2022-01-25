@@ -42,20 +42,60 @@ export class WordService {
   }
 
   static getWordsMetadataFromSessionStorage() {
-    const w = SessionService.getFromSession(SESSION_KEYS.Words);
-    const m = SessionService.getFromSession(SESSION_KEYS.Mapping);
-    const i = SessionService.getFromSession(SESSION_KEYS.WordIndex);
+    const words = SessionService.getFromSession(SESSION_KEYS.Words);
+    const mapping = SessionService.getFromSession(SESSION_KEYS.Mapping);
+    const wordIndex = SessionService.getFromSession(SESSION_KEYS.WordIndex);
+    const startTime = SessionService.getFromSession(SESSION_KEYS.StartTime);
+    const gameStatus = SessionService.getFromSession(SESSION_KEYS.GameStatus);
+    const darkMode = SessionService.getFromSession(SESSION_KEYS.DarkMode);
+    const gameDuration = SessionService.getFromSession(
+      SESSION_KEYS.GameDuration
+    );
+    const bestTime = SessionService.getFromSession(SESSION_KEYS.BestTime);
+    const sessionId = SessionService.getFromSession(SESSION_KEYS.SessionId);
+    const wordLength = SessionService.getFromSession(SESSION_KEYS.WordLength);
     const output = {
       words: [],
       mapping: [],
       index: 0,
       disabled: [],
+      startTime: new Date().getTime(),
+      darkMode: window.matchMedia("(prefers-color-scheme: dark)").matches,
+      gameStatus: GAME_STATUS.New,
+      gameDuration: 0,
+      bestTime: "NA",
+      sessionId: null,
+      wordLength: 0,
     };
-    if (w !== null) {
-      output.words = w;
+    if (sessionId !== null) {
+      output.sessionId = sessionId;
     }
-    if (m !== null) {
-      output.mapping = m;
+    if (wordLength !== null) {
+      output.wordLength = +wordLength;
+    }
+    if (bestTime !== null) {
+      output.bestTime = bestTime;
+    }
+    if (gameDuration !== null) {
+      output.gameDuration = gameDuration;
+    }
+    if (gameStatus !== null) {
+      output.gameStatus = gameStatus;
+    }
+    if (darkMode !== null) {
+      output.darkMode = darkMode;
+    }
+    if (startTime !== null) {
+      output.startTime = +startTime;
+    }
+    if (words !== null) {
+      output.words = words;
+    }
+    if (wordIndex !== null) {
+      output.index = +wordIndex;
+    }
+    if (mapping !== null) {
+      output.mapping = mapping;
       output.mapping.forEach((val: string[], i: number) => {
         val.forEach((letterMap: string, j: number) => {
           if (letterMap === "absent") {
@@ -64,9 +104,6 @@ export class WordService {
         });
       });
       output.disabled = Array.from(new Set(output.disabled));
-    }
-    if (i !== null) {
-      output.index = +i;
     }
     return output;
   }
@@ -87,20 +124,6 @@ export class WordService {
     SessionService.deleteKey(SESSION_KEYS.BestTime);
     return fetch(this.BASE_URL + "/newGame", { method: "POST" })
       .then((response) => response.json())
-      .then((response) => {
-        SessionService.saveToSession(SESSION_KEYS.SessionId, response.id);
-        SessionService.saveToSession(SESSION_KEYS.WordLength, response.length);
-        SessionService.saveToSession(
-          SESSION_KEYS.StartTime,
-          +response.startTime
-        );
-        SessionService.saveToSession(
-          SESSION_KEYS.GameStatus,
-          GAME_STATUS.InProgress
-        );
-        SessionService.saveToSession(SESSION_KEYS.BestTime, response.bestTime);
-        return response;
-      })
       .catch((error) => alert(error));
   }
 

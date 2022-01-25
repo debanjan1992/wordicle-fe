@@ -1,3 +1,4 @@
+import { config } from "process";
 import React from "react";
 import styled from "styled-components";
 import ConfigContext from "../ConfigContext";
@@ -23,13 +24,9 @@ const StatsBarWrapper = styled.div<{ isDarkMode: boolean }>`
 `;
 
 const StatsBar = () => {
+  const context = React.useContext(ConfigContext);
   const getBestTimeParts = () => {
-    let startTime = SessionService.getFromSession(SESSION_KEYS.BestTime);
-    if (startTime === null) {
-      startTime = 0;
-    } else {
-      startTime = +startTime;
-    }
+    let startTime = context.bestTime === "NA" ? 0 : +context.bestTime;
 
     startTime = startTime * 60;
     let timeLeft = { days: 0, hours: 0, minutes: 0, seconds: 0 };

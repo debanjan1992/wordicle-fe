@@ -1,9 +1,8 @@
 import React, { ReactNode } from "react";
 import ConfigContext from "../ConfigContext";
-import SessionService, { SESSION_KEYS } from "../SessionService";
 import { GameBoxWrapper, WordWrapper } from "../Wordicle.styles";
 import Badge from "@mui/material/Badge";
-import Tooltip from '@mui/material/Tooltip';
+import Tooltip from "@mui/material/Tooltip";
 
 interface GameBoxProps {
   letter?: string;
@@ -27,11 +26,11 @@ const GameBox = ({
   snapshotMode,
   wordPosition,
 }: GameBoxProps) => {
-  const isDarkMode = React.useContext(ConfigContext).darkMode;
-  const isLoading = React.useContext(ConfigContext).isLoading;
-  const wordLength =
-    SessionService.getFromSession(SESSION_KEYS.WordLength) || 1;
-  const wordIdx = SessionService.getFromSession(SESSION_KEYS.WordIndex) || 1;
+  const context = React.useContext(ConfigContext);
+  const isDarkMode = context.darkMode;
+  const isLoading = context.isLoading;
+  const wordLength = context.wordLength;
+  const wordIdx = context.wordIdx;
 
   const getClassName = () => {
     let list = colorCode || "empty";
@@ -48,7 +47,7 @@ const GameBox = ({
       isActiveBox={
         !wordPosition
           ? false
-          : wordPosition === wordIdx && isLoading
+          : wordPosition - 1 === wordIdx && isLoading
           ? true
           : false
       }
@@ -87,7 +86,9 @@ const Word = (props: WordProps) => {
     <WordWrapper>
       {generateGameBoxes()}
       {props.badgeCount !== undefined && (
-        <Tooltip title={"This word has been solved " + props.badgeCount + " times."}>
+        <Tooltip
+          title={"This word has been solved " + props.badgeCount + " times."}
+        >
           <Badge color="primary" badgeContent={props.badgeCount || 0}></Badge>
         </Tooltip>
       )}

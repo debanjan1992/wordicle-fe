@@ -44,13 +44,14 @@ const calculateTime = (startTime: number): TimeLeftType => {
 };
 
 const Timer = () => {
-  const startTime = React.useContext(ConfigContext).startTime;
+  const context = React.useContext(ConfigContext);
+  const startTime = context.startTime;
+  const isDarkMode = context.darkMode;
   const [time, setTime] = useState(calculateTime(startTime));
-  const isDarkMode = React.useContext(ConfigContext).darkMode;
 
   useEffect(() => {
     if (
-      SessionService.getFromSession(SESSION_KEYS.GameStatus) ===
+      context.gameStatus ===
       GAME_STATUS.InProgress
     ) {
       const timer = setTimeout(() => setTime(calculateTime(startTime)), 1000);

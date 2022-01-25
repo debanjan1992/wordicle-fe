@@ -21,7 +21,7 @@ interface KeyProps {
 }
 
 const Key = ({ children, disabled, colorCode, onClick }: KeyProps) => {
-const isDarkMode = React.useContext(ConfigContext).darkMode;
+  const isDarkMode = React.useContext(ConfigContext).darkMode;
 
   return (
     <KeyWrapper
@@ -46,12 +46,11 @@ const Keyboard = ({
   const firstRow = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
   const secondRow = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
   const thirdRow = ["ENTER", "Z", "X", "C", "V", "B", "N", "M"];
-  const isDarkMode = React.useContext(ConfigContext).darkMode;
-  const wordsFromSession = SessionService.getFromSession(SESSION_KEYS.Words);
-  const mappingFromSession = SessionService.getFromSession(
-    SESSION_KEYS.Mapping
-  );
-  const isLoading = React.useContext(ConfigContext).isLoading;
+  const context = React.useContext(ConfigContext);
+  const isDarkMode = context.darkMode;
+  const wordsFromSession = context.words;
+  const mappingFromSession = context.mapping;
+  const isLoading = context.isLoading;
 
   const onKeyPress = (key: string) => {
     onKeyPressed(key);

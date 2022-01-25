@@ -16,7 +16,8 @@ export enum SESSION_KEYS {
 export enum GAME_STATUS {
     GameOverWin = "Game Over: Win",
     GameOverLost = "Game Over: Lost",
-    InProgress = "In Progress"
+    InProgress = "In Progress",
+    New = "New"
 }
 
 class SessionService {
