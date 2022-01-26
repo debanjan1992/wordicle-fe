@@ -28,7 +28,7 @@ const NewGame = ({
         className={`newgame-bg newgame-bg3 ${isDarkMode ? "dark" : "light"}`}
       ></div>
       <div className="app-title">
-        WORDICLE<span className="tag">[BETA]</span>
+        <span className="title">Wordicle</span>
       </div>
       <Stack direction="column" spacing={2}>
         <Button

@@ -21,7 +21,7 @@ const WinStats = (props: WinStatsProps) => {
             <>
               <span className="minutes">
                 {props.playTime.minutes}
-                <span className="stat-value-subtext">s</span>
+                <span className="stat-value-subtext">m</span>
               </span>
               <span className="seconds">
                 {props.playTime.seconds}

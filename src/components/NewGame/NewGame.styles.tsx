@@ -25,13 +25,11 @@ export const NewGameWrapper = styled.div<{ visible: boolean; isDarkMode: boolean
     user-select: none;
   }
   .app-title {
-    font-size: 50px;
+    font-size: 56px;
     color: ${(props) => (props.isDarkMode ? "#d7dadc" : "black")};
     margin-bottom: 30px;
-    font-weight: bolder;
-    .tag {
-      font-size: 10px;
-      letter-spacing: 0;
+    .title {
+      font-family: 'Leckerli One', cursive;
     }
   }
 `;

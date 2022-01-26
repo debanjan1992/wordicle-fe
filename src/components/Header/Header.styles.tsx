@@ -20,16 +20,10 @@ export const HeaderWrapper = styled.header<{
     position: relative;
     transition: all 1s;
     .app-title {
-      font-size: 24px;
-      letter-spacing: 4px;
       color: ${(props) => (props.isDarkMode ? "#d7dadc" : "black")};
-      font-weight: bold;
-      .tag {
-        font-size: 11px;
-        letter-spacing: 0;
-      }
-      .tag.hard {
-        color: crimson;
+      .title {
+        font-family: 'Leckerli One', cursive;
+        font-size: 28px;
       }
     }
   
