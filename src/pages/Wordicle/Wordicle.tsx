@@ -349,12 +349,7 @@ const Wordicle = () => {
       </GameWrapper>
       <GameOverDialog
         visible={gameOverDialogVisibility}
-        onDismiss={(r) => {
-          if (r && r === "backdropClick") {
-            return;
-          }
-          setGameOverDialogVisibility(false);
-        }}
+        onDismiss={(r) => setGameOverDialogVisibility(false)}
         onMainMenuClick={() => {
           setShowNewGameScreen(true);
           setGameOverDialogVisibility(false);
@@ -362,12 +357,7 @@ const Wordicle = () => {
       ></GameOverDialog>
       <WinnerDialog
         visible={winnerDialogVisibility}
-        onDismiss={(r) => {
-          if (r && r === "backdropClick") {
-            return;
-          }
-          setWinnerDialogVisibility(false);
-        }}
+        onDismiss={(r) => setWinnerDialogVisibility(false)}
         goBackToMainMenu={() => {
           setWinnerDialogVisibility(false);
           setShowNewGameScreen(true);

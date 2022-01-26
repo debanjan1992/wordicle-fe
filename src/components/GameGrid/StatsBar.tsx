@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import ConfigContext from "../../config/ConfigContext";
+import { TimeParts } from "../../dialogs/WinnerDialog/WinnerDialog.types";
 import Timer, { TimerWrapper } from "./Timer";
 
 const StatsBarWrapper = styled.div<{ isDarkMode: boolean }>`
@@ -24,15 +25,13 @@ const StatsBarWrapper = styled.div<{ isDarkMode: boolean }>`
 const StatsBar = () => {
   const context = React.useContext(ConfigContext);
   const getBestTimeParts = () => {
-    let startTime = context.bestTime === "NA" ? 0 : +context.bestTime;
+    let startTime = context.bestTime;
 
     startTime = startTime * 60;
-    let timeLeft = { days: 0, hours: 0, minutes: 0, seconds: 0 };
+    let timeLeft: TimeParts = { minutes: 0, seconds: 0 };
 
     if (startTime > 0) {
       timeLeft = {
-        days: Math.floor(startTime / (60 * 60 * 24)),
-        hours: Math.floor((startTime / (60 * 60)) % 24),
         minutes: Math.floor((startTime / 60) % 60),
         seconds: Math.floor(startTime % 60),
       };
@@ -51,12 +50,6 @@ const StatsBar = () => {
         <TimerWrapper isDarkMode={isDarkMode}>
           {bestTime ? (
             <>
-              {bestTime.days !== 0 && (
-                <div className="days">{bestTime.days + "d"}</div>
-              )}
-              {bestTime.hours !== 0 && (
-                <div className="hours">{bestTime.hours + "h"}</div>
-              )}
               <div className="minutes">{bestTime.minutes + "m"}</div>
               <div className="seconds">{bestTime.seconds + "s"}</div>
             </>

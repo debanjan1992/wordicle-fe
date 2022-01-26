@@ -3,14 +3,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { GAME_STATUS } from "../../config/CONSTANTS";
 import ConfigContext from "../../config/ConfigContext";
-import SessionStorageService from "../../services/SessionStorageService";
-
-interface TimeLeftType {
-  days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
-}
+import { TimeParts } from "../../dialogs/WinnerDialog/WinnerDialog.types";
 
 export const TimerWrapper = styled.div<{ isDarkMode: boolean }>`
   display: flex;
@@ -26,15 +19,13 @@ export const TimerWrapper = styled.div<{ isDarkMode: boolean }>`
   }
 `;
 
-const calculateTime = (startTime: number): TimeLeftType => {
-  let timeLeft: TimeLeftType = { days: 0, hours: 0, minutes: 0, seconds: 0 };
+const calculateTime = (startTime: number) => {
+  let timeLeft: TimeParts = { minutes: 0, seconds: 0 };
   if (startTime !== null) {
     let difference = new Date().getTime() - startTime;
 
     if (difference > 0) {
       timeLeft = {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
         minutes: Math.floor((difference / 1000 / 60) % 60),
         seconds: Math.floor((difference / 1000) % 60),
       };
@@ -63,8 +54,6 @@ const Timer = () => {
 
   return (
     <TimerWrapper isDarkMode={isDarkMode}>
-      {time.days !== 0 && <div className="days">{time.days + "d"}</div>}
-      {time.hours !== 0 && <div className="hours">{time.hours + "h"}</div>}
       <div className="minutes">{time.minutes + "m"}</div>
       <div className="seconds">{time.seconds + "s"}</div>
     </TimerWrapper>

@@ -54,7 +54,7 @@ export class WordService {
       darkMode: window.matchMedia("(prefers-color-scheme: dark)").matches,
       gameStatus: GAME_STATUS.New,
       gameDuration: 0,
-      bestTime: "NA",
+      bestTime: 0,
       sessionId: null,
       wordLength: 0,
     };

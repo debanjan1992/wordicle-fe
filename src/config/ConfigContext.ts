@@ -30,7 +30,7 @@ interface GameContext {
   words: string[];
   wordIdx: number;
   mapping: string[][];
-  bestTime: string;
+  bestTime: number;
   sessionId: string | null;
   wordLength: number;
 }
@@ -43,7 +43,7 @@ const ConfigContext = React.createContext({
   words: getInitialWords(6),
   wordIdx: 0,
   mapping: getInitialMapping(6),
-  bestTime: "NA",
+  bestTime: 0,
   sessionId: null,
   wordLength: 0
 } as GameContext);

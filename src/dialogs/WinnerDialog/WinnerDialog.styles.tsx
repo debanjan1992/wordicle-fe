@@ -45,9 +45,24 @@ export const WinnerDialogContentWrapper = styled.div<{ isDarkMode: boolean }>`
 
     .title {
       font-size: 26px;
-      color: #50df50;
       font-weight: bolder;
+      &.highlight {
+        color: ${(props) => (props.isDarkMode ? "#fff" : "#50df50")};
+        ${(props) =>
+          props.isDarkMode &&
+          "text-shadow: 0 0 2px #fff, 0 0 1px #fff, 0 0 3px #fff, 0 0 7px #50df50, 0 0 24px #50df50, 0 0 14px #50df50, 0 0 42px #50df50, 0 0 52px #50df50;"}
+      }
     }
+  }
+
+  .best-time-alert {
+    border: 1px solid transparent;
+    border-color: ${(props) => (props.isDarkMode ? "#464646" : "#cfcfcf")};
+    color: ${(props) => (props.isDarkMode ? "white" : "black")};
+    margin-bottom: 20px;
+    padding: 7px;
+    font-size: 11px;
+    line-height: 18px;
   }
 `;
 
@@ -75,11 +90,17 @@ export const WinStatsWrapper = styled.div<{ isDarkMode: boolean }>`
       margin-bottom: 3px;
     }
     .stat-value {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: bold;
       .stat-value-subtext {
         font-size: 12px;
         margin-left: 1px;
+      }
+      &.highlight {
+        color: ${(props) => (props.isDarkMode ? "#fff" : "#dacc09")};
+        ${(props) =>
+          props.isDarkMode &&
+          "text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #0fa, 0 0 82px #0fa, 0 0 92px #0fa, 0 0 102px #0fa, 0 0 151px #0fa;"};
       }
     }
   }
