@@ -1,4 +1,4 @@
-var CACHE_NAME = "wordicle-cache-v25";
+var CACHE_NAME = "wordicle-cache-v26";
 
 self.addEventListener("install", function (event) {
   event.waitUntil(

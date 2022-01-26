@@ -50,7 +50,7 @@ const Timer = () => {
       const timer = setTimeout(() => setTime(calculateTime(startTime)), 1000);
       return () => clearTimeout(timer);
     }
-  }, [time, startTime]);
+  }, [time, startTime, context.gameStatus]);
 
   return (
     <TimerWrapper isDarkMode={isDarkMode}>

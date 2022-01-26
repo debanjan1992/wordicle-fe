@@ -223,12 +223,12 @@ const Wordicle = () => {
         SESSION_KEYS.BestTime,
         response.bestTime
       );
+      setGameStatus(GAME_STATUS.InProgress);
       setWords(getInitialWords(chances));
       setColorMap(getInitialMapping(chances));
       setWordIdx(0);
       setStartTime(+response.startTime);
       setBestTime(response.bestTime);
-      setGameStatus(GAME_STATUS.InProgress);
       setSessionId(response.id);
       setWordLength(response.length);
       setIsLoading(false);
