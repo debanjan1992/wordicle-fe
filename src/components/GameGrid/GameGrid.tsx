@@ -15,11 +15,9 @@ const GameGrid = (props: GameGridProps) => {
         renderedContent.push(
           <Word
             key={i + 1}
-            snapshotMode={props.snapshotMode}
             wordLength={WordService.getWordLength()}
             word={props.words[i]}
             map={props.map[i]}
-            position={i + 1}
           />
         );
       } else {
@@ -27,11 +25,9 @@ const GameGrid = (props: GameGridProps) => {
           renderedContent.push(
             <Word
               key={i + 1}
-              snapshotMode={props.snapshotMode}
               wordLength={WordService.getWordLength()}
               word={props.words[i]}
               map={props.map[i]}
-              position={i + 1}
             />
           );
         }

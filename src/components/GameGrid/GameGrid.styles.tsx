@@ -30,8 +30,6 @@ const getGameBoxSideForMobilePortrait = (wordLength: number): number => {
 export const LetterBoxWrapper = styled.div<{
   isDarkMode: boolean;
   wordLength: number;
-  snapshotMode?: boolean;
-  isActiveBox: boolean;
 }>`
   @keyframes wiggle {
     0% {
@@ -50,7 +48,6 @@ export const LetterBoxWrapper = styled.div<{
       transform: rotate(0deg);
     }
   }
-  ${(props) => props.isActiveBox && "animation: wiggle 1.5s infinite;"}
   border: 2px solid transparent;
   box-sizing: border-box;
   margin: 2px;

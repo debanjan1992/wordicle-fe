@@ -6,8 +6,6 @@ import { LetterBox } from "./GameGrid.types";
 const LetterBox = ({
   letter,
   colorCode,
-  snapshotMode,
-  wordPosition,
 }: LetterBox) => {
   const context = React.useContext(ConfigContext);
   const isDarkMode = context.darkMode;
@@ -27,17 +25,9 @@ const LetterBox = ({
 
   return (
     <LetterBoxWrapper
-      isActiveBox={
-        !wordPosition
-          ? false
-          : wordPosition - 1 === wordIdx && isLoading
-          ? true
-          : false
-      }
       className={getClassName()}
       isDarkMode={isDarkMode}
       wordLength={wordLength}
-      snapshotMode={snapshotMode}
     >
       <span>{letter}</span>
     </LetterBoxWrapper>
