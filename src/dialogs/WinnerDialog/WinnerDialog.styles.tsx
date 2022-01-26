@@ -32,7 +32,7 @@ export const WinnerDialogButtonsWrapper = styled.div<{ isDarkMode: boolean }>`
   }
 `;
 
-export const WinnerDialogContentWrapper = styled.div<{ isDarkMode: boolean }>`
+export const WinnerDialogContentWrapper = styled.div<{ isDarkMode: boolean; }>`
   background-color: ${(props) => (props.isDarkMode ? "#131313" : "white")};
   color: ${(props) => (props.isDarkMode ? "#d7dadc" : "black")};
   transition: all 0.4s;
@@ -61,17 +61,18 @@ export const WinnerDialogContentWrapper = styled.div<{ isDarkMode: boolean }>`
     color: ${(props) => (props.isDarkMode ? "white" : "black")};
     margin-bottom: 20px;
     padding: 7px;
-    font-size: 11px;
+    font-size: 12px;
     line-height: 18px;
+    overflow: none;
   }
 `;
 
-export const WinStatsWrapper = styled.div<{ isDarkMode: boolean }>`
+export const WinStatsWrapper = styled.div<{ isDarkMode: boolean;  }>`
   display: flex;
   align-items: stretch;
   justify-content: space-between;
   user-select: none;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 
   .divider {
     width: 1px;

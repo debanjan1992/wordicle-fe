@@ -26,8 +26,8 @@ export const KeyWrapper = styled.div<{
   align-items: center;
   justify-content: center;
   border-radius: 8px;
-  background-color: ${(props) =>
-    props.isDarkMode ? "transparent" : "#d3d6da"};
+  /* background-color: ${(props) =>
+    props.isDarkMode ? "transparent" : "#d3d6da"}; */
   font-size: 14px;
   font-weight: 600;
   margin: 0 4px;
@@ -39,7 +39,7 @@ export const KeyWrapper = styled.div<{
   color: ${(props) => (props.isDarkMode ? "#d7dadc" : "black")};
   border: 2px solid transparent;
   border-color: ${(props) =>
-    props.isDarkMode ? "rgba(255,255,255,0.2)" : "transparent"};
+    props.isDarkMode ? "rgba(255,255,255,0.2)" : "#979797"};
   &:hover {
     background-color: ${(props) =>
       !props.disabled
@@ -52,8 +52,8 @@ export const KeyWrapper = styled.div<{
     background-color: ${(props) =>
       !props.disabled
         ? props.isDarkMode
-          ? "#408544fb"
-          : "#92df7e"
+          ? "#9bb7dbfa"
+          : "#b5cbe7f9"
         : "transparent"};
   }
   min-width: 20px;
@@ -62,18 +62,18 @@ export const KeyWrapper = styled.div<{
   transition: all 0.7s;
 
   &.correct {
-    border-color: #538d4e;
-    color: #538d4e;
+    color: ${props => props.isDarkMode ? "#7A9D2F" : "#17B814"};
+    border-color: ${props => props.isDarkMode ? "#7A9D2F" : "#17B814"};
   }
 
   &.present {
-    border-color: #b59f3b;
-    color: #b59f3b;
+    color: ${props => props.isDarkMode ? "#B6A102" : "#F6CD13"};
+    border-color: ${props => props.isDarkMode ? "#B6A102" : "#F6CD13"};
   }
 
   &.absent {
-    border-color: #bd1616;
-    color: #bd1616;
+    color: ${props => props.isDarkMode ? "#B22B06" : "#DC3318"};
+    border-color: ${props => props.isDarkMode ? "#B22B06" : "#DC3318"};
   }
 
   /* For Desktop View */

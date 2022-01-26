@@ -82,6 +82,7 @@ const config = (env) => {
     webpackConfig.devServer = {
       static: path.join(__dirname, "src"),
       port: 3000,
+      host: "0.0.0.0"
     };
     webpackConfig.plugins.push(
       new Dotenv({ systemvars: true, path: "./.env.dev" })

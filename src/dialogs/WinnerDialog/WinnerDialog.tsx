@@ -46,7 +46,9 @@ const WinnerDialog = (props: WinnerDialogProps) => {
   };
 
   useEffect(() => {
-    revealWord();
+    if (props.visible) {
+      revealWord();
+    }
   }, [props.visible]);
 
   return (
@@ -74,15 +76,13 @@ const WinnerDialog = (props: WinnerDialogProps) => {
             <div className="title highlight">CONGRATULATIONS</div>
           </div>
           <div className="content">
-            {props.visible && (
-              <WinStats
-                totalHitsForWord={totalPlayed}
-                totalChances={context.chances}
-                playedChances={wordIdx}
-                playTime={getTime(playDuration * 60)}
-                bestTime={getTime(bestTimeInMinutes * 60)}
-              />
-            )}
+            <WinStats
+              totalHitsForWord={totalPlayed}
+              totalChances={context.chances}
+              playedChances={wordIdx}
+              playTime={getTime(playDuration * 60)}
+              bestTime={getTime(bestTimeInMinutes * 60)}
+            />
             {playDuration <= bestTimeInMinutes && (
               <div className="best-time-alert">
                 Yay! You have solved the word in the fastest possible time!

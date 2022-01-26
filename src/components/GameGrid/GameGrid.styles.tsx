@@ -31,36 +31,19 @@ export const LetterBoxWrapper = styled.div<{
   isDarkMode: boolean;
   wordLength: number;
 }>`
-  @keyframes wiggle {
-    0% {
-      transform: rotate(0deg);
-    }
-    80% {
-      transform: rotate(0deg);
-    }
-    85% {
-      transform: rotate(5deg);
-    }
-    95% {
-      transform: rotate(-5deg);
-    }
-    100% {
-      transform: rotate(0deg);
-    }
-  }
   border: 2px solid transparent;
   box-sizing: border-box;
   margin: 2px;
-  border-radius: 2px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  transition: all 0.7s ease-in-out;
-  color: ${(props) => (props.isDarkMode ? "#e9e9e9" : "#3a3a3c")};
+  transition: all 0.5s ease-in;
   width: 50px;
   height: 50px;
   font-size: 24px;
+  color: ${(props) => (props.isDarkMode ? "#f0f0f0" : "white")};
 
   &.not-filled {
     border-color: ${(props) => (props.isDarkMode ? "#3a3a3c" : "#d3d6da")};
@@ -82,24 +65,22 @@ export const LetterBoxWrapper = styled.div<{
     }
     border-color: ${(props) => (props.isDarkMode ? "#565758" : "#878a8c")};
     animation: fillIn 0.2s ease-in-out;
+    color: ${(props) => (props.isDarkMode ? "#f0f0f0" : "black")};
   }
 
   &.correct {
-    background-color: #538d4e;
-    border-color: #538d4e;
-    color: ${(props) => (props.isDarkMode ? "#d7dadc" : "white")};
+    background-color: ${props => props.isDarkMode ? "#7A9D2F" : "#17B814"};
+    border-color: ${props => props.isDarkMode ? "#7A9D2F" : "#17B814"};
   }
 
   &.present {
-    background-color: #b59f3b;
-    border-color: #b59f3b;
-    color: ${(props) => (props.isDarkMode ? "#d7dadc" : "white")};
+    background-color: ${props => props.isDarkMode ? "#B6A102" : "#F6CD13"};
+    border-color: ${props => props.isDarkMode ? "#B6A102" : "#F6CD13"};
   }
 
   &.absent {
-    background-color: #bd1616;
-    border-color: #bd1616;
-    color: ${(props) => (props.isDarkMode ? "#d7dadc" : "white")};
+    background-color: ${props => props.isDarkMode ? "#B22B06" : "#DC3318"};
+    border-color: ${props => props.isDarkMode ? "#B22B06" : "#DC3318"};
   }
 
   /* For Desktop View */
