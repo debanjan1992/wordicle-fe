@@ -49,49 +49,37 @@ export const WinnerDialogContentWrapper = styled.div<{ isDarkMode: boolean }>`
       font-weight: bolder;
     }
   }
+`;
 
-  .content {
-    .stats {
-      display: flex;
-      align-items: stretch;
-      justify-content: space-between;
-      user-select: none;
-      margin-bottom: 40px;
+export const WinStatsWrapper = styled.div<{ isDarkMode: boolean }>`
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  user-select: none;
+  margin-bottom: 40px;
 
-      .divider {
-        width: 1px;
-        background-color: ${(props) =>
-          props.isDarkMode ? "#272727" : "#e4e4e4"};
-      }
+  .divider {
+    width: 1px;
+    background-color: ${(props) => (props.isDarkMode ? "#272727" : "#e4e4e4")};
+  }
 
-      .winner-stat {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        flex-shrink: 0;
+  .winner-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    flex-shrink: 0;
 
-        label {
-          font-size: 11px;
-        }
-        .stat-value {
-          font-size: 18px;
-          font-weight: bold;
-        }
-      }
+    label {
+      font-size: 10px;
+      margin-bottom: 3px;
     }
-    .share-section {
-      margin-top: 30px;
-      .heading {
-        font-weight: bold;
-        font-size: 14px;
-        margin-bottom: 5px;
-        text-align: center;
-      }
-      .sharing-buttons {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    .stat-value {
+      font-size: 16px;
+      font-weight: bold;
+      .stat-value-subtext {
+        font-size: 12px;
+        margin-left: 1px;
       }
     }
   }

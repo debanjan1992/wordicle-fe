@@ -15,7 +15,6 @@ const GameGrid = (props: GameGridProps) => {
         renderedContent.push(
           <Word
             key={i + 1}
-            wordLength={WordService.getWordLength()}
             word={props.words[i]}
             map={props.map[i]}
           />
@@ -25,7 +24,6 @@ const GameGrid = (props: GameGridProps) => {
           renderedContent.push(
             <Word
               key={i + 1}
-              wordLength={WordService.getWordLength()}
               word={props.words[i]}
               map={props.map[i]}
             />

@@ -127,17 +127,6 @@ export class WordService {
     }
   }
 
-  static getWordLength() {
-    const wordLength = SessionStorageService.getFromSession(
-      SESSION_KEYS.WordLength
-    );
-    if (wordLength !== null) {
-      return +wordLength;
-    } else {
-      return 0;
-    }
-  }
-
   static submit(sessionId: string | null, word: string) {
     if (sessionId === null) {
       return Promise.reject();

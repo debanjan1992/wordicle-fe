@@ -4,11 +4,19 @@ import Badge from "@mui/material/Badge";
 import Tooltip from "@mui/material/Tooltip";
 import { WordProps } from "./GameGrid.types";
 import LetterBox from "./LetterBox";
+import ConfigContext from "../../config/ConfigContext";
+import React from "react";
 
 const Word = (props: WordProps) => {
+  const sessionWordLength = React.useContext(ConfigContext).wordLength;
+
   const generateGameBoxes = () => {
     const renderedContent: ReactNode[] = [];
-    for (let i = 1; i <= (props.wordLength || props.word.length); i++) {
+    for (
+      let i = 1;
+      i <= (sessionWordLength !== 0 ? sessionWordLength : props.word.length);
+      i++
+    ) {
       renderedContent.push(
         <LetterBox
           key={i}
@@ -24,18 +32,7 @@ const Word = (props: WordProps) => {
     return null;
   }
 
-  return (
-    <WordWrapper>
-      {generateGameBoxes()}
-      {props.badgeCount !== undefined && (
-        <Tooltip
-          title={"This word has been solved " + props.badgeCount + " times."}
-        >
-          <Badge color="primary" badgeContent={props.badgeCount || 0}></Badge>
-        </Tooltip>
-      )}
-    </WordWrapper>
-  );
+  return <WordWrapper>{generateGameBoxes()}</WordWrapper>;
 };
 
 export default Word;

@@ -12,9 +12,7 @@ export interface LetterBox {
 }
 
 export interface WordProps {
-  wordLength?: number;
   word: string;
   map: Array<string>;
   position?: number;
-  badgeCount?: number;
 }
