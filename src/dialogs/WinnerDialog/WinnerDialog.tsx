@@ -47,7 +47,7 @@ const WinnerDialog = (props: WinnerDialogProps) => {
 
   useEffect(() => {
     revealWord();
-  }, []);
+  }, [props.visible]);
 
   return (
     <Dialog

@@ -8,9 +8,9 @@ const WinStats = (props: WinStatsProps) => {
   const context = React.useContext(ConfigContext);
   let isBest = false;
 
-  if (!props.bestTime || (props.playTime && props.bestTime && props.playTime < props.bestTime)) {
-    isBest = true;
-  }
+  // if (!props.bestTime || (props.playTime && props.bestTime && props.playTime < props.bestTime)) {
+  //   isBest = true;
+  // }
 
   return (
     <WinStatsWrapper isDarkMode={context.darkMode}>
