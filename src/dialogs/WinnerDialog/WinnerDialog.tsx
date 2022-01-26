@@ -40,7 +40,7 @@ const WinnerDialog = (props: WinnerDialogProps) => {
 
   const revealWord = () => {
     WordService.revealWord().then((response) => {
-      setBestTimeInMinutes(response.stats.bestTime);
+      setBestTimeInMinutes(response.stats.bestTime || 0);
       setTotalPlayed(+response.stats.totalHits);
     });
   };
@@ -61,7 +61,7 @@ const WinnerDialog = (props: WinnerDialogProps) => {
       disableEscapeKeyDown={true}
     >
       <WinnerDialogContentWrapper isDarkMode={isDarkMode}>
-        {playDuration <= bestTimeInMinutes && (
+        {(bestTimeInMinutes === 0 || playDuration <= bestTimeInMinutes) && (
           <div className="pyro-container">
             <div className="pyro">
               <div className="before"></div>
