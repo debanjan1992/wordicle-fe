@@ -1,7 +1,5 @@
 import { ReactNode } from "react";
 import { WordWrapper } from "./GameGrid.styles";
-import Badge from "@mui/material/Badge";
-import Tooltip from "@mui/material/Tooltip";
 import { WordProps } from "./GameGrid.types";
 import LetterBox from "./LetterBox";
 import ConfigContext from "../../config/ConfigContext";
@@ -14,7 +12,7 @@ const Word = (props: WordProps) => {
     const renderedContent: ReactNode[] = [];
     for (
       let i = 1;
-      i <= (sessionWordLength !== 0 ? sessionWordLength : props.word.length);
+      i <= (!props.wordLength ? sessionWordLength : props.wordLength);
       i++
     ) {
       renderedContent.push(

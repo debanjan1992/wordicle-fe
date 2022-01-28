@@ -50,20 +50,20 @@ const HelpDialog = (props: HelpDialogProps) => {
             <strong>Example</strong>
           </p>
           <div className="example">
-            <Word word="DAIRY" map={["correct"]}></Word>
+            <Word word="DAIRY" map={["correct", "", "", "", ""]} wordLength={5}></Word>
             <p>
               The letter <strong>D</strong> is in the word and in the correct
               spot.
             </p>
           </div>
           <div className="example">
-            <Word word="PRICE" map={["", "", "present"]}></Word>
+            <Word word="PRICE" map={["", "", "present"]} wordLength={5}></Word>
             <p>
               The letter <strong>I</strong> is in the wrong spot.
             </p>
           </div>
           <div className="example">
-            <Word word="JOKER" map={["", "", "absent"]}></Word>
+            <Word word="JOKER" map={["", "", "absent"]} wordLength={5}></Word>
             <p>
               The letter <strong>K</strong> is not in the word in any spot.
             </p>

@@ -12,7 +12,7 @@ import {
 import Share from "../../components/Share/Share";
 import WinStats from "./WinStats";
 import { WordService } from "../../services/WordService";
-import { Alert } from "@mui/material";
+import Confetti from "../../Confetti";
 
 const WinnerDialog = (props: WinnerDialogProps) => {
   const context = React.useContext(ConfigContext);
@@ -63,14 +63,15 @@ const WinnerDialog = (props: WinnerDialogProps) => {
       disableEscapeKeyDown={true}
     >
       <WinnerDialogContentWrapper isDarkMode={isDarkMode}>
-        {(bestTimeInMinutes === 0 || playDuration <= bestTimeInMinutes) && (
+        {/* {(bestTimeInMinutes === 0 || playDuration <= bestTimeInMinutes) && (
           <div className="pyro-container">
             <div className="pyro">
               <div className="before"></div>
               <div className="after"></div>
             </div>
           </div>
-        )}
+        )} */}
+        <Confetti active={(bestTimeInMinutes === 0 || playDuration <= bestTimeInMinutes)}/>
         <DialogContent>
           <div className="header">
             <div className="title highlight">CONGRATULATIONS</div>

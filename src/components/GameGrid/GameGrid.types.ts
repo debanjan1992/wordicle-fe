@@ -15,4 +15,5 @@ export interface WordProps {
   word: string;
   map: Array<string>;
   position?: number;
+  wordLength?: number;
 }
