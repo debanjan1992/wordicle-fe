@@ -66,7 +66,7 @@ const Wordicle = () => {
 
   useKey((e) => {
     if (!isLoading && showNewGameScreen && e.key.toUpperCase() === "ENTER") {
-      setTimeout(() => setShowNewGameScreen(false), 400);
+      setTimeout(() => setShowNewGameScreen(false), 500);
       onStartNewGame();
     } else if (
       !isLoading &&
@@ -323,15 +323,15 @@ const Wordicle = () => {
             onStartClick={() => {
               if (showNewGameScreen) {
                 onStartNewGame().then(() =>
-                  setTimeout(() => setShowNewGameScreen(false), 400)
+                  setTimeout(() => setShowNewGameScreen(false), 500)
                 );
               }
             }}
             onSettingsClick={() => {
-              setTimeout(() => setSettingsDialogVisibility(true), 400);
+              setTimeout(() => setSettingsDialogVisibility(true), 500);
             }}
             onRulesClick={() => {
-              setTimeout(() => setHelpDialogVisibility(true), 400);
+              setTimeout(() => setHelpDialogVisibility(true), 500);
             }}
           ></NewGame>
           <GameGrid
@@ -352,8 +352,8 @@ const Wordicle = () => {
         visible={gameOverDialogVisibility}
         onDismiss={(r) => setGameOverDialogVisibility(false)}
         onMainMenuClick={() => {
-          setShowNewGameScreen(true);
           setGameOverDialogVisibility(false);
+          setTimeout(() => setShowNewGameScreen(true), 500);
         }}
       ></GameOverDialog>
       <WinnerDialog
@@ -361,7 +361,7 @@ const Wordicle = () => {
         onDismiss={(r) => setWinnerDialogVisibility(false)}
         goBackToMainMenu={() => {
           setWinnerDialogVisibility(false);
-          setShowNewGameScreen(true);
+          setTimeout(() => setShowNewGameScreen(true), 500);
         }}
       ></WinnerDialog>
       <HelpDialog
