@@ -1,8 +1,8 @@
 {
     "name": "Wordicle: The Word Game",
     "short_name": "Wordicle",
-    "start_url": "https://debanjan1992.github.io/wordicle-fe/",
-    "scope": "https://debanjan1992.github.io/wordicle-fe/",
+    "start_url": "/",
+    "scope": "/",
     "description": "An everyday word game",
     "orientation": "portrait",
     "icons": [

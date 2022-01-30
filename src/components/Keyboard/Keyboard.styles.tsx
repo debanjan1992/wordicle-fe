@@ -26,8 +26,6 @@ export const KeyWrapper = styled.div<{
   align-items: center;
   justify-content: center;
   border-radius: 8px;
-  /* background-color: ${(props) =>
-    props.isDarkMode ? "transparent" : "#d3d6da"}; */
   font-size: 14px;
   font-weight: 600;
   margin: 0 4px;
@@ -39,7 +37,7 @@ export const KeyWrapper = styled.div<{
   color: ${(props) => (props.isDarkMode ? "#d7dadc" : "black")};
   border: 2px solid transparent;
   border-color: ${(props) =>
-    props.isDarkMode ? "rgba(255,255,255,0.2)" : "#979797"};
+    props.isDarkMode ? "rgba(255,255,255,0.2)" : "#d3d6da"};
   &:hover {
     background-color: ${(props) =>
       !props.disabled

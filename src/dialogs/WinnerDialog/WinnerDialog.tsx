@@ -8,11 +8,12 @@ import { TimeParts, WinnerDialogProps } from "./WinnerDialog.types";
 import {
   WinnerDialogContentWrapper,
   WinnerDialogButtonsWrapper,
+  WinnerDialogueFooterWrapper,
 } from "./WinnerDialog.styles";
 import Share from "../../components/Share/Share";
 import WinStats from "./WinStats";
 import { WordService } from "../../services/WordService";
-import Confetti from "../../Confetti";
+import Confetti from "../../components/Confetti";
 
 const WinnerDialog = (props: WinnerDialogProps) => {
   const context = React.useContext(ConfigContext);
@@ -22,6 +23,7 @@ const WinnerDialog = (props: WinnerDialogProps) => {
   const isDarkMode = context.darkMode;
   const playDuration = context.gameDuration;
   const [totalPlayed, setTotalPlayed] = useState(0);
+  const [avgTime, setAvgTime] = useState(0);
   const [bestTimeInMinutes, setBestTimeInMinutes] = useState(context.bestTime);
 
   const getTime = (timeInSeconds: number) => {
@@ -42,6 +44,7 @@ const WinnerDialog = (props: WinnerDialogProps) => {
     WordService.revealWord().then((response) => {
       setBestTimeInMinutes(response.stats.bestTime || 0);
       setTotalPlayed(+response.stats.totalHits);
+      setAvgTime(+response.stats.avgTime || 0);
     });
   };
 
@@ -62,50 +65,55 @@ const WinnerDialog = (props: WinnerDialogProps) => {
       open={props.visible}
       disableEscapeKeyDown={true}
     >
-      <WinnerDialogContentWrapper isDarkMode={isDarkMode}>
-        {/* {(bestTimeInMinutes === 0 || playDuration <= bestTimeInMinutes) && (
-          <div className="pyro-container">
-            <div className="pyro">
-              <div className="before"></div>
-              <div className="after"></div>
-            </div>
-          </div>
-        )} */}
-        <Confetti active={(bestTimeInMinutes === 0 || playDuration <= bestTimeInMinutes)}/>
+      <WinnerDialogContentWrapper isDarkMode={isDarkMode} id="winner">
+        <Confetti
+          active={bestTimeInMinutes === 0 || playDuration <= bestTimeInMinutes}
+        />
         <DialogContent>
           <div className="header">
-            <div className="title highlight">CONGRATULATIONS</div>
+            <div className="app-title">
+              <span className="title">Wordicle</span>
+            </div>
+            {/* <div className="title highlight">CONGRATULATIONS</div> */}
           </div>
+        </DialogContent>
+        <WinStats
+          totalHitsForWord={totalPlayed}
+          totalChances={context.chances}
+          playedChances={wordIdx}
+          playTime={getTime(playDuration * 60)}
+          bestTime={getTime(bestTimeInMinutes * 60)}
+          avgTime={getTime(avgTime * 60)}
+        />
+        <DialogContent
+          sx={{
+            paddingTop: 0,
+            paddingBottom: 0,
+          }}
+        >
           <div className="content">
-            <WinStats
-              totalHitsForWord={totalPlayed}
-              totalChances={context.chances}
-              playedChances={wordIdx}
-              playTime={getTime(playDuration * 60)}
-              bestTime={getTime(bestTimeInMinutes * 60)}
-            />
-            {playDuration <= bestTimeInMinutes && (
-              <div className="best-time-alert">
-                Yay! You have solved the word in the fastest possible time!
-              </div>
-            )}
-            <Word
-              word={words[wordIdx - 1]}
-              map={Array.from({ length: wordLength }, () => "correct")}
-            />
-            <Share />
-            <WinnerDialogButtonsWrapper isDarkMode={isDarkMode}>
-              <Button
-                size="large"
-                variant="contained"
-                onClick={props.goBackToMainMenu}
-              >
-                Main Menu
-              </Button>
-            </WinnerDialogButtonsWrapper>
+            <img src="assets/congo.png" className="congrats-img" />
+            <div style={{ transform: "scale(0.7)", paddingTop: "20px" }}>
+              <Word
+                word={words[wordIdx - 1]}
+                map={Array.from({ length: wordLength }, () => "correct")}
+              />
+            </div>
           </div>
         </DialogContent>
       </WinnerDialogContentWrapper>
+      <WinnerDialogueFooterWrapper isDarkMode={isDarkMode}>
+        <Share />
+        <WinnerDialogButtonsWrapper isDarkMode={isDarkMode}>
+          <Button
+            size="large"
+            variant="contained"
+            onClick={props.goBackToMainMenu}
+          >
+            Main Menu
+          </Button>
+        </WinnerDialogButtonsWrapper>
+      </WinnerDialogueFooterWrapper>
     </Dialog>
   );
 };

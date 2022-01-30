@@ -1,12 +1,13 @@
 import styled from "styled-components";
 
 export const ShareWrapper = styled.div`
-  margin-top: 30px;
+  margin-top: 20px;
   .heading {
     font-weight: bold;
-    font-size: 14px;
-    margin-bottom: 10px;
+    font-size: 11px;
+    margin-bottom: 16px;
     text-align: center;
+    color: #1976d2;
   }
   .sharing-buttons {
     display: flex;

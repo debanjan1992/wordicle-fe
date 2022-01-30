@@ -13,6 +13,7 @@ export interface WinStatsProps {
   totalHitsForWord: number;
   playTime: TimeParts | null;
   bestTime: TimeParts | null;
+  avgTime: TimeParts | null;
   playedChances: number;
   totalChances: number;
 }

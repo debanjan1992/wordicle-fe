@@ -1,4 +1,4 @@
-var CACHE_NAME = "wordicle-cache-v28";
+var CACHE_NAME = "wordicle-cache-v29";
 
 self.addEventListener("install", function (event) {
   event.waitUntil(
@@ -11,6 +11,7 @@ self.addEventListener("install", function (event) {
         "./assets/favicon-16x16.png",
         "./assets/favicon-32x32.png",
         "./assets/favicon.ico",
+        "./assets/congo.png",
         "./main.bundle.js",
         "./manifest.json",
         "./service_worker.js",

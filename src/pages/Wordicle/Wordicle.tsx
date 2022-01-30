@@ -14,7 +14,6 @@ import NewGame from "../../components/NewGame/NewGame";
 import useKey from "../../hooks/useKey";
 import { GAME_STATUS, SESSION_KEYS } from "../../config/CONSTANTS";
 import { GameWrapper, WordleWrapper } from "./Wordicle.styles";
-import Confetti from "../../Confetti";
 
 export const getInitialWords = (chances: number) => {
   const wordsMetadata = WordService.getWordsMetadataFromSessionStorage();

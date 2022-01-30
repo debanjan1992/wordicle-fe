@@ -4,8 +4,10 @@ import ConfigContext from "../../config/ConfigContext";
 import ShareIcon from "@mui/icons-material/Share";
 import CopyIcon from "@mui/icons-material/CopyAllRounded";
 import WhatsappIcon from "@mui/icons-material/WhatsappRounded";
+import ScreenshotIcon from "@mui/icons-material/Screenshot";
 import { ShareWrapper } from "./Share.styles";
 import Snackbar from "@mui/material/Snackbar";
+import html2canvas from "html2canvas";
 
 const Share = () => {
   const context = React.useContext(ConfigContext);
@@ -37,16 +39,16 @@ const Share = () => {
       });
     }
     const text = `
-      I have successfully guessed the WORDICLE - ${
-        words[wordIdx === 0 ? wordIdx : wordIdx - 1]
-      } in ${getTimeInString(
+I have successfully guessed the WORDICLE - ${
+      words[wordIdx === 0 ? wordIdx : wordIdx - 1]
+    } in ${getTimeInString(
       gameDurationInMinutes * 60
     )} and in ${chances}/${totalChances} tries.
       
-      ${codeSnap}
+${codeSnap}
       
-      #wordicle
-      Play WORDICLE now on https://debanjan1992.github.io/wordicle-fe/`;
+#wordicle
+Play https://debanjan1992.github.io/wordicle-fe/`;
     return text;
   };
 
@@ -96,6 +98,34 @@ const Share = () => {
     }
   };
 
+  const getScreenShot = () => {
+    let src = document.getElementById("winner");
+    if (!src) {
+      return;
+    }
+    html2canvas(src).then(function (canvas) {
+      (document.getElementById("canvas") as any).innerHTML = "";
+      document.getElementById("canvas")?.appendChild(canvas);
+      canvas.toBlob(function (blob: any) {
+        if (!blob) {
+          return;
+        }
+        navigator.clipboard
+          .write([
+            new ClipboardItem(
+              Object.defineProperty({}, blob.type, {
+                value: blob,
+                enumerable: true,
+              })
+            ),
+          ])
+          .then(function () {
+            // do something
+          });
+      });
+    });
+  };
+
   return (
     <ShareWrapper>
       <div className="heading">SHARE</div>
@@ -115,6 +145,21 @@ const Share = () => {
             <CopyIcon />
           </IconButton>
         </Tooltip>
+        {/* <Tooltip title="Screenshot">
+          <IconButton
+            color="error"
+            onClick={() => {
+              html2canvas(document.querySelector("#capture") as any).then(
+                (canvas) => {
+                  document.body.appendChild(canvas);
+                  getScreenShot();
+                }
+              );
+            }}
+          >
+            <ScreenshotIcon />
+          </IconButton>
+        </Tooltip> */}
       </div>
       <Snackbar
         open={showSnackbar}

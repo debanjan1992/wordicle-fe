@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
 export const WinnerDialogButtonsWrapper = styled.div<{ isDarkMode: boolean }>`
-  margin-top: 30px;
+  margin-top: 20px;
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding-top: 20px;
+  padding: 20px 0;
   button {
     margin: 0 10px;
   }
@@ -31,20 +31,32 @@ export const WinnerDialogButtonsWrapper = styled.div<{ isDarkMode: boolean }>`
     }
   }
 `;
+export const WinnerDialogueFooterWrapper = styled.div<{ isDarkMode: boolean }>`
+  background-color: ${(props) => (props.isDarkMode ? "#131313" : "white")};
+  color: ${(props) => (props.isDarkMode ? "#d7dadc" : "black")};
+`;
 
-export const WinnerDialogContentWrapper = styled.div<{ isDarkMode: boolean; }>`
+export const WinnerDialogContentWrapper = styled.div<{ isDarkMode: boolean }>`
   background-color: ${(props) => (props.isDarkMode ? "#131313" : "white")};
   color: ${(props) => (props.isDarkMode ? "#d7dadc" : "black")};
   transition: all 0.4s;
+  position: relative;
 
   .header {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 30px;
+    flex-direction: column;
+    /* margin-bottom: 10px; */
 
-    .title {
+    .app-title {
+      font-family: "Leckerli One", cursive;
       font-size: 26px;
+    }
+
+    .title,
+    .app-title {
+      font-size: 18px;
       font-weight: bolder;
       &.highlight {
         color: ${(props) => (props.isDarkMode ? "#fff" : "#50df50")};
@@ -55,27 +67,58 @@ export const WinnerDialogContentWrapper = styled.div<{ isDarkMode: boolean; }>`
     }
   }
 
-  .best-time-alert {
-    border: 1px solid transparent;
-    border-color: ${(props) => (props.isDarkMode ? "#464646" : "#cfcfcf")};
-    color: ${(props) => (props.isDarkMode ? "white" : "black")};
-    margin-bottom: 20px;
+  .win-panel {
+    color: ${(props) => (props.isDarkMode ? "#cfcfcf" : "white")};
+    background-color: ${(props) => (props.isDarkMode ? "#7A9D2F" : "#17B814")};
+    margin-bottom: 10px;
     padding: 7px;
-    font-size: 12px;
+    font-size: 13px;
+    font-weight: bolder;
     line-height: 18px;
+    letter-spacing: 6px;
     overflow: none;
+    text-align: center;
+    text-transform: uppercase;
+    &.best-time-alert {
+    }
+  }
+
+  .content {
+    display: flex;
+    justify-content: center;
+    .congrats-img {
+      height: 60px;
+      z-index: 10;
+      position: absolute;
+      transform: translateY(-24px);
+    }
   }
 `;
 
-export const WinStatsWrapper = styled.div<{ isDarkMode: boolean;  }>`
+export const WinStatsWrapper = styled.div<{ isDarkMode: boolean }>`
   display: flex;
+  flex-direction: column;
   align-items: stretch;
   justify-content: space-between;
   user-select: none;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  padding: 20px;
+  border-color: ${(props) => (props.isDarkMode ? "#272727" : "#e4e4e4")};
+  background-color: ${(props) => (props.isDarkMode ? "#0e0e0e" : "whitesmoke")};
+
+  .heading {
+    font-weight: bold;
+    font-size: 11px;
+    margin-bottom: 16px;
+    text-align: center;
+    color: #1976d2;
+  }
 
   .divider {
     width: 1px;
+    height: 20px;
     background-color: ${(props) => (props.isDarkMode ? "#272727" : "#e4e4e4")};
   }
 
@@ -91,10 +134,10 @@ export const WinStatsWrapper = styled.div<{ isDarkMode: boolean;  }>`
       margin-bottom: 3px;
     }
     .stat-value {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: bold;
       .stat-value-subtext {
-        font-size: 12px;
+        font-size: 11px;
         margin-left: 1px;
       }
       &.highlight {
